@@ -2,20 +2,17 @@ package main
 
 import (
 	"ginPlus/annotation"
-	"github.com/gin-gonic/gin"
 	_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
-
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	engine := gin.Default()   //todo 考虑兼容 iris的注解路由
+	engine := gin.Default() //todo 考虑兼容 iris的注解路由
 	base := annotation.New()
-	//base.Dev(false)
+	base.Dev(false)
 	base.Register(engine, new(Hello))
 	engine.Run(":8088")
 }
-
-
 
 //todo ginPlus的逻辑，读取ast树，然后把注释的关键信息放入到 genInfo 中，然后根据代码生成 gen_router.go文件，其中内容包括路由以及入参和出参以及参数校验规则
 

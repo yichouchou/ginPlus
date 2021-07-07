@@ -5,17 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-	"github.com/xxjwxc/public/errors"
-	"github.com/xxjwxc/public/message"
-	"github.com/xxjwxc/public/myast"
-	"github.com/xxjwxc/public/mybigcamel"
-	"github.com/xxjwxc/public/mydoc"
-	"github.com/xxjwxc/public/mylog"
-	"github.com/xxjwxc/public/myreflect"
-	"github.com/xxjwxc/public/serializing"
-	"github.com/xxjwxc/public/tools"
 	"go/ast"
 	"net/http"
 	"os"
@@ -27,6 +16,18 @@ import (
 	"sync"
 	"text/template"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"github.com/xxjwxc/public/errors"
+	"github.com/xxjwxc/public/message"
+	"github.com/xxjwxc/public/myast"
+	"github.com/xxjwxc/public/mybigcamel"
+	"github.com/xxjwxc/public/mydoc"
+	"github.com/xxjwxc/public/mylog"
+	"github.com/xxjwxc/public/myreflect"
+	"github.com/xxjwxc/public/serializing"
+	"github.com/xxjwxc/public/tools"
 )
 
 // BaseGin  运行时存储结构体
@@ -135,7 +136,16 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 
 		astPkgs, _b := myast.GetAstPkgs(objPkg, objFile) // get ast trees.
 		if _b {
+			//获得astPkgs 之后，去除掉里面的main
+			for s := range astPkgs.Files {
+				if strings.Contains(s, "main.go") {
+					delete(astPkgs.Files, s)
+				}
+			}
 			imports := myast.AnalysisImport(astPkgs)
+			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除
+			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
+			_genInfo.PkgImportList = imports
 			funMp := myast.GetObjFunMp(astPkgs, objName)
 			// ast.Print(token.NewFileSet(), astPkgs)
 			// fmt.Println(b)
@@ -168,7 +178,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		doc.GenSwagger(modFile + "/docs/swagger/")
 		doc.GenMarkdown(modFile + "/docs/markdown/")
 	}
-	genOutPut(b.outPath, modFile) // generate code
+	//genOutPut(b.outPath, modFile) // generate code   todo为了测试方便，暂时不生成 init文件
 	return true
 }
 
@@ -354,6 +364,8 @@ func genCode(outDir, modFile string) bool {
 		outDir = modFile + "/routers/"
 	}
 	pkgName := getPkgName(outDir)
+	//todo 这个时候的data里面的 PkgImportList 是键值对形式，非常恶心，思考下来 最好的方式就是原封不动，然后原封不动导入回去 由于键值对不好
+	//在template中使用，直接拼接字符串更好，然后放list
 	data := struct {
 		genInfo
 		PkgName string
@@ -361,6 +373,11 @@ func genCode(outDir, modFile string) bool {
 		genInfo: _genInfo,
 		PkgName: pkgName,
 	}
+	//for i := range data.genInfo.List {
+	//	for i2 := range data.genInfo.List[i].GenComment.Parms {
+	//		fmt.Println(data.genInfo.List[i].GenComment.Parms[i2])
+	//	}
+	//}
 
 	tmpl, err := template.New("gen_out").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(genTemp)
 	if err != nil {
@@ -659,22 +676,141 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		//逐个输出参数类型-- 第一个方法调用者结构体
 		fmt.Println(typ.In(i))
 	}
+	//parms := _genInfo.List[0].GenComment.Parms  //这种方式在dev环境是可以的，但是通过路由文件注册的时候，是没办法获取到对应的reflect.Type的
+	//for i := range parms {
+	//	fmt.Println(parms[i].ParmType)
+	//	var name = parms[i].ParmType
+	//	if name.Kind() == reflect.Struct {
+	//		field := name.NumField()
+	//		for i := 1; i < field; i++ {
+	//			fmt.Println(name.Field(i))
+	//			fmt.Println(name.Field(i).Type)
+	//			fmt.Println(name.Field(i).Name)
+	//			fmt.Println(name.Field(i).Anonymous)
+	//			fmt.Println(name.Field(i).Offset)
+	//			fmt.Println(name.Field(i).PkgPath)
+	//			fmt.Println(name.Field(i).Tag)
+	//		}
+	//	}
+	//	//fmt.Println(parms[i].ParmType.In())
+	//}
 
-	for i := 1; i < typ.NumIn(); i++ {
-		//逐个输出参数类型-- 第一个方法调用者结构体--所以从1开始 todo
+	var ctxname = typ.In(4)
+	//s := reflect.ValueOf(name).Elem()
+	//s.FieldByName("Access_token").Set(reflect.ValueOf("aqweqwe"))
+	//s.FieldByName("UserName").Set(reflect.ValueOf("zhangsan"))
+	//s.FieldByName("Password").Set(reflect.ValueOf("qwerty"))
+	//s.FieldByName("Age").Set(reflect.ValueOf(10))
 
+	marshal, errr := json.Marshal(ctxname)
+	if errr == nil {
+		fmt.Printf("%s\n", marshal)
 	}
+
+	//for i := 0; i < v.NumField(); i++ {
+	//
+	//	fieldInfo := v.Type().Field(i) // a reflect.StructField
+	//	tag := fieldInfo.Tag           // a reflect.StructTag
+	//	name := tag.Get("json")
+	//
+	//	if name == "" {
+	//		name = strings.ToLower(fieldInfo.Name)
+	//	}
+	//	//去掉逗号后面内容 如 `json:"voucher_usage,omitempty"`
+	//	name = strings.Split(name, ",")[0]
+	//
+	//	if value, ok := fields[name]; ok {
+	//
+	//		//给结构体赋值
+	//		//保证赋值时数据类型一致
+	//		if reflect.ValueOf(value).Type() == v.FieldByName(fieldInfo.Name).Type() {
+	//			v.FieldByName(fieldInfo.Name).Set(reflect.ValueOf(value))
+	//		}
+	//
+	//	}
+	//}
+
+	//field := ctxname.NumField() //????我并不需要那么麻烦的操作啊，直接调用 c。getjosn或者类似方法，把对象和ctx传进去就好啊--目前只能拿到，无法赋值貌似
+	//for i := 1; i < field; i++ {
+	//	fmt.Println(ctxname.Field(i))
+	//	fmt.Println(ctxname.Field(i).Type)
+	//	fmt.Println(ctxname.Field(i).Name)
+	//	fmt.Println(ctxname.Field(i).Anonymous)
+	//	fmt.Println(ctxname.Field(i).Offset)
+	//	fmt.Println(ctxname.Field(i).PkgPath)
+	//	fmt.Println(ctxname.Field(i).Tag)
+	//}
+	//
+	//for i := 1; i < typ.NumIn(); i++ {
+	//	//逐个输出参数类型-- 第一个方法调用者结构体--所以从1开始 todo
+	//
+	//}
+	//
+	//v2 := reflect.New(_genInfo.List[0].GenComment.Parms[0].ParmType)
+	//fmt.Println(v2)
+	////value := reflect.New(_genInfoCnf.List[0].GenComment.Parms[0].ParmType)
+	//for i := range _genInfo.List[0].GenComment.Parms {
+	//	fmt.Println(_genInfo.List[0].GenComment.Parms[i].Name)
+	//	fmt.Println(_genInfo.List[0].GenComment.Parms[i].ParmType)
+	//	fmt.Println(_genInfo.List[0].GenComment.Parms[i].ParmTypeX)
+	//	fmt.Println(_genInfo.List[0].GenComment.Parms[i].IsMust)
+	//	fmt.Println(_genInfo.List[0].GenComment.Parms[i].ParmName)
+	//}
+	//fmt.Println(parmType)
+	//p := v2.(parmType)
+
+	//typqwe := tvl.Type()
+	var reqTmp = typ.In(4) //参数是ptr类型 值类型
+	//reqTmp.FieldByName("Access_token")
+	value := reflect.New(reqTmp.Elem())
+	//reqType.Elem()
+	//value.FieldByName("Access_token").Set(reflect.ValueOf("aaaa"))
+	//value.FieldByName("UserName").Set(reflect.ValueOf("aaaa"))
+	//value.FieldByName("Password").Set(reflect.ValueOf("aaaa"))
+	//value.FieldByName("Age").Set(reflect.ValueOf(1))
+
+	data, err := json.Marshal(value.Interface())
+	if err == nil {
+		fmt.Printf("%s\n", data)
+	}
+	values := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), value})
+
+	fmt.Println(values)
+
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
 				b.recoverErrorFunc(err)
 			}
 		}()
+		//在参数绑定的时候，首先查询 _genInfoCnf 内的类型 和约束 比如 name string must
+		//然后根据类型断言，如果是string,则 执行代码如下 c.Query("name")
+
+		//由于会存在一些结构体传递
+		//当断言到结构体的时候，我们首先要获得创建一个这样的结构体，然后填充它的成员变量
+
+		//i := v2.Interface().(parmType)
+
+		//value := reflect.ValueOf(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypeX).Elem().Interface()
+		//i := value.(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypetype)
+
 		name := c.Query("name")
 		password := c.Query("password")
 		age := c.GetInt("age")
+		err := c.BindJSON(value.Interface())
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(value.Interface())
+		}
 
-		values := tvl.Call([]reflect.Value{obj, reflect.ValueOf(name), reflect.ValueOf(password), reflect.ValueOf(age)})
+		typ := tvl.Type()
+		var reqTmp = typ.In(4)
+		data, err := json.Marshal(reqTmp)
+		if err == nil {
+			fmt.Printf("%s\n", data)
+		}
+		values := tvl.Call([]reflect.Value{obj, reflect.ValueOf(name), reflect.ValueOf(password), reflect.ValueOf(age), reflect.ValueOf(reqTmp)})
 		for _, value := range values {
 			fmt.Println(reflect.ValueOf(value))
 			c.JSON(200, reflect.ValueOf(value))

@@ -3,13 +3,14 @@ package annotation
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/xxjwxc/public/errors"
 	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/xxjwxc/public/errors"
 
 	"github.com/gin-gonic/gin"
 	//"github.com/xxjwxc/ginrpc/api"
@@ -38,20 +39,25 @@ type parmInfo struct {
 	Type   string // 类型
 	Import string // import 包
 }
+
 // store the comment for the controller method. 生成注解路由--由ast解析出来的内容，包括RouterPath路由，note注释文档，以及rest controller方法
 type GenComment struct {
 	RouterPath string
-	Note       string // 注释
+	Note       string   // 注释
 	Methods    []string //用不上？因为parm里面有了
 	Parms      []*Parm
 }
 
 type Parm struct {
-	 ParmName string
-	 ParmType reflect.Type
-	 IsMust bool
+	ParmName string
+	Name     string
+	ParmType reflect.Type //在注释阶段，已经塞进去了内容了
+	ParmKind reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止指针和接口传递）
+	//ParmTypetype reflect.Type  //在
+	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
+	IsMust bool
+	//PkgImport string //新增字段，参数对象有可能需要引入包--但是放到这里是不合适的，不方便取，我最终只需要便利取出来不需要和参数绑定
 }
-
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
 const (
@@ -61,7 +67,6 @@ const (
 //路由规则 正则表达式
 var routeRegex = regexp.MustCompile(`@Router\s+(\S+)(?:\s+\[(\S+)\])?`)
 
-
 // router style list.路由规则列表
 type genRouterInfo struct {
 	GenComment  GenComment
@@ -70,18 +75,16 @@ type genRouterInfo struct {
 
 //路由规则信息
 type genInfo struct {
-	List []genRouterInfo
-	Tm   int64 //genout time
+	List          []genRouterInfo
+	Tm            int64 //genout time
+	PkgImportList map[string]string
 }
 
 var _genInfoCnf genInfo
 
-
 func mapJson(ptr interface{}, form map[string][]string) error {
 	return mapFormByTag(ptr, form, "json")
 }
-
-
 
 func mapFormByTag(ptr interface{}, form map[string][]string, tag string) error {
 	// Check if ptr is a map
@@ -101,7 +104,6 @@ func mapFormByTag(ptr interface{}, form map[string][]string, tag string) error {
 
 	return mappingByPtr(ptr, formSource(form), tag)
 }
-
 
 func setFormMap(ptr interface{}, form map[string][]string) error {
 	el := reflect.TypeOf(ptr).Elem()
@@ -129,13 +131,10 @@ func setFormMap(ptr interface{}, form map[string][]string) error {
 	return nil
 }
 
-
-
 type setOptions struct {
 	isDefaultExists bool
 	defaultValue    string
 }
-
 
 type setter interface {
 	TrySet(value reflect.Value, field reflect.StructField, key string, opt setOptions) (isSetted bool, err error)
@@ -145,10 +144,10 @@ type setter interface {
 func (form formSource) TrySet(value reflect.Value, field reflect.StructField, tagValue string, opt setOptions) (isSetted bool, err error) {
 	return setByForm(value, field, form, tagValue, opt)
 }
+
 type formSource map[string][]string
 
 //todo 存在大量大量的参数校验，获取，绑定的方法，以后都抽取到外部，且使用接口，因为方便其他人修改和各自调整
-
 
 func setByForm(value reflect.Value, field reflect.StructField, form map[string][]string, tagValue string, opt setOptions) (isSetted bool, err error) {
 	vs, ok := form[tagValue]
@@ -185,12 +184,10 @@ func setByForm(value reflect.Value, field reflect.StructField, form map[string][
 
 var emptyField = reflect.StructField{}
 
-
 func mappingByPtr(ptr interface{}, setter setter, tag string) error {
 	_, err := mapping(reflect.ValueOf(ptr), emptyField, setter, tag)
 	return err
 }
-
 
 func setFloatField(val string, bitSize int, field reflect.Value) error {
 	if val == "" {
@@ -202,7 +199,6 @@ func setFloatField(val string, bitSize int, field reflect.Value) error {
 	}
 	return err
 }
-
 
 func setIntField(val string, bitSize int, field reflect.Value) error {
 	if val == "" {
@@ -216,7 +212,6 @@ func setIntField(val string, bitSize int, field reflect.Value) error {
 }
 
 var errUnknownType = errors.New("unknown type")
-
 
 func setTimeDuration(val string, value reflect.Value, field reflect.StructField) error {
 	d, err := time.ParseDuration(val)
@@ -297,7 +292,6 @@ func setBoolField(val string, field reflect.Value) error {
 	return err
 }
 
-
 func setTimeField(val string, structField reflect.StructField, value reflect.Value) error {
 	timeFormat := structField.Tag.Get("time_format")
 	if timeFormat == "" {
@@ -348,8 +342,6 @@ func setTimeField(val string, structField reflect.StructField, value reflect.Val
 	value.Set(reflect.ValueOf(t))
 	return nil
 }
-
-
 
 func mapping(value reflect.Value, field reflect.StructField, setter setter, tag string) (bool, error) {
 	if field.Tag.Get(tag) == "-" { // just ignoring this field
@@ -405,7 +397,6 @@ func mapping(value reflect.Value, field reflect.StructField, setter setter, tag 
 	return false, nil
 }
 
-
 func head(str, sep string) (head string, tail string) {
 	idx := strings.Index(str, sep)
 	if idx < 0 {
@@ -441,7 +432,6 @@ func tryToSetValue(value reflect.Value, field reflect.StructField, setter setter
 	return setter.TrySet(value, field, tagValue, setOpt)
 }
 
-
 func setSlice(vals []string, value reflect.Value, field reflect.StructField) error {
 	slice := reflect.MakeSlice(value.Type(), len(vals), len(vals))
 	err := setArray(vals, slice, field)
@@ -460,8 +450,6 @@ func SetVersion(tm int64) {
 	defer _mmu.Unlock()
 	_genInfo.Tm = tm
 }
-
-
 
 func setArray(vals []string, value reflect.Value, field reflect.StructField) error {
 	for i, s := range vals {
@@ -501,7 +489,6 @@ var (
 	import (
 		"ginPlus/annotation"
 		"reflect"
-
 	)
 	
 	func init() {
@@ -531,4 +518,53 @@ var (
 	//todo 扩大获取的ast内容，然后根据interface中是否存在. 比如bind.ReqTest ，那么就去impots的内容中寻找存在匹配的import内容，如果有，则存放它的全限定名称，比如github.com/gin-gonic/gin.context
 	//todo 如果没有import内容，则去查找到它的包名，然后存放
 	//todo 存放方式 import的 “” 或者package 的 “”  然后parm的名称 这个目前已经有了，然后它的反射type
+
+	// todo 由于go反射无法动态赋值  将参数转为 结构体对象存在困难，目前想到的方式是通过 gen 生成动态代码来解决。
+	// todo  动态生产 handlerFuncObjTemp 方法代码块，或者抽取到外面，动态生成这一部分代码。
+
+	//在dev环境，解析出注释的内容，包括
+	//	name string, password string, age int,hi bind.ReqTest
 )
+
+//
+//
+//func init() {
+//	annotation.SetVersion(1625627016)
+//	annotation.AddGenOne("Hello.Hi", annotation.GenComment{
+//		RouterPath: "hello.hi",
+//		Note:       "",
+//		Methods:    []string{"ANY"},
+//		Parms: []*annotation.Parm{
+//
+//
+//			{
+//				ParmName: "",
+//				Name:reflect.TypeOf(new(string)).Name(),
+//				ParmTypeX: reflect.String,
+//				ParmType:reflect.TypeOf(new(string)),
+//				IsMust:   false,
+//			},
+//
+//			{
+//				ParmName: "",
+//				ParmTypeX: reflect.String,
+//				ParmType: reflect.TypeOf(new(string)),
+//				IsMust:   false,
+//			},
+//
+//			{
+//				ParmName: "",
+//				ParmTypeX: reflect.Int,
+//				ParmType: reflect.TypeOf(new(string)),
+//				IsMust:   false,
+//			},
+//
+//			{
+//				ParmName: "",
+//				ParmTypeX: reflect.TypeOf(new(bind.ReqTest)).Kind(),  //这里 是否可以考虑直接 reflect.Struct
+//				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+//				IsMust:   false,
+//			},
+//		},
+//	})
+//}

@@ -1,7 +1,9 @@
 package main
 
 import (
-	"fmt"
+	fmt "fmt"
+	_ "ginPlus/bind"
+	bind "ginPlus/bind"
 )
 
 //type ReqTest struct {
@@ -32,12 +34,12 @@ type Hello struct {
 // Hello Annotated route (bese on beego way)
 // [!name string, !password string, !age int]
 // @GET /block
-func (s *Hello) Hi(name string, password string, age int) (comment string) {
+func (s *Hello) Hi(name string, password string, age int, hi *bind.ReqTest) (comment string) {
 	fmt.Println(name + password)
 	fmt.Println(age)
+	fmt.Println(hi)
 	return "ni hao"
 }
-
 
 //
 //func init() {
