@@ -668,6 +668,15 @@ func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.
 
 // HandlerFunc Get and filter the parameters to be bound (object call type) todo 核心开发板块
 func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, v genRouterInfo) gin.HandlerFunc { // 获取并过滤要绑定的参数(obj 对象类型)
+	//使用下面这种方式可以第一次加载的时候就参数都对齐，而不是每次请求都加载一遍。
+	parmType := v.GenComment.Parms[3].ParmType  //值
+	parmType4 := v.GenComment.Parms[4].ParmType //指针
+
+	value4 := reflect.New(parmType4.Elem()) //传指针
+
+	vValue := reflect.New(parmType) //传值
+
+	_ = tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), vValue.Elem(), value4})
 
 	typ := tvl.Type()
 	//输出参数数量
@@ -760,22 +769,29 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 	//p := v2.(parmType)
 
 	//typqwe := tvl.Type()
-	var reqTmp = typ.In(4) //参数是ptr类型 值类型
+	var reqTmp = typ.In(5) //参数是指针类型类型
 	//reqTmp.FieldByName("Access_token")
 	value := reflect.New(reqTmp.Elem())
+	//todo 如果是传值的话，是先new出来，然后再.Elem获取到值，然后传到call参数，类似下面代码
+
+	//var reqTmp = typ.In(4) //参数是 值类型
+	//valueWith := reflect.New(reqTmp)
+	//with:=valueWith.Elem()  然后with就可以作为参数了- - 值传递暂时作为保留内容 todo
+
 	//reqType.Elem()
 	//value.FieldByName("Access_token").Set(reflect.ValueOf("aaaa"))
 	//value.FieldByName("UserName").Set(reflect.ValueOf("aaaa"))
 	//value.FieldByName("Password").Set(reflect.ValueOf("aaaa"))
 	//value.FieldByName("Age").Set(reflect.ValueOf(1))
 
-	data, err := json.Marshal(value.Interface())
-	if err == nil {
-		fmt.Printf("%s\n", data)
-	}
-	values := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), value})
+	// 下方是调用4个参数的时候的代码 第四个参数是指针，暂时注释 todo
+	//data, err := json.Marshal(value.Interface())
+	//if err == nil {
+	//	fmt.Printf("%s\n", data)
+	//}
+	//values := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), value})
 
-	fmt.Println(values)
+	//fmt.Println(values)
 
 	return func(c *gin.Context) {
 		defer func() {
