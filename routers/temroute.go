@@ -1,23 +1,24 @@
 package routers
 
 import (
+	"ginPlus/annotation"
+	bind "ginPlus/bind"
+	"ginPlus/utils"
 	"reflect"
 
-	"ginPlus/annotation"
-	"ginPlus/utils"
 	gin "github.com/gin-gonic/gin"
 
 	_ "ginPlus/bind"
-
-	bind "ginPlus/bind"
 )
 
 func init() {
-	annotation.SetVersion(1625736705)
-	//
-	//abc3 := new(bind.ReqTest)
-	//
-	//abc1 := new(bind.ReqTest)
+	annotation.SetVersion(1625743759)
+
+	abc3 := new(bind.ReqTest)
+
+	abc1 := new(bind.ReqTest)
+
+	cba0 := new(bind.ReqTest)
 
 	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
 		RouterPath: "hello.hi1",
@@ -48,14 +49,14 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				ParmType: reflect.TypeOf(*abc3),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "hi",
-				ParmType: reflect.TypeOf(new(*bind.ReqTest)),
+				ParmType: reflect.TypeOf(new(bind.ReqTest)),
 				IsMust:   false,
 				ParmKind: reflect.Ptr,
 			},
@@ -85,21 +86,21 @@ func init() {
 
 			{
 				ParmName: "ctx",
-				ParmType: reflect.TypeOf(new(*gin.Context)),
+				ParmType: reflect.TypeOf(new(gin.Context)),
 				IsMust:   false,
 				ParmKind: reflect.Ptr,
 			},
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				ParmType: reflect.TypeOf(*abc1),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "hi",
-				ParmType: reflect.TypeOf(new(*bind.ReqTest)),
+				ParmType: reflect.TypeOf(new(bind.ReqTest)),
 				IsMust:   false,
 				ParmKind: reflect.Ptr,
 			},
@@ -108,7 +109,7 @@ func init() {
 
 			{
 				ParmName: "commentHi2",
-				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				ParmType: reflect.TypeOf(*cba0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},

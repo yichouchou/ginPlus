@@ -56,10 +56,11 @@ type Parm struct {
 	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
-	IsMust      bool
-	NewValueStr string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
-	StrInTypeOf string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
-	ParmKindStr string // 保存kind分类的字段 reflect.String 类似这样
+	IsMust       bool
+	NewValueStr  string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
+	StrInTypeOf  string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
+	ParmKindStr  string // 保存kind分类的字段 reflect.String 类似这样
+	NewResultStr string //
 }
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
@@ -493,13 +494,15 @@ var (
 		
 		{{range .List}}
 			{{range .GenComment.Parms}}
-
 				{{.NewValueStr}}
-
 			{{end -}}
-
 		{{end}}
-		
+
+		{{range .List}}
+			{{range .GenComment.Result}}
+				{{.NewResultStr}}
+			{{end -}}
+		{{end}}
 
 		{{range .List}}annotation.AddGenOne("{{.HandFunName}}", utils.GenComment{
 		RouterPath: "{{.GenComment.RouterPath}}",
@@ -511,9 +514,9 @@ var (
 
 		{
 			ParmName: "{{.ParmName}}",
-			ParmType: reflect.TypeOf(new({{.ParmType}})),
+			ParmType: reflect.TypeOf({{.StrInTypeOf}}),
 			IsMust:   {{.IsMust}},
-			ParmKind: {{.ParmKindStr}}
+			ParmKind: {{.ParmKindStr}},
 		},	
 
 	{{end -}}
@@ -523,10 +526,10 @@ var (
 		Result: []*utils.Parm{
 	{{range .GenComment.Result}}
 			{
-				ParmName: "{{.ParmName}}",
-			ParmType: reflect.TypeOf(new({{.ParmType}})),
+			ParmName: "{{.ParmName}}",
+			ParmType: reflect.TypeOf({{.StrInTypeOf}}),
 			IsMust:   {{.IsMust}},
-			ParmKind: {{.ParmKindStr}}
+			ParmKind: {{.ParmKindStr}},
 			},
 	{{end -}}
 

@@ -104,3 +104,7 @@ func Kind2String(kind reflect.Kind) (kinStr string) {
 		return "reflect.Array"
 	}
 }
+
+//todo 写一个接口，里面定义了处理各种形式参数和请求方式的 方法-需要抽象，方法内包含两个东西：
+// todo 1. tvl reflect.Value 指向具体的方法rest方法-  2. c *gin.Context 从gin.context解析参数，必不可少
+// todo 3. obj reflect.Value 这个是方法调用者 call时候的第一个参数 4. v utils.GenRouterInfo 与该rest方法绑定的参数列表（入参与出参都有）
