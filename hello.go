@@ -2,8 +2,10 @@ package main
 
 import (
 	fmt "fmt"
+
 	_ "ginPlus/bind"
 	bind "ginPlus/bind"
+	"github.com/gin-gonic/gin"
 )
 
 //type ReqTest struct {
@@ -32,14 +34,31 @@ type Hello struct {
 //
 
 // Hello Annotated route (bese on beego way)
-// [!name string, !password string, !age int]
-// @GET /block
-func (s *Hello) Hi(name string, password string, age int, hiValue bind.ReqTest, hi *bind.ReqTest) (comment string) {
+// [!name string, !password string, !age int] [commentHi1 string,errHi1 error]
+// @GET /block1
+func (s *Hello) Hi1(name string, password string, age int, hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi1 string, errHi1 error) {
 	fmt.Println(name + password)
 	fmt.Println(age)
 	fmt.Println(hi)
 	fmt.Println(hiValue)
-	return "ni hao"
+	return "ni hao", nil
+}
+
+// Hello Annotated route (bese on beego way)
+// [ctx *gin.Context, hiValue bind.ReqTest, hi *bind.ReqTest] [commentHi2 bind.ReqTest,errHi2 error]
+// @GET /block2
+func (s *Hello) Hi2(ctx *gin.Context, hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi2 bind.ReqTest, errHi2 error) {
+	fmt.Println(hi)
+	fmt.Println(hiValue)
+	return bind.ReqTest{}, nil
+}
+
+// Hello Annotated route (bese on beego way)
+// [name, password string, age, year int] [commentHi3 int,errHi3 error]
+// @GET /block3
+func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi3 error) {
+
+	return 10, nil
 }
 
 //

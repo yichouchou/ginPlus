@@ -1,7 +1,6 @@
 package annotation
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -178,7 +177,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		doc.GenSwagger(modFile + "/docs/swagger/")
 		doc.GenMarkdown(modFile + "/docs/markdown/")
 	}
-	//genOutPut(b.outPath, modFile) // generate code   todo为了测试方便，暂时不生成 init文件
+	genOutPut(b.outPath, modFile) // generate code   todo为了测试方便，暂时不生成 init文件
 	return true
 }
 
@@ -229,6 +228,23 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	req := analysisParm(f.Type.Params, imports, objPkg, 1)
 	resp := analysisParm(f.Type.Results, imports, objPkg, 0)
 	ignore := false
+
+	//最好的方式不是从注释中取，而是从方法本身，但是由于注释/配置大于默认，所以还是从注释中拿，如果没有的话就从它方法本身去获取
+	//解析 f.Type的内容，里面包含上述内容
+	if f.Type != nil {
+		for _, field := range f.Type.Params.List {
+			fmt.Println(field.Names, field.Type, "----入参参数类型") // todo 当传指针的时候，里面是这样 &{972 0xc0003165b8} 一串 且不方便转，
+			// todo  可能需要依赖注释来generater -- 或者通过反射来吧，ast语法树并不能很好的处理各种类型，那么对应的parm的name交给语法树（因为只有语法树拿得到，type交给反射）
+			// todo 为什么是field.Names name是个数组呢，因为存在很恶心的情况，比如 name, password string 它会把name放到一起去，
+			// todo Params.List根据类型来划分的，每个类型对应有个names数组，里面存放真正的参数名称，也就是说参数数量根据names里面的len来的
+			//fmt.Println(field)
+			//fmt.Println(i,field.Type,field.Tag,field.Doc,field.Comment,field.Names)
+		}
+		for _, fieldResult := range f.Type.Results.List {
+			fmt.Println(fieldResult.Names, fieldResult.Type, "----出参参数类型")
+			//fmt.Println(i,fieldResult)
+		}
+	}
 
 	if f.Doc != nil {
 		for _, c := range f.Doc.List {
@@ -373,24 +389,25 @@ func genCode(outDir, modFile string) bool {
 		genInfo: _genInfo,
 		PkgName: pkgName,
 	}
+	fmt.Println(data)
 	//for i := range data.genInfo.List {
 	//	for i2 := range data.genInfo.List[i].GenComment.Parms {
 	//		fmt.Println(data.genInfo.List[i].GenComment.Parms[i2])
 	//	}
 	//}
 
-	tmpl, err := template.New("gen_out").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(genTemp)
+	_, err := template.New("gen_out").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(genTemp)
 	if err != nil {
 		panic(err)
 	}
-	var buf bytes.Buffer
-	tmpl.Execute(&buf, data)
-	f, err := os.Create(outDir + "temroute.go")
-	if err != nil {
-		return false
-	}
-	defer f.Close()
-	f.Write(buf.Bytes())
+	//var buf bytes.Buffer
+	//tmpl.Execute(&buf, data)
+	//f, err := os.Create(outDir + "temroute.go")
+	//if err != nil {
+	//	return false
+	//}
+	//defer f.Close()
+	//f.Write(buf.Bytes())
 
 	// format
 	exec.Command("gofmt", "-l", "-w", outDir).Output()
@@ -535,7 +552,7 @@ func getInfo() map[string][]genRouterInfo {
 	defer serviceMapMu.Unlock()
 
 	genInfo := _genInfo
-	if _genInfoCnf.Tm > genInfo.Tm { // config to update more than coding
+	if _genInfoCnf.Tm > genInfo.Tm { // config to update more than coding 替换旧版本的
 		genInfo = _genInfoCnf
 	}
 

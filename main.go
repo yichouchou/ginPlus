@@ -2,14 +2,14 @@ package main
 
 import (
 	"ginPlus/annotation"
-	_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
+	//_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	engine := gin.Default() //todo 考虑兼容 iris的注解路由
 	base := annotation.New()
-	base.Dev(false)
+	//base.Dev(false)
 	base.Register(engine, new(Hello))
 	engine.Run(":8088")
 }

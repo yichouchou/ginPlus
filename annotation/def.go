@@ -46,6 +46,7 @@ type GenComment struct {
 	Note       string   // 注释
 	Methods    []string //用不上？因为parm里面有了
 	Parms      []*Parm
+	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
 
 type Parm struct {
