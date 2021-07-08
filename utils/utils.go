@@ -87,3 +87,20 @@ func SplitParms(parmsDoc string) (parms []Parm) {
 	return parmList
 
 }
+
+func Kind2String(kind reflect.Kind) (kinStr string) {
+	switch kind {
+	case reflect.String:
+		return "reflect.String"
+	case reflect.Int:
+		return "reflect.Int"
+	case reflect.Ptr:
+		return "reflect.Ptr"
+	case reflect.Struct:
+		return "reflect.Struct"
+	case reflect.Array:
+		return "reflect.Slice"
+	default:
+		return "reflect.Array"
+	}
+}

@@ -1,6 +1,7 @@
 package annotation
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"path"
 	"reflect"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"text/template"
@@ -353,15 +355,25 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	}
 
 	//在这里为gcs里面的GenComment的入参与出参的type 赋值
+	//todo 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
+	for _, gc := range gcs {
+		//todo 从1开始，因为调用者也会在其中的第1个位置
+		for i := 1; i < t.NumIn(); i++ {
+			fmt.Println(t.In(i), "--入参")
+			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+			gc.Parms[i-1].ParmType = t.In(i)
+			gc.Parms[i-1].ParmKind = t.In(i).Kind()
+		}
 
-	//for _, gc := range gcs {
-	//	for i := 1; i < t.NumIn(); i++ {
-	//		fmt.Println(t.In(i))
-	//		//todo 在这里，整个parm其实在前面绑定参数type之前就应该有了，这里图方便，重新创建的，实际上应该遍历直接赋值就好了
-	//		gc.Parms = append(gc.Parms, &Parm{ParmType: t.In(i)})
-	//	}
-	//
-	//}
+		//todo 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
+		for i := 0; i < t.NumOut(); i++ {
+			fmt.Println(t.Out(i), "--出参")
+			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+			gc.Result[i].ParmType = t.Out(i)
+			gc.Result[i].ParmKind = t.Out(i).Kind()
+		}
+
+	}
 	return gcs, req, resp
 }
 
@@ -432,7 +444,7 @@ func genOutPut(outDir, modFile string) {
 	f.Write(_data)
 }
 
-//控制台输出逻辑
+// todo 生成路由信息文件
 func genCode(outDir, modFile string) bool {
 	_genInfo.Tm = time.Now().Unix()
 	if len(outDir) == 0 {
@@ -440,6 +452,7 @@ func genCode(outDir, modFile string) bool {
 	}
 	pkgName := getPkgName(outDir)
 	//todo 这个时候的data里面的 PkgImportList 是键值对形式，非常恶心，思考下来 最好的方式就是原封不动，然后原封不动导入回去 由于键值对不好
+	// todo 目前里面存在冗余import内容
 	//在template中使用，直接拼接字符串更好，然后放list
 	data := struct {
 		utils.GenInfo
@@ -448,25 +461,71 @@ func genCode(outDir, modFile string) bool {
 		GenInfo: _genInfo,
 		PkgName: pkgName,
 	}
-	fmt.Println(data)
+	//拼接 template需要import的包，键值对直接拼接为完成字符串 类似：annotation "ginPlus/annotation" todo
+	for s := range data.PkgImportList {
+		s3 := data.PkgImportList[s]
+		data.PkgImportStrs = append(data.PkgImportStrs, s+" "+"\""+s3+"\"")
+	}
+
+	for i := range data.GenInfo.List {
+		parms := data.GenInfo.List[i].GenComment.Parms
+		for index, parm := range parms {
+			parm.ParmKindStr = utils.Kind2String(parm.ParmKind)
+			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
+			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
+			if parm.ParmKind == reflect.Struct {
+				parm.NewValueStr = "abc" + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
+				parm.StrInTypeOf = "*bbc" + strconv.Itoa(index)
+			} else {
+				parm.NewValueStr = ""
+				parm.StrInTypeOf = "new" + "(" + parm.ParmType.String() + ")"
+			}
+
+		}
+		results := data.GenInfo.List[i].GenComment.Result
+		for index, result := range results {
+			result.ParmKindStr = utils.Kind2String(result.ParmKind)
+			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
+			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
+			if result.ParmKind == reflect.Struct {
+				result.NewValueStr = "cba" + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
+				result.StrInTypeOf = "*cba" + strconv.Itoa(index)
+			} else {
+				result.NewValueStr = ""
+				result.StrInTypeOf = result.ParmType.String()
+			}
+
+		}
+
+	}
+	//todo 上方传入template的结构体的思路
+	// 1。要有imports的内容，这个会是一个map结构，目前已经完成
+	// 2。PkgName 这个目前已经有
+	// 3。GenRouterInfo 结构体信息
+	// 4。目前缺少的信息，new的结构体对象以及它的名称，且这个名称需要和parm里面的信息对齐
+	// 5。reflect.Int ParmKind信息，在现有的结构体存的方式无法取出类似的，应该需要另外构建，字符串，然后填充
+	// 6。ParmType 现有的方式其实能够满足除了值传递的其他方式，但是为了兼容值传递，最好是把 new(bind.ReqTest) 弄成字符串传过去，然后类似*b 也就直接用
+	// 7。result 返回值 目前考虑如上保持一致
+
+	//fmt.Println(data)
 	//for i := range data.genInfo.List {
 	//	for i2 := range data.genInfo.List[i].GenComment.Parms {
 	//		fmt.Println(data.genInfo.List[i].GenComment.Parms[i2])
 	//	}
 	//}
 
-	_, err := template.New("gen_out").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(utils.GenTemp)
+	tmpl, err := template.New("gen_out").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(utils.GenTemp)
 	if err != nil {
 		panic(err)
 	}
-	//var buf bytes.Buffer
-	//tmpl.Execute(&buf, data)
-	//f, err := os.Create(outDir + "temroute.go")
-	//if err != nil {
-	//	return false
-	//}
-	//defer f.Close()
-	//f.Write(buf.Bytes())
+	var buf bytes.Buffer
+	tmpl.Execute(&buf, data)
+	f, err := os.Create(outDir + "temroute.go")
+	if err != nil {
+		return false
+	}
+	defer f.Close()
+	f.Write(buf.Bytes())
 
 	// format
 	exec.Command("gofmt", "-l", "-w", outDir).Output()
@@ -752,7 +811,11 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 
 	vValue := reflect.New(parmType) //传值
 
-	_ = tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), vValue.Elem(), value4})
+	results := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), vValue.Elem(), value4})
+
+	for i := range results {
+		fmt.Println(reflect.ValueOf(results[i]))
+	}
 
 	typ := tvl.Type()
 	//输出参数数量

@@ -4,70 +4,171 @@ import (
 	"reflect"
 
 	"ginPlus/annotation"
-	"ginPlus/bind"
 	"ginPlus/utils"
+	gin "github.com/gin-gonic/gin"
+
+	_ "ginPlus/bind"
+
+	bind "ginPlus/bind"
 )
 
 func init() {
-	b := new(bind.ReqTest)
-	utils.SetVersion(1625627016)
-	annotation.AddGenOne("Hello.Hi", utils.GenComment{
-		RouterPath: "hello.hi",
+	annotation.SetVersion(1625736705)
+	//
+	//abc3 := new(bind.ReqTest)
+	//
+	//abc1 := new(bind.ReqTest)
+
+	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
+		RouterPath: "hello.hi1",
 		Note:       "",
 		Methods:    []string{"ANY"},
 		Parms: []*utils.Parm{
 
 			{
 				ParmName: "name",
-				ParmKind: reflect.String,
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
+				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "password",
-				ParmKind: reflect.String,
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
+				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmKind: reflect.Int,
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(new(int)),
 				IsMust:   false,
+				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "hiValue",
+				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				IsMust:   false,
 				ParmKind: reflect.Struct,
-				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
-				ParmType: reflect.TypeOf(*b), //这里是传递值参数
-				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
-				IsMust: false,
 			},
+
 			{
 				ParmName: "hi",
+				ParmType: reflect.TypeOf(new(*bind.ReqTest)),
+				IsMust:   false,
 				ParmKind: reflect.Ptr,
-				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
-				ParmType: reflect.TypeOf(new(bind.ReqTest)), //这里传递指针参数
-				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
-				IsMust: false,
 			},
 		},
 		Result: []*utils.Parm{
+
 			{
-				ParmName: "name",
-				ParmKind: reflect.String,
+				ParmName: "commentHi1",
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
+				ParmKind: reflect.String,
+			},
+
+			{
+				ParmName: "errHi1",
+				ParmType: reflect.TypeOf(new(error)),
+				IsMust:   false,
+				ParmKind: reflect.Array,
+			},
+		},
+	})
+	annotation.AddGenOne("Hello.Hi2", utils.GenComment{
+		RouterPath: "hello.hi2",
+		Note:       "",
+		Methods:    []string{"ANY"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "ctx",
+				ParmType: reflect.TypeOf(new(*gin.Context)),
+				IsMust:   false,
+				ParmKind: reflect.Ptr,
+			},
+
+			{
+				ParmName: "hiValue",
+				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+
+			{
+				ParmName: "hi",
+				ParmType: reflect.TypeOf(new(*bind.ReqTest)),
+				IsMust:   false,
+				ParmKind: reflect.Ptr,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "commentHi2",
+				ParmType: reflect.TypeOf(new(bind.ReqTest)),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+
+			{
+				ParmName: "errHi2",
+				ParmType: reflect.TypeOf(new(error)),
+				IsMust:   false,
+				ParmKind: reflect.Array,
+			},
+		},
+	})
+	annotation.AddGenOne("Hello.Hi3", utils.GenComment{
+		RouterPath: "hello.hi3",
+		Note:       "",
+		Methods:    []string{"ANY"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "name",
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "password",
-				ParmKind: reflect.Interface,
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
+				ParmKind: reflect.String,
+			},
+
+			{
+				ParmName: "age",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+
+			{
+				ParmName: "year",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "commentHi3",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+
+			{
+				ParmName: "errHi3",
+				ParmType: reflect.TypeOf(new(error)),
+				IsMust:   false,
+				ParmKind: reflect.Array,
 			},
 		},
 	})

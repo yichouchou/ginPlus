@@ -42,21 +42,24 @@ type ParmInfo struct {
 // store the comment for the controller method. 生成注解路由--由ast解析出来的内容，包括RouterPath路由，note注释文档，以及rest controller方法
 type GenComment struct {
 	RouterPath string
-	Note       string   // 注释
-	Methods    []string //用不上？因为parm里面有了
+	Note       string // 注释
+	Methods    []string
 	Parms      []*Parm
 	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
 
 type Parm struct {
-	ParmName string
-	Name     string
-	ParmType reflect.Type //在注释阶段，已经塞进去了内容了
-	ParmKind reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
+	FiledNote string //参数说明 todo 保留字段
+	ParmName  string
+	Name      string
+	ParmType  reflect.Type //在注释阶段，已经塞进去了内容了
+	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
-	IsMust bool
-	//PkgImport string //新增字段，参数对象有可能需要引入包--但是放到这里是不合适的，不方便取，我最终只需要便利取出来不需要和参数绑定
+	IsMust      bool
+	NewValueStr string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
+	StrInTypeOf string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
+	ParmKindStr string // 保存kind分类的字段 reflect.String 类似这样
 }
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
@@ -78,6 +81,7 @@ type GenInfo struct {
 	List          []GenRouterInfo
 	Tm            int64 //genout time
 	PkgImportList map[string]string
+	PkgImportStrs []string
 }
 
 var GenInfoCnf GenInfo
@@ -478,33 +482,60 @@ var (
 	package {{.PkgName}}
 	
 	import (
-		"ginPlus/annotation"
-		"reflect"
+{{range $i, $v := .PkgImportStrs}}
+	{{ $v}}
+{{end}}
+
 	)
 	
 	func init() {
 		annotation.SetVersion({{.Tm}})
-		{{range .List}}annotation.AddGenOne("{{.HandFunName}}", annotation.GenComment{
+		
+		{{range .List}}
+			{{range .GenComment.Parms}}
+
+				{{.NewValueStr}}
+
+			{{end -}}
+
+		{{end}}
+		
+
+		{{range .List}}annotation.AddGenOne("{{.HandFunName}}", utils.GenComment{
 		RouterPath: "{{.GenComment.RouterPath}}",
 		Note:       "",
 		Methods:    []string{ {{GetStringList .GenComment.Methods}} },
-		Parms: []*annotation.Parm{	
+		Parms: []*utils.Parm{	
 		
 	{{range .GenComment.Parms}}
 
 		{
 			ParmName: "{{.ParmName}}",
-			ParmType: reflect.TypeOf({{.ParmType}}),
+			ParmType: reflect.TypeOf(new({{.ParmType}})),
 			IsMust:   {{.IsMust}},
+			ParmKind: {{.ParmKindStr}}
 		},	
 
 	{{end -}}
 
 
 		},
+		Result: []*utils.Parm{
+	{{range .GenComment.Result}}
+			{
+				ParmName: "{{.ParmName}}",
+			ParmType: reflect.TypeOf(new({{.ParmType}})),
+			IsMust:   {{.IsMust}},
+			ParmKind: {{.ParmKindStr}}
+			},
+	{{end -}}
+
+			
+		},
 	})
-		{{end}} }
+{{end}} }
 	`
+
 	//todo 运行时绑定存在非常大的阻碍，结构体的绑定困难很大 尤其是使用一些自由的结构体的时候，无从获取需要注入的package --目前想到的方式，
 	//todo 扩大获取的ast内容，然后根据interface中是否存在. 比如bind.ReqTest ，那么就去impots的内容中寻找存在匹配的import内容，如果有，则存放它的全限定名称，比如github.com/gin-gonic/gin.context
 	//todo 如果没有import内容，则去查找到它的包名，然后存放
@@ -518,53 +549,92 @@ var (
 	//	name string, password string, age int,hi bind.ReqTest
 )
 
-//
-//
-//func init() {
-//	b := new(bind.ReqTest)
-//	annotation.SetVersion(1625627016)
-//	annotation.AddGenOne("Hello.Hi", annotation.GenComment{
-//		RouterPath: "hello.hi",
-//		Note:       "",
-//		Methods:    []string{"ANY"},
-//		Parms: []*annotation.Parm{
-//
-//			{
-//				ParmName: "name",
-//				ParmKind: reflect.String,
-//				ParmType: reflect.TypeOf(new(string)),
-//				IsMust: false,
-//			},
-//
-//			{
-//				ParmName: "password",
-//				ParmKind: reflect.String,
-//				ParmType: reflect.TypeOf(new(string)),
-//				IsMust: false,
-//			},
-//
-//			{
-//				ParmName: "age",
-//				ParmKind: reflect.Int,
-//				ParmType: reflect.TypeOf(new(string)),
-//				IsMust: false,
-//			},
-//
-//			{
-//				ParmName: "hiValue",
-//				ParmKind: reflect.Struct,
-//				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
-//				ParmType: reflect.TypeOf(*b),
-//				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
-//				IsMust: false,
-//			},
-//			{
-//				ParmName: "hi",
-//				ParmKind: reflect.Struct,
-//				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
-//				ParmType: reflect.TypeOf(new(bind.ReqTest)),
-//				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
-//				IsMust: false,
-//			},
-//		},
-//	})
+/*  todo 模板生成的内容大致会参照这样子，方便拓展，可能还会引入类似于swagger的接口文档
+
+func init() {
+
+//todo 这里下方imports的内容，目前已经能够拿到
+	"reflect"
+	"ginPlus/annotation"
+	"ginPlus/bind"
+	"ginPlus/utils"
+
+//todo 下方创建结构体对象 需要的要素： 1。名称 2。new()
+//todo 3.括号内的 bind.type （目前应该都可以拿到的，但是名称b类似的需要和下方传值时候使用的对应起来，可能需要使用map）
+//todo 存储格式如下： name  refletx.type  --如果遇到值传递，把所有值传递的内容都需要在下方new出来
+	b := new(bind.ReqTest)
+
+
+// todo 下方版本设置已经有解法
+	annotation.SetVersion(1625627016)
+
+// todo  下方路由方法的注册，{{range .List}} 参考之前的，遍历，然后取
+	annotation.AddGenOne("Hello.Hi", utils.GenComment{
+		RouterPath: "hello.hi",
+		Note:       "",
+// todo 请求方式多种的话可以考虑先拼接再传string过来
+		Methods:    []string{"ANY"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "name",
+				ParmKind: reflect.String,
+// todo 下方固定格式写法reflect.TypeOf(new(string))，除非遇到传值的情况
+
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+			},
+
+			{
+				ParmName: "password",
+				ParmKind: reflect.String,
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+			},
+
+			{
+				ParmName: "age",
+				ParmKind: reflect.Int,
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+			},
+
+			{
+				ParmName: "hiValue",
+				ParmKind: reflect.Struct,
+				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
+// todo 遇到下方传值的情况，非常麻烦，必须去前面的已经创建的类型对象 然后*+名称
+
+				ParmType: reflect.TypeOf(*b), //这里是传递值参数
+				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
+				IsMust: false,
+			},
+			{
+				ParmName: "hi",
+				ParmKind: reflect.Ptr,
+				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
+				ParmType: reflect.TypeOf(new(bind.ReqTest)), //这里传递指针参数
+				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
+				IsMust: false,
+			},
+		},
+		Result: []*utils.Parm{
+			{
+				ParmName: "name",
+				ParmKind: reflect.String,
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+			},
+
+			{
+				ParmName: "password",
+				ParmKind: reflect.Interface,
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+			},
+		},
+	})
+}
+
+
+*/
