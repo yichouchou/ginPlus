@@ -1,4 +1,4 @@
-package annotation
+package utils
 
 import (
 	"encoding/json"
@@ -7,7 +7,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/xxjwxc/public/errors"
@@ -33,8 +32,8 @@ type NewAPIFunc func(*gin.Context) interface{}
 // RecoverErrorFunc recover 错误设置
 type RecoverErrorFunc func(interface{})
 
-// parmInfo 参数类型描述
-type parmInfo struct {
+// ParmInfo 参数类型描述
+type ParmInfo struct {
 	Pkg    string // 包名
 	Type   string // 类型
 	Import string // import 包
@@ -53,7 +52,7 @@ type Parm struct {
 	ParmName string
 	Name     string
 	ParmType reflect.Type //在注释阶段，已经塞进去了内容了
-	ParmKind reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止指针和接口传递）
+	ParmKind reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
 	IsMust bool
@@ -62,28 +61,28 @@ type Parm struct {
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
 const (
-	getRouter = "/conf/gen_router.data"
+	GetRouter = "/conf/gen_router.data"
 )
 
 //路由规则 正则表达式
 var routeRegex = regexp.MustCompile(`@Router\s+(\S+)(?:\s+\[(\S+)\])?`)
 
 // router style list.路由规则列表
-type genRouterInfo struct {
+type GenRouterInfo struct {
 	GenComment  GenComment
 	HandFunName string
 }
 
 //路由规则信息
-type genInfo struct {
-	List          []genRouterInfo
+type GenInfo struct {
+	List          []GenRouterInfo
 	Tm            int64 //genout time
 	PkgImportList map[string]string
 }
 
-var _genInfoCnf genInfo
+var GenInfoCnf GenInfo
 
-func mapJson(ptr interface{}, form map[string][]string) error {
+func MapJson(ptr interface{}, form map[string][]string) error {
 	return mapFormByTag(ptr, form, "json")
 }
 
@@ -443,15 +442,6 @@ func setSlice(vals []string, value reflect.Value, field reflect.StructField) err
 	return nil
 }
 
-var _mmu sync.Mutex
-
-// SetVersion user timestamp to replace version
-func SetVersion(tm int64) {
-	_mmu.Lock()
-	defer _mmu.Unlock()
-	_genInfo.Tm = tm
-}
-
 func setArray(vals []string, value reflect.Value, field reflect.StructField) error {
 	for i, s := range vals {
 		err := setWithProperType(s, value.Index(i), field)
@@ -472,7 +462,7 @@ var (
 	// because Typeof takes an empty interface value. This is annoying.
 	typeOfError = reflect.TypeOf((*error)(nil)).Elem()
 	//	ginrpc.AddGenOne("Hello.Hello", "/block", []string{"post"})
-	//genTemp = `
+	//GenTemp = `
 	//package {{.PkgName}}
 	//
 	//import (
@@ -484,7 +474,7 @@ var (
 	//	{{range .List}}annotation.AddGenOne("{{.HandFunName}}", "{{.GenComment.RouterPath}}", []string{ {{GetStringList .GenComment.Methods}} })
 	//	{{end}} }
 	//`
-	genTemp = `
+	GenTemp = `
 	package {{.PkgName}}
 	
 	import (

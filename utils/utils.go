@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"ginPlus/annotation"
 	"reflect"
 	"strings"
 )
@@ -12,7 +11,7 @@ import (
 
 //方法1
 //校验注解内容是否包含： @GET @POST @HEAD @DELETE --- 等开头，然后表示可接收的类型
-func containsHttpMethod(annoDoc string) (httpMethond string, isHas bool) {
+func ContainsHttpMethod(annoDoc string) (httpMethond string, isHas bool) {
 	if strings.Contains(annoDoc, "GET") {
 		return "GET", true
 	}
@@ -39,7 +38,7 @@ func containsHttpMethod(annoDoc string) (httpMethond string, isHas bool) {
 
 //方法2
 //校验是否存在类似/hello 内容的路由
-func containsHttpRouter(annoDoc string) (router string, contains bool) {
+func ContainsHttpRouter(annoDoc string) (router string, contains bool) {
 	if strings.Contains(annoDoc, "/") {
 		//如果包含'/' 取出'/'后面的内容
 		indexStart := strings.Index(annoDoc, "/")
@@ -51,7 +50,7 @@ func containsHttpRouter(annoDoc string) (router string, contains bool) {
 //方法3
 //校验是否存在[]的内容，里面是装的参数  由于可以通过反射获取到参数的类型，
 //但是无法获得传递的参数名称 比如 name string 获的不了name，所以需要使用类似[!name string, !password string, !age int]这样的方式，然后可以对于参数是否必传做校验
-func containsBraces(annoDoc string) (parms string, contains bool) {
+func ContainsBraces(annoDoc string) (parms string, contains bool) {
 	if strings.Contains(annoDoc, "[") {
 		indexStart := strings.Index(annoDoc, "[")
 		if strings.Contains(annoDoc, "]") {
@@ -62,10 +61,9 @@ func containsBraces(annoDoc string) (parms string, contains bool) {
 	return "", false
 }
 
-
 //解析[!name string, !password string, !age int] 组装到annotation.Parm 结构体数组
-func splitParms(parmsDoc string) (parms []annotation.Parm) {
-	var parmList []annotation.Parm
+func SplitParms(parmsDoc string) (parms []Parm) {
+	var parmList []Parm
 	split := strings.Split(parmsDoc, ",")
 	//遍历数组，组装参数然后返回
 	for _, s := range split {
@@ -80,7 +78,7 @@ func splitParms(parmsDoc string) (parms []annotation.Parm) {
 		parmName := s[1:end]
 		parmTypeStr := s[end:] //todo 这里其中是不需要获取到type的，因为在后面传递参数的时候，有办法反射获取，但是这里保留的话在考虑这样提前保留，然后后面无需运行时获取会快一些
 
-		parmList = append(parmList, annotation.Parm{
+		parmList = append(parmList, Parm{
 			ParmName: parmName,
 			IsMust:   must,
 			ParmType: reflect.TypeOf(parmTypeStr),

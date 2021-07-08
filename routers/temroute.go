@@ -5,16 +5,17 @@ import (
 
 	"ginPlus/annotation"
 	"ginPlus/bind"
+	"ginPlus/utils"
 )
 
 func init() {
 	b := new(bind.ReqTest)
-	annotation.SetVersion(1625627016)
-	annotation.AddGenOne("Hello.Hi", annotation.GenComment{
+	utils.SetVersion(1625627016)
+	annotation.AddGenOne("Hello.Hi", utils.GenComment{
 		RouterPath: "hello.hi",
 		Note:       "",
 		Methods:    []string{"ANY"},
-		Parms: []*annotation.Parm{
+		Parms: []*utils.Parm{
 
 			{
 				ParmName: "name",
@@ -54,7 +55,7 @@ func init() {
 				IsMust: false,
 			},
 		},
-		Result: []*annotation.Parm{
+		Result: []*utils.Parm{
 			{
 				ParmName: "name",
 				ParmKind: reflect.String,
