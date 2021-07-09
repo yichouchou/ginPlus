@@ -61,6 +61,27 @@ func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi
 	return 10, nil
 }
 
+// Hello Annotated route (bese on beego way)
+// [!reqList []bind.ReqTest] [commentHi3 int,errHi3 error]
+// @POST /block4
+func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
+	fmt.Println("这是post请求接受结构体数组")
+
+	for i := range reqList {
+		fmt.Println(reqList[i])
+	}
+	return 4, nil
+}
+
+// Hello Annotated route (bese on beego way)
+// [!reqList []bind.ReqTest] [commentHi3 int,errHi3 error]
+// @GET /block5
+func (s *Hello) Hi5(req *bind.ReqTest) (index int, errHi5 error) {
+	fmt.Println(req)
+	fmt.Println("这是get请求接受结构体指针")
+	return 5, nil
+}
+
 //
 //func init() {
 //	annotation.SetVersion(1625327764)

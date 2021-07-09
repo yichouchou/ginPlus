@@ -265,15 +265,6 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	if f.Doc != nil {
 		for _, c := range f.Doc.List {
 			gc := &utils.GenComment{}
-			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
-			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
-			//todo 传入的注释并非路由相关，这里else 有些问题
-			httpMethod, has := utils.ContainsHttpMethod(t)
-			if has {
-				gc.Methods = []string{httpMethod}
-			} else {
-				gc.Methods = []string{"ANY"}
-			}
 
 			// 判断是否以大驼峰命名风格，为GenComment的RouterPath赋值
 			if b.isBigCamel { // big camel style.大驼峰
@@ -281,6 +272,20 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 			} else {
 				gc.RouterPath = mybigcamel.UnMarshal(objName) + "." + mybigcamel.UnMarshal(objFunc)
 			}
+
+			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
+			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
+			//todo 传入的注释并非路由相关，这里else 有些问题
+			httpMethod, has := utils.ContainsHttpMethod(t)
+			if has {
+				gc.Methods = []string{httpMethod}
+				ignore = true
+				gcs = append(gcs, gc)
+
+			}
+			//else {
+			//	gc.Methods = []string{"ANY"}
+			//}
 
 			//
 			//if  {
@@ -804,26 +809,27 @@ func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.
 // HandlerFunc Get and filter the parameters to be bound (object call type) todo 核心开发板块
 func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, v utils.GenRouterInfo) gin.HandlerFunc { // 获取并过滤要绑定的参数(obj 对象类型)
 	//使用下面这种方式可以第一次加载的时候就参数都对齐，而不是每次请求都加载一遍。
-	parmType := v.GenComment.Parms[3].ParmType  //值
-	parmType4 := v.GenComment.Parms[4].ParmType //指针
 
-	value4 := reflect.New(parmType4.Elem()) //传指针
+	//parmType := v.GenComment.Parms[3].ParmType  //值
+	//parmType4 := v.GenComment.Parms[4].ParmType //指针
+	//
+	//value4 := reflect.New(parmType4.Elem()) //传指针
+	//
+	//vValue := reflect.New(parmType) //传值
 
-	vValue := reflect.New(parmType) //传值
+	//results := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), vValue.Elem(), value4})
 
-	results := tvl.Call([]reflect.Value{obj, reflect.ValueOf("name"), reflect.ValueOf("password"), reflect.ValueOf(10), vValue.Elem(), value4})
+	//for i := range results {
+	//	fmt.Println(reflect.ValueOf(results[i]))
+	//}
 
-	for i := range results {
-		fmt.Println(reflect.ValueOf(results[i]))
-	}
-
-	typ := tvl.Type()
-	//输出参数数量
-	fmt.Println(typ.NumIn())
-	for i := 0; i < typ.NumIn(); i++ {
-		//逐个输出参数类型-- 第一个方法调用者结构体
-		fmt.Println(typ.In(i))
-	}
+	//typ := tvl.Type()
+	////输出参数数量
+	//fmt.Println(typ.NumIn())
+	//for i := 0; i < typ.NumIn(); i++ {
+	//	//逐个输出参数类型-- 第一个方法调用者结构体
+	//	fmt.Println(typ.In(i))
+	//}
 
 	//parms := _genInfo.List[0].GenComment.Parms  //这种方式在dev环境是可以的，但是通过路由文件注册的时候，是没办法获取到对应的reflect.Type的
 	//for i := range parms {
@@ -844,17 +850,17 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 	//	//fmt.Println(parms[i].ParmType.In())
 	//}
 
-	var ctxname = typ.In(4)
+	//var ctxname = typ.In(4)
 	//s := reflect.ValueOf(name).Elem()
 	//s.FieldByName("Access_token").Set(reflect.ValueOf("aqweqwe"))
 	//s.FieldByName("UserName").Set(reflect.ValueOf("zhangsan"))
 	//s.FieldByName("Password").Set(reflect.ValueOf("qwerty"))
 	//s.FieldByName("Age").Set(reflect.ValueOf(10))
-
-	marshal, errr := json.Marshal(ctxname)
-	if errr == nil {
-		fmt.Printf("%s\n", marshal)
-	}
+	//
+	//marshal, errr := json.Marshal(ctxname)
+	//if errr == nil {
+	//	fmt.Printf("%s\n", marshal)
+	//}
 
 	//for i := 0; i < v.NumField(); i++ {
 	//
@@ -909,9 +915,9 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 	//p := v2.(parmType)
 
 	//typqwe := tvl.Type()
-	var reqTmp = typ.In(5) //参数是指针类型类型
+	//var reqTmp = typ.In(5) //参数是指针类型类型
 	//reqTmp.FieldByName("Access_token")
-	value := reflect.New(reqTmp.Elem())
+	//value := reflect.New(reqTmp.Elem())
 	//todo 如果是传值的话，是先new出来，然后再.Elem获取到值，然后传到call参数，类似下面代码
 
 	//var reqTmp = typ.In(4) //参数是 值类型
@@ -950,27 +956,94 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		//value := reflect.ValueOf(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypeX).Elem().Interface()
 		//i := value.(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypetype)
 
-		name := c.Query("name")
-		password := c.Query("password")
-		age := c.GetInt("age")
-		err := c.BindJSON(value.Interface())
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println(value.Interface())
+		//todo 简单的处理下参数绑定吧，复杂的需要另外弄
+		for _, method := range v.GenComment.Methods {
+			switch method {
+			//todo 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
+			case "POST":
+				//todo 数组是值传递，切记  应当和指针传递区分开来
+				//如果只有一个参数，那么直接默认为json body,而且是传指针的话  --数组貌似也应该是值传递
+				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr || v.GenComment.Parms[0].ParmKind == reflect.Slice {
+					//var arr []bind.ReqTest
+					//err3 := c.ShouldBind(&arr)
+					//if err3!=nil {
+					//	fmt.Println(err3)
+					//}
+					//fmt.Println(arr)
+
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					err := c.ShouldBind(value.Interface())
+					if err != nil {
+						c.JSON(500, "传值错误")
+					}
+					//只有一个参数的话，把调用者obj和参数都传进去
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					//判断第二个参数是否为nil，为nil的话说明正常，否则服务端报错
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				}
+
+			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体估计不行
+			case "GET":
+				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr {
+					value := reflect.New(v.GenComment.Parms[0].ParmType.Elem())
+					err := c.ShouldBind(value.Interface())
+					if err != nil {
+						fmt.Println(err)
+						c.JSON(500, err)
+					}
+					values := tvl.Call([]reflect.Value{obj, value})
+					//判断第二个参数是否为nil，为nil的话说明正常，否则服务端报错
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				}
+
+			case "DELETE":
+
+			case "PATCH":
+
+			case "PUT":
+
+			case "OPTIONS":
+
+			case "HEAD":
+
+			case "ANY":
+
+			default:
+				panic("匹配不到路由方法")
+			}
 		}
 
-		typ := tvl.Type()
-		var reqTmp = typ.In(4)
-		data, err := json.Marshal(reqTmp)
-		if err == nil {
-			fmt.Printf("%s\n", data)
-		}
-		values := tvl.Call([]reflect.Value{obj, reflect.ValueOf(name), reflect.ValueOf(password), reflect.ValueOf(age), reflect.ValueOf(reqTmp)})
-		for _, value := range values {
-			fmt.Println(reflect.ValueOf(value))
-			c.JSON(200, reflect.ValueOf(value))
-		}
+		//name := c.Query("name")
+		//password := c.Query("password")
+		//age := c.GetInt("age")
+		//err := c.BindJSON(value.Interface())
+		//if err != nil {
+		//	fmt.Println(err)
+		//} else {
+		//	fmt.Println(value.Interface())
+		//}
+		//
+		//typ := tvl.Type()
+		//var reqTmp = typ.In(4)
+		//data, err := json.Marshal(reqTmp)
+		//if err == nil {
+		//	fmt.Printf("%s\n", data)
+		//}
+		//values := tvl.Call([]reflect.Value{obj, reflect.ValueOf(name), reflect.ValueOf(password), reflect.ValueOf(age), reflect.ValueOf(reqTmp)})
+		//for _, value := range values {
+		//	fmt.Println(reflect.ValueOf(value))
+		//	c.JSON(200, reflect.ValueOf(value))
+		//}
 	}
 
 	return nil

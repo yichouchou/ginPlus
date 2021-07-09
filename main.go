@@ -2,14 +2,14 @@ package main
 
 import (
 	"ginPlus/annotation"
-	_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
+	//_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	engine := gin.Default() //todo 考虑兼容 iris的注解路由
 	base := annotation.New()
-	base.Dev(false)
+	//base.Dev(false)
 	base.Register(engine, new(Hello))
 	engine.Run(":8088")
 }
@@ -20,4 +20,12 @@ func main() {
 
 //todo 在register的时候，registerHandlerObjTemp 在里面的方法中进行参数绑定和controller方法的生成，其中根据 genInfo 信息内的参数，获取string / josn /object对象等等 然后在返回参数也渲染上
 
-//todo 支持【】传参  比如 []Hello{}
+//todo 支持【】传参  比如 []Hello{} 可以支持
+
+//todo 在生成的路由注册文件中，import 额外的内容是会报错的，1。可能 go fmt 未生效 2。go fmt 也无法除去，需要在生成前控制
+
+//todo 生成前控制的话会很麻烦了，需要便利参数，import内容的 key是否在参数中contains，然后没有的话，再检查value是否有/,有的话找到最后的/的内容，去检查是否contains
+
+//todo 如果 没有/ 那么检查"" 内的内容是否contains，没有的话就移除
+
+//todo 随着功能的拓展，导入的内容可能会越来越多，需要尽可能的限制（目前先ide格式化一下）

@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+//todo 目前这里的util太杂乱，需要拆分解耦
+
 //todo 一个完整的注释至少包括这样的内容
 // [!name string, !password string, !age int]
 // @GET /block
@@ -99,9 +101,11 @@ func Kind2String(kind reflect.Kind) (kinStr string) {
 	case reflect.Struct:
 		return "reflect.Struct"
 	case reflect.Array:
-		return "reflect.Slice"
-	default:
 		return "reflect.Array"
+	case reflect.Interface:
+		return "reflect.Interface"
+	default:
+		return "reflect.Slice"
 	}
 }
 
