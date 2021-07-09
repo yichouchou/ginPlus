@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"ginPlus/annotation"
+	"ginPlus/bind"
+
 	//_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 	"github.com/gin-gonic/gin"
 )
@@ -29,3 +32,29 @@ func main() {
 //todo 如果 没有/ 那么检查"" 内的内容是否contains，没有的话就移除
 
 //todo 随着功能的拓展，导入的内容可能会越来越多，需要尽可能的限制（目前先ide格式化一下）
+
+func main2() {
+	engine := gin.Default() //todo 考虑兼容 iris的注解路由
+	engine.POST("hello.hi4", func(ctx *gin.Context) {
+		var temp []bind.ReqTest
+		ctx.ShouldBind(&temp)
+		fmt.Println("这是post请求接受结构体数组")
+
+		for i := range temp {
+			fmt.Println(temp[i])
+		}
+		ctx.JSON(200, 4)
+	})
+	engine.GET("hello.hi5", func(ctx *gin.Context) {
+		var temp bind.ReqTest
+		ctx.ShouldBind(&temp)
+		fmt.Println("这是post请求接受结构体数组")
+
+		ctx.JSON(200, 5)
+	})
+	engine.POST("hello.hi5")
+	//base := annotation.New()
+	//base.Dev(false)
+	//base.Register(engine, new(Hello))
+	engine.Run(":8088")
+}

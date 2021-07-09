@@ -1,11 +1,9 @@
 package routers
 
 import (
-	"reflect"
+	fmt "fmt"
 
-	"ginPlus/annotation"
 	_ "ginPlus/bind"
-	"ginPlus/utils"
 
 	bind "ginPlus/bind"
 
@@ -13,7 +11,7 @@ import (
 )
 
 func init() {
-	annotation.SetVersion(1625824510)
+	annotation.SetVersion(1625840360)
 
 	abc3 := new(bind.ReqTest)
 
