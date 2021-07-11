@@ -1,21 +1,25 @@
 package routers
 
 import (
-	fmt "fmt"
-
-	_ "ginPlus/bind"
+	"ginPlus/annotation"
+	"ginPlus/utils"
+	"reflect"
 
 	bind "ginPlus/bind"
 
 	gin "github.com/gin-gonic/gin"
+
+	_ "ginPlus/bind"
 )
 
 func init() {
-	annotation.SetVersion(1625840360)
+	annotation.SetVersion(1625980544)
 
 	abc3 := new(bind.ReqTest)
 
 	abc1 := new(bind.ReqTest)
+
+	abc0 := new([]bind.ReqTest)
 
 	cba0 := new(bind.ReqTest)
 
@@ -180,7 +184,7 @@ func init() {
 
 			{
 				ParmName: "reqList",
-				ParmType: reflect.TypeOf(new([]bind.ReqTest)),
+				ParmType: reflect.TypeOf(*abc0),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},

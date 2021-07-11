@@ -483,10 +483,12 @@ var (
 	package {{.PkgName}}
 	
 	import (
+	"ginPlus/annotation"
+	"ginPlus/utils"
+	"reflect"
 {{range $i, $v := .PkgImportStrs}}
 	{{ $v}}
 {{end}}
-
 	)
 	
 	func init() {

@@ -478,7 +478,7 @@ func genCode(outDir, modFile string) bool {
 			parm.ParmKindStr = utils.Kind2String(parm.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
 			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
-			if parm.ParmKind == reflect.Struct {
+			if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Slice {
 				parm.NewValueStr = "abc" + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
 				parm.StrInTypeOf = "*abc" + strconv.Itoa(index)
 			} else {
@@ -492,7 +492,7 @@ func genCode(outDir, modFile string) bool {
 			result.ParmKindStr = utils.Kind2String(result.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
 			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
-			if result.ParmKind == reflect.Struct {
+			if result.ParmKind == reflect.Struct || result.ParmKind == reflect.Array {
 				result.NewResultStr = "cba" + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
 				result.StrInTypeOf = "*cba" + strconv.Itoa(index)
 			} else {
