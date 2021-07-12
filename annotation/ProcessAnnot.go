@@ -157,12 +157,14 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			imports := myast.AnalysisImport(astPkgs)
 			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除
 			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
+			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b
 			_genInfo.PkgImportList = imports
 			funMp := myast.GetObjFunMp(astPkgs, objName)
 			// ast.Print(token.NewFileSet(), astPkgs)
 			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
+			fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
 			// Install the methods
 			for m := 0; m < refTyp.NumMethod(); m++ {
 				method := refTyp.Method(m)
@@ -238,7 +240,7 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
 	var note string
 	var gcs []*utils.GenComment
-	req := analysisParm(f.Type.Params, imports, objPkg, 1)
+	req := analysisParm(f.Type.Params, imports, objPkg, 0)
 	resp := analysisParm(f.Type.Results, imports, objPkg, 0)
 	ignore := false
 
@@ -466,7 +468,7 @@ func genCode(outDir, modFile string) bool {
 		GenInfo: _genInfo,
 		PkgName: pkgName,
 	}
-	//拼接 template需要import的包，键值对直接拼接为完成字符串 类似：annotation "ginPlus/annotation" todo
+	//拼接 template需要import的包，键值对直接拼接为完成字符串 类似：annotation "ginPlus/annotation" todo 由于rest所在的文件内存在很多冗余import内容，需要除去，否则go build 会报错
 	for s := range data.PkgImportList {
 		s3 := data.PkgImportList[s]
 		data.PkgImportStrs = append(data.PkgImportStrs, s+" "+"\""+s3+"\"")
@@ -479,8 +481,9 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
 			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
 			if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Slice {
-				parm.NewValueStr = "abc" + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
-				parm.StrInTypeOf = "*abc" + strconv.Itoa(index)
+				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数
+				parm.NewValueStr = "abc" + parm.ParmName + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
+				parm.StrInTypeOf = "*abc" + parm.ParmName + strconv.Itoa(index)
 			} else {
 				parm.NewValueStr = ""
 				parm.StrInTypeOf = "new" + "(" + strings.TrimPrefix(parm.ParmType.String(), "*") + ")"
@@ -493,8 +496,8 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
 			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
 			if result.ParmKind == reflect.Struct || result.ParmKind == reflect.Array {
-				result.NewResultStr = "cba" + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
-				result.StrInTypeOf = "*cba" + strconv.Itoa(index)
+				result.NewResultStr = "cba" + result.ParmName + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
+				result.StrInTypeOf = "*cba" + result.ParmName + strconv.Itoa(index)
 			} else {
 				result.NewValueStr = ""
 				result.StrInTypeOf = "new" + "(" + strings.TrimPrefix(result.ParmType.String(), "*") + ")"

@@ -1,27 +1,34 @@
 package routers
 
 import (
+	"reflect"
+
 	"ginPlus/annotation"
 	"ginPlus/utils"
-	"reflect"
 
 	bind "ginPlus/bind"
 
-	gin "github.com/gin-gonic/gin"
+	examples "ginPlus/examples"
 
-	_ "ginPlus/bind"
+	gin "github.com/gin-gonic/gin"
 )
 
 func init() {
-	annotation.SetVersion(1625980544)
+	annotation.SetVersion(1626058797)
 
-	abc3 := new(bind.ReqTest)
+	abchiValue3 := new(bind.ReqTest)
 
-	abc1 := new(bind.ReqTest)
+	abchiValue1 := new(bind.ReqTest)
 
-	abc0 := new([]bind.ReqTest)
+	abcreqList0 := new([]bind.ReqTest)
 
-	cba0 := new(bind.ReqTest)
+	abcstr10 := new(examples.DemoRest)
+
+	abcstr21 := new(examples.DemoRest)
+
+	abcstr32 := new(examples.DemoRest)
+
+	cbacommentHi20 := new(bind.ReqTest)
 
 	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
 		RouterPath: "hello.hi1",
@@ -52,7 +59,7 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abc3),
+				ParmType: reflect.TypeOf(*abchiValue3),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -96,7 +103,7 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abc1),
+				ParmType: reflect.TypeOf(*abchiValue1),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -112,7 +119,7 @@ func init() {
 
 			{
 				ParmName: "commentHi2",
-				ParmType: reflect.TypeOf(*cba0),
+				ParmType: reflect.TypeOf(*cbacommentHi20),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -184,7 +191,7 @@ func init() {
 
 			{
 				ParmName: "reqList",
-				ParmType: reflect.TypeOf(*abc0),
+				ParmType: reflect.TypeOf(*abcreqList0),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -233,6 +240,80 @@ func init() {
 				ParmType: reflect.TypeOf(new(error)),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
+			},
+		},
+	})
+	annotation.AddGenOne("Example.Say1", utils.GenComment{
+		RouterPath: "example.say1",
+		Note:       "",
+		Methods:    []string{"GET"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "str1",
+				ParmType: reflect.TypeOf(*abcstr10),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+
+			{
+				ParmName: "str2",
+				ParmType: reflect.TypeOf(*abcstr21),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+
+			{
+				ParmName: "str3",
+				ParmType: reflect.TypeOf(*abcstr32),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "str4",
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+				ParmKind: reflect.String,
+			},
+		},
+	})
+	annotation.AddGenOne("Example.Say2", utils.GenComment{
+		RouterPath: "example.say2",
+		Note:       "",
+		Methods:    []string{"GET"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "str1",
+				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				IsMust:   false,
+				ParmKind: reflect.Ptr,
+			},
+
+			{
+				ParmName: "str2",
+				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				IsMust:   false,
+				ParmKind: reflect.Ptr,
+			},
+
+			{
+				ParmName: "str3",
+				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				IsMust:   false,
+				ParmKind: reflect.Ptr,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "str4",
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+				ParmKind: reflect.String,
 			},
 		},
 	})

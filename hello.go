@@ -3,8 +3,8 @@ package main
 import (
 	fmt "fmt"
 
-	_ "ginPlus/bind"
 	bind "ginPlus/bind"
+	"ginPlus/examples"
 	"github.com/gin-gonic/gin"
 )
 
@@ -100,3 +100,23 @@ func (s *Hello) Hi5(req *bind.ReqTest) (index int, errHi5 error) {
 ////大致的类型： _= map[string]map[string]string{}   post:
 //
 ////然后在请求进入的时候，根据这个map 获取到相关的参数，
+
+// Example ...
+type Example struct {
+}
+
+// Hello Annotated route (bese on beego way)
+// [str1, str2, str3 examples.DemoRest] [commentHi1 string,errHi1 error]
+// @GET /Say1
+func (example *Example) Say1(str1, str2, str3 examples.DemoRest) (str4 string) {
+	fmt.Println(str1, str2, str3)
+	return "这个是example say1方法rest"
+}
+
+// Hello Annotated route (bese on beego way)
+// [str1, str2, str3 *examples.DemoRest] [commentHi1 string,errHi1 error]
+// @GET /Say2
+func (example *Example) Say2(str1, str2, str3 *examples.DemoRest) (str4 string) {
+	fmt.Println(&str1, &str2, &str3)
+	return "这个是example say2方法rest"
+}
