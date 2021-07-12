@@ -7,7 +7,7 @@ import (
 
 //todo 目前这里的util太杂乱，需要拆分解耦
 
-//todo 一个完整的注释至少包括这样的内容
+//todo 一个完整的注释至少包括这样的内容，如果没有，则自动绑定书写的类型 issues#7
 // [!name string, !password string, !age int]
 // @GET /block
 

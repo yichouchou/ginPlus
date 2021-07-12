@@ -1,20 +1,17 @@
 package routers
 
 import (
-	"reflect"
-
 	"ginPlus/annotation"
+	"ginPlus/bind"
+	"ginPlus/examples"
 	"ginPlus/utils"
+	"github.com/gin-gonic/gin"
 
-	bind "ginPlus/bind"
-
-	examples "ginPlus/examples"
-
-	gin "github.com/gin-gonic/gin"
+	"reflect"
 )
 
 func init() {
-	annotation.SetVersion(1626058797)
+	annotation.SetVersion(1626072441)
 
 	abchiValue3 := new(bind.ReqTest)
 
@@ -314,6 +311,66 @@ func init() {
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
 				ParmKind: reflect.String,
+			},
+		},
+	})
+	annotation.AddGenOne("UserRest.LogOutUser", utils.GenComment{
+		RouterPath: "user_rest.log_out_user",
+		Note:       "",
+		Methods:    []string{"GET"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "name",
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+				ParmKind: reflect.String,
+			},
+
+			{
+				ParmName: "age",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "success",
+				ParmType: reflect.TypeOf(new(bool)),
+				IsMust:   false,
+				ParmKind: reflect.Slice,
+			},
+		},
+	})
+	annotation.AddGenOne("UserRest.RegistUser", utils.GenComment{
+		RouterPath: "user_rest.regist_user",
+		Note:       "",
+		Methods:    []string{"POST"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "name",
+				ParmType: reflect.TypeOf(new(string)),
+				IsMust:   false,
+				ParmKind: reflect.String,
+			},
+
+			{
+				ParmName: "age",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "success",
+				ParmType: reflect.TypeOf(new(bool)),
+				IsMust:   false,
+				ParmKind: reflect.Slice,
 			},
 		},
 	})

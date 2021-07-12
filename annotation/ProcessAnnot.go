@@ -39,7 +39,7 @@ type BaseGin struct {
 	apiFun           utils.NewAPIFunc
 	apiType          reflect.Type
 	outPath          string         // output path.输出目录
-	beforeAfter      GinBeforeAfter // todo ..
+	beforeAfter      GinBeforeAfter // todo ..调用的前置方法拓展用，比如没有注视 请求方式，根据参数个数/类型自动推导
 	isOutDoc         bool
 	recoverErrorFunc utils.RecoverErrorFunc
 }
@@ -55,7 +55,7 @@ func (f optionFunc) apply(o *BaseGin) {
 	f(o)
 }
 
-// Model use custom context //使用经典的context 应该是指gin.context 在rest路由中传入这个 todo 其实我用不到应该
+// Model use custom context //使用经典的context 应该是指gin.context 在rest路由中传入这个  其实我用不到应该
 func (b *BaseGin) Model(middleware utils.NewAPIFunc) *BaseGin {
 	if middleware == nil { // default middleware
 		middleware = NewApiFunc
@@ -108,7 +108,7 @@ func New(opts ...Option) *BaseGin {
 	return b
 }
 
-var serviceMapMu sync.Mutex // protects the serviceMap //保护serviceMap？为了线程安全？ todo
+var serviceMapMu sync.Mutex // protects the serviceMap //保护serviceMap？为了线程安全？
 
 var consolePrint sync.Once //目前来看作用是一次性输出到控制台 把rest和func名称
 
@@ -172,7 +172,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 				if _b {
 					if sdl, ok := funMp[method.Name]; ok {
 						gcs, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type)
-						if b.isOutDoc { // output doc  如果是OutDoc，则... todo 了解这里parse结构体的意义
+						if b.isOutDoc { // output doc  如果是OutDoc，则...  了解这里parse结构体的意义
 							docReq, docResp := b.parserStruct(req, resp, astPkgs, modPkg, modFile)
 							for _, gc := range gcs {
 								doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
@@ -192,7 +192,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		doc.GenSwagger(modFile + "/docs/swagger/")
 		doc.GenMarkdown(modFile + "/docs/markdown/")
 	}
-	genOutPut(b.outPath, modFile) // generate code   todo为了测试方便，暂时不生成 init文件
+	genOutPut(b.outPath, modFile) // generate code   为了测试方便，暂时不生成 init文件
 	return true
 }
 
@@ -236,7 +236,7 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 	return num, true
 }
 
-// 解析内容，目前看来主要是为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容  todo imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
+// 解析内容，目前看来主要是为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
 func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
 	var note string
 	var gcs []*utils.GenComment
@@ -250,10 +250,10 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	/*
 		if f.Type != nil {
 			for _, field := range f.Type.Params.List {
-				fmt.Println(field.Names, field.Type, "----入参参数类型") // todo 当传指针的时候，里面是这样 &{972 0xc0003165b8} 一串 且不方便转，
-				// todo  可能需要依赖注释来generater -- 或者通过反射来吧，ast语法树并不能很好的处理各种类型，那么对应的parm的name交给语法树（因为只有语法树拿得到，type交给反射）
-				// todo 为什么是field.Names name是个数组呢，因为存在很恶心的情况，比如 name, password string 它会把name放到一起去，
-				// todo Params.List根据类型来划分的，每个类型对应有个names数组，里面存放真正的参数名称，也就是说参数数量根据names里面的len来的
+				fmt.Println(field.Names, field.Type, "----入参参数类型") //  当传指针的时候，里面是这样 &{972 0xc0003165b8} 一串 且不方便转，
+				//   可能需要依赖注释来generater -- 或者通过反射来吧，ast语法树并不能很好的处理各种类型，那么对应的parm的name交给语法树（因为只有语法树拿得到，type交给反射）
+				//  为什么是field.Names name是个数组呢，因为存在很恶心的情况，比如 name, password string 它会把name放到一起去，
+				//  Params.List根据类型来划分的，每个类型对应有个names数组，里面存放真正的参数名称，也就是说参数数量根据names里面的len来的
 				//fmt.Println(field)
 				//fmt.Println(i,field.Type,field.Tag,field.Doc,field.Comment,field.Names)
 			}
@@ -277,7 +277,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
 			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
-			//todo 传入的注释并非路由相关，这里else 有些问题
+			// 传入的注释并非路由相关，这里else 有些问题
 			httpMethod, has := utils.ContainsHttpMethod(t)
 			if has {
 				gc.Methods = []string{httpMethod}
@@ -338,7 +338,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 		gcs[i].Note = note
 	}
 
-	//todo 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
+	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
 	for i := 0; i < len(gcs); i++ {
 		if f.Type != nil {
 			for _, field := range f.Type.Params.List {
@@ -362,20 +362,20 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	}
 
 	//在这里为gcs里面的GenComment的入参与出参的type 赋值
-	//todo 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
+	// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
 	for _, gc := range gcs {
-		//todo 从1开始，因为调用者也会在其中的第1个位置
+		// 从1开始，因为调用者也会在其中的第1个位置
 		for i := 1; i < t.NumIn(); i++ {
 			fmt.Println(t.In(i), "--入参")
-			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+			// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
 			gc.Parms[i-1].ParmType = t.In(i)
 			gc.Parms[i-1].ParmKind = t.In(i).Kind()
 		}
 
-		//todo 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
+		// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
 		for i := 0; i < t.NumOut(); i++ {
 			fmt.Println(t.Out(i), "--出参")
-			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
 			gc.Result[i].ParmType = t.Out(i)
 			gc.Result[i].ParmKind = t.Out(i).Kind()
 		}
@@ -408,7 +408,7 @@ func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, m
 	return
 }
 
-//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出到控制台
+//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出文档？
 func checkOnceAdd(handFunName string, gc utils.GenComment) {
 	consolePrint.Do(func() {
 		serviceMapMu.Lock()
@@ -420,7 +420,7 @@ func checkOnceAdd(handFunName string, gc utils.GenComment) {
 	AddGenOne(handFunName, gc)
 }
 
-// AddGenOne add one to base case 添加一个路由规则到规则列表 todo
+// AddGenOne add one to base case 添加一个路由规则到规则列表
 func AddGenOne(handFunName string, gc utils.GenComment) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
@@ -430,7 +430,7 @@ func AddGenOne(handFunName string, gc utils.GenComment) {
 	})
 }
 
-//todo 生成控制台路由信息？
+// 生成路由文件
 func genOutPut(outDir, modFile string) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
@@ -451,15 +451,15 @@ func genOutPut(outDir, modFile string) {
 	f.Write(_data)
 }
 
-// todo 生成路由信息文件
+//  生成路由信息文件
 func genCode(outDir, modFile string) bool {
 	_genInfo.Tm = time.Now().Unix()
 	if len(outDir) == 0 {
 		outDir = modFile + "/routers/"
 	}
 	pkgName := getPkgName(outDir)
-	//todo 这个时候的data里面的 PkgImportList 是键值对形式，非常恶心，思考下来 最好的方式就是原封不动，然后原封不动导入回去 由于键值对不好
-	// todo 目前里面存在冗余import内容
+	// 这个时候的data里面的 PkgImportList 是键值对形式，非常恶心，思考下来 最好的方式就是原封不动，然后原封不动导入回去 由于键值对不好
+	// todo 目前里面存在冗余import内容,把现在的 key value颠倒使用最佳 ginplus/reqtest reqtest 然后自动去重了
 	//在template中使用，直接拼接字符串更好，然后放list
 	data := struct {
 		utils.GenInfo
@@ -566,7 +566,7 @@ func GetStringList(list []string) string {
 	return `"` + strings.Join(list, `","`) + `"`
 }
 
-//格式化参数的方法 todo 目测是服务于注释
+//格式化参数的方法  目测是服务于注释
 func (b *BaseGin) getDefaultComments(objName, objFunc string, num int) (routerPath string, methods []string) {
 	methods = []string{"ANY"}
 	if num == 2 { // parm 2 , post default
@@ -659,7 +659,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 			num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 			if _b {
 				if v, ok := mp[objName+"."+method.Name]; ok {
-					for _, v1 := range v { //todo 第一格是方法的 refTyp.Method(m) 第二个传入结构体的 reflect.ValueOf(c)
+					for _, v1 := range v { // 第一格是方法的 refTyp.Method(m) 第二个传入结构体的 reflect.ValueOf(c)
 						b.registerHandlerObjTemp(router, v1.GenComment.Methods, v1.GenComment.RouterPath, method.Name, method.Func, refVal, v1)
 					}
 				} else { // not find using default case
@@ -690,7 +690,7 @@ func getInfo() map[string][]utils.GenRouterInfo {
 	return mp
 }
 
-// registerHandlerObj Multiple registration methods.获取并过滤要绑定的参数 todo 主要开发内容
+// registerHandlerObj Multiple registration methods.获取并过滤要绑定的参数  主要开发内容
 func (b *BaseGin) registerHandlerObj(router gin.IRoutes, httpMethod []string, relativePath, methodName string, tvl, obj reflect.Value) error {
 	call := b.handlerFuncObj(tvl, obj, methodName)
 
@@ -728,7 +728,7 @@ func (b *BaseGin) registerHandlerObj(router gin.IRoutes, httpMethod []string, re
 	return nil
 }
 
-// registerHandlerObj Multiple registration methods.获取并过滤要绑定的参数 todo 主要开发内容
+// registerHandlerObj Multiple registration methods.获取并过滤要绑定的参数  主要开发内容
 func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, httpMethod []string, relativePath, methodName string, tvl, obj reflect.Value, v utils.GenRouterInfo) error {
 	call := b.handlerFuncObjTemp(tvl, obj, methodName, v)
 
@@ -766,7 +766,7 @@ func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, httpMethod []string
 	return nil
 }
 
-// HandlerFunc Get and filter the parameters to be bound (object call type) todo 核心开发板块
+// HandlerFunc Get and filter the parameters to be bound (object call type)  核心开发板块
 func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.HandlerFunc { // 获取并过滤要绑定的参数(obj 对象类型)
 	//tvl是方法的反射对象
 	typ := tvl.Type()
@@ -774,7 +774,7 @@ func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.
 	for i := 0; i < typ.NumIn(); i++ {
 		fmt.Println(typ.In(i))
 	}
-	//判断该方法参数数量-todo 如果是两个，则绑定上gin.context 和自定义结构体
+	//判断该方法参数数量- 如果是两个，则绑定上gin.context 和自定义结构体
 	if typ.NumIn() == 2 { // Parameter checking 参数检查
 		ctxType := typ.In(1)
 
@@ -800,7 +800,7 @@ func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.
 	//
 	//}
 
-	// Custom context type with request parameters .自定义的context类型,带request 请求参数  todo 当匹配不上上面的时候，执行此处call
+	// Custom context type with request parameters .自定义的context类型,带request 请求参数   当匹配不上上面的时候，执行此处call
 	call, err := b.getCallObj3(tvl, obj, methodName)
 	if err != nil { // Direct reporting error.
 		panic(err)
@@ -900,7 +900,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 	//}
 	//
 	//for i := 1; i < typ.NumIn(); i++ {
-	//	//逐个输出参数类型-- 第一个方法调用者结构体--所以从1开始 todo
+	//	//逐个输出参数类型-- 第一个方法调用者结构体--所以从1开始
 	//
 	//}
 	//
@@ -925,7 +925,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 
 	//var reqTmp = typ.In(4) //参数是 值类型
 	//valueWith := reflect.New(reqTmp)
-	//with:=valueWith.Elem()  然后with就可以作为参数了- - 值传递暂时作为保留内容 todo
+	//with:=valueWith.Elem()  然后with就可以作为参数了- -
 
 	//reqType.Elem()
 	//value.FieldByName("Access_token").Set(reflect.ValueOf("aaaa"))
@@ -933,7 +933,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 	//value.FieldByName("Password").Set(reflect.ValueOf("aaaa"))
 	//value.FieldByName("Age").Set(reflect.ValueOf(1))
 
-	// 下方是调用4个参数的时候的代码 第四个参数是指针，暂时注释 todo
+	// 下方是调用4个参数的时候的代码 第四个参数是指针，暂时注释
 	//data, err := json.Marshal(value.Interface())
 	//if err == nil {
 	//	fmt.Printf("%s\n", data)
@@ -962,9 +962,9 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		//todo 简单的处理下参数绑定吧，复杂的需要另外弄
 		for _, method := range v.GenComment.Methods {
 			switch method {
-			//todo 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
+			//todo 规范参数 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
 			case "POST":
-				//todo 数组是值传递，切记  应当和指针传递区分开来
+				// 数组是值传递，切记  应当和指针传递区分开来
 				//如果只有一个参数，那么直接默认为json body,而且是传指针的话  --数组貌似也应该是值传递
 				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr || v.GenComment.Parms[0].ParmKind == reflect.Slice {
 					//var arr []bind.ReqTest

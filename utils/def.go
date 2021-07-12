@@ -53,7 +53,7 @@ type Parm struct {
 	ParmName  string
 	Name      string
 	ParmType  reflect.Type //在注释阶段，已经塞进去了内容了
-	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（todo maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
+	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（ maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
 	IsMust       bool
@@ -541,50 +541,49 @@ var (
 {{end}} }
 	`
 
-	//todo 运行时绑定存在非常大的阻碍，结构体的绑定困难很大 尤其是使用一些自由的结构体的时候，无从获取需要注入的package --目前想到的方式，
-	//todo 扩大获取的ast内容，然后根据interface中是否存在. 比如bind.ReqTest ，那么就去impots的内容中寻找存在匹配的import内容，如果有，则存放它的全限定名称，比如github.com/gin-gonic/gin.context
-	//todo 如果没有import内容，则去查找到它的包名，然后存放
-	//todo 存放方式 import的 “” 或者package 的 “”  然后parm的名称 这个目前已经有了，然后它的反射type
+	// 运行时绑定存在非常大的阻碍，结构体的绑定困难很大 尤其是使用一些自由的结构体的时候，无从获取需要注入的package --目前想到的方式，
+	// 扩大获取的ast内容，然后根据interface中是否存在. 比如bind.ReqTest ，那么就去impots的内容中寻找存在匹配的import内容，如果有，则存放它的全限定名称，比如github.com/gin-gonic/gin.context
+	// 如果没有import内容，则去查找到它的包名，然后存放
+	// 存放方式 import的 “” 或者package 的 “”  然后parm的名称 这个目前已经有了，然后它的反射type
 
-	// todo 由于go反射无法动态赋值  将参数转为 结构体对象存在困难，目前想到的方式是通过 gen 生成动态代码来解决。
 	// todo  动态生产 handlerFuncObjTemp 方法代码块，或者抽取到外面，动态生成这一部分代码。
-	// todo 考虑到权限的参数绑定方式 兼容传值与传结构体， 还是需要pkg imports包
+	//  考虑到权限的参数绑定方式 兼容传值与传结构体， 还是需要pkg imports包
 
 	//在dev环境，解析出注释的内容，包括
 	//	name string, password string, age int,hi bind.ReqTest
 )
 
-/*  todo 模板生成的内容大致会参照这样子，方便拓展，可能还会引入类似于swagger的接口文档
+/*   模板生成的内容大致会参照这样子，方便拓展，可能还会引入类似于swagger的接口文档
 
 func init() {
 
-//todo 这里下方imports的内容，目前已经能够拿到
+// 这里下方imports的内容，目前已经能够拿到
 	"reflect"
 	"ginPlus/annotation"
 	"ginPlus/bind"
 	"ginPlus/utils"
 
-//todo 下方创建结构体对象 需要的要素： 1。名称 2。new()
-//todo 3.括号内的 bind.type （目前应该都可以拿到的，但是名称b类似的需要和下方传值时候使用的对应起来，可能需要使用map）
-//todo 存储格式如下： name  refletx.type  --如果遇到值传递，把所有值传递的内容都需要在下方new出来
+// 下方创建结构体对象 需要的要素： 1。名称 2。new()
+// 3.括号内的 bind.type （目前应该都可以拿到的，但是名称b类似的需要和下方传值时候使用的对应起来，可能需要使用map）
+// 存储格式如下： name  refletx.type  --如果遇到值传递，把所有值传递的内容都需要在下方new出来
 	b := new(bind.ReqTest)
 
 
-// todo 下方版本设置已经有解法
+//  下方版本设置已经有解法
 	annotation.SetVersion(1625627016)
 
-// todo  下方路由方法的注册，{{range .List}} 参考之前的，遍历，然后取
+//   下方路由方法的注册，{{range .List}} 参考之前的，遍历，然后取
 	annotation.AddGenOne("Hello.Hi", utils.GenComment{
 		RouterPath: "hello.hi",
 		Note:       "",
-// todo 请求方式多种的话可以考虑先拼接再传string过来
+//  请求方式多种的话可以考虑先拼接再传string过来
 		Methods:    []string{"ANY"},
 		Parms: []*utils.Parm{
 
 			{
 				ParmName: "name",
 				ParmKind: reflect.String,
-// todo 下方固定格式写法reflect.TypeOf(new(string))，除非遇到传值的情况
+//  下方固定格式写法reflect.TypeOf(new(string))，除非遇到传值的情况
 
 				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
@@ -608,7 +607,6 @@ func init() {
 				ParmName: "hiValue",
 				ParmKind: reflect.Struct,
 				//reflect.TypeOf(new(bind.ReqTest)).Kind(), 这里 是否可以考虑直接 reflect.Struct
-// todo 遇到下方传值的情况，非常麻烦，必须去前面的已经创建的类型对象 然后*+名称
 
 				ParmType: reflect.TypeOf(*b), //这里是传递值参数
 				//由于在启动后不论dev 还是生产，运行后都可以加载对应参数，所以这里不用ParmType字段貌似也可以!! 在生产环境，无法做到注入 都会多一个 *  todo 确定了可以不用，因为无法很好的存放
