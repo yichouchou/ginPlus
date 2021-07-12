@@ -12,7 +12,7 @@ import (
 // @GET /block
 
 //方法1
-//校验注解内容是否包含： @GET @POST @HEAD @DELETE --- 等开头，然后表示可接收的类型
+//校验注解内容是否包含： @GET @POST @HEAD @DELETE --- 等开头，然后表示可接收的类型 todo 将来可能支持多请求方式，返回的是httpmethond数组
 func ContainsHttpMethod(annoDoc string) (httpMethond string, isHas bool) {
 	if strings.Contains(annoDoc, "GET") {
 		return "GET", true
@@ -47,6 +47,30 @@ func ContainsHttpRouter(annoDoc string) (router string, contains bool) {
 		return annoDoc[indexStart:], true
 	}
 	return "", false
+}
+
+//校验是否存在出参入残相关的注释，有的话返回true和parm入参数组和返回参数的数组
+//一个完整的路由注释：[str1, str2, str3 *examples.DemoRest] [commentHi1 string,errHi1 error]
+//如果复杂的情况，既包含请求头又包含请求体里面的内容的话，可以考虑这种写法:写两层内容，第一行是请求头，下方是请求体。如果请求体参数不止一个，则为表单方式提交
+//？但是问题来了，如果只写一行，该如何认为呢？有可能是get请求，也可能会是表单提交-感觉会走不通
+//另外一种方式，[]表示请求头里面的内容  { }表示请求体里面的内容 如果请求体参数很多，则为表单方式提交！ todo 采用的方式
+//{name string, password string, age int, hiValue bind.ReqTest}
+//[hi *bind.ReqTest]
+func ContainsParmsOrResults(annoDoc string, gc *GenComment) (resultGc *GenComment) {
+	//如果存在请求头注释，解析出里面的参数，把parm里面的字段填充，比如 ParmName，IsMust，还有IsHeader，type不需要也无法获得
+	if strings.Contains(annoDoc, "[") && strings.Contains(annoDoc, "]") {
+		//对于注释里面的内容处理非常麻烦，思路如下：1.先除去[]，然后根据，切割，没一组对应一个parm，然后获得键值对，然后只需要取得前面的name
+
+		//考虑到有可能有些人不按照顺序写，就是说请求参数内，请求头和请求体混淆写在一起，然后在注释进行区分，这个时候需要按照顺序排列，
+		//但是根据注释是无法获得排列顺序的，所以最好的方式是返回一个parm数组，然后在后续再根据parm内的参数（）进行排序组装？
+		//但是当参数名称不一致的时候，注视的parm名称与实际的parm参数名称不同，导致无法判断谁是谁，就很困难；
+		//todo 解决思路，强制要求实际的parm参数按照顺序填写，前面的放请求头，后面的放请求体，且在注解内保持一致
+
+		//如果存在请求体相关注释，解析出里面的参数，把parm里面的字段填充，type不需要也无法获得
+	} else if strings.Contains(annoDoc, "{") && strings.Contains(annoDoc, "}") {
+
+	}
+	return gc
 }
 
 //方法3

@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	annotation.SetVersion(1626072441)
+	annotation.SetVersion(1626081735)
 
 	abchiValue3 := new(bind.ReqTest)
 
@@ -28,7 +28,7 @@ func init() {
 	cbacommentHi20 := new(bind.ReqTest)
 
 	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
-		RouterPath: "hello.hi1",
+		RouterPath: "/block1",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -86,7 +86,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Hello.Hi2", utils.GenComment{
-		RouterPath: "hello.hi2",
+		RouterPath: "/block2",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -130,7 +130,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Hello.Hi3", utils.GenComment{
-		RouterPath: "hello.hi3",
+		RouterPath: "/block3",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -181,7 +181,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Hello.Hi4", utils.GenComment{
-		RouterPath: "hello.hi4",
+		RouterPath: "/block4",
 		Note:       "",
 		Methods:    []string{"POST"},
 		Parms: []*utils.Parm{
@@ -211,7 +211,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Hello.Hi5", utils.GenComment{
-		RouterPath: "hello.hi5",
+		RouterPath: "/block5",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -241,7 +241,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Example.Say1", utils.GenComment{
-		RouterPath: "example.say1",
+		RouterPath: "/Say1",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -278,7 +278,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("Example.Say2", utils.GenComment{
-		RouterPath: "example.say2",
+		RouterPath: "/Say2",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -315,7 +315,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("UserRest.LogOutUser", utils.GenComment{
-		RouterPath: "user_rest.log_out_user",
+		RouterPath: "/LogOutUser",
 		Note:       "",
 		Methods:    []string{"GET"},
 		Parms: []*utils.Parm{
@@ -345,7 +345,7 @@ func init() {
 		},
 	})
 	annotation.AddGenOne("UserRest.RegistUser", utils.GenComment{
-		RouterPath: "user_rest.regist_user",
+		RouterPath: "/RegistUser",
 		Note:       "",
 		Methods:    []string{"POST"},
 		Parms: []*utils.Parm{

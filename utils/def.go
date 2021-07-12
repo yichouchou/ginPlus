@@ -48,6 +48,12 @@ type GenComment struct {
 	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
 
+type HeaderOrBody uint //判断是请求头内的参数还是请求体内的参数
+const (
+	header HeaderOrBody = iota
+	body
+)
+
 type Parm struct {
 	FiledNote string //参数说明 todo 保留字段
 	ParmName  string
@@ -60,7 +66,9 @@ type Parm struct {
 	NewValueStr  string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
 	StrInTypeOf  string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
 	ParmKindStr  string // 保存kind分类的字段 reflect.String 类似这样
-	NewResultStr string //
+	NewResultStr string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
+	IsHeader     HeaderOrBody
+	IsBody       HeaderOrBody
 }
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc

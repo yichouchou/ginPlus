@@ -44,6 +44,15 @@ type BaseGin struct {
 	recoverErrorFunc utils.RecoverErrorFunc
 }
 
+type RestGenerator interface {
+
+	//根据注释内容信息，装填GenComment 路由配置实体，和doc文档用的请求和响应原始数据
+	parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo)
+
+	//根据req resp文档信息，填充请求与响应文档
+	parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, modPkg, modFile string) (r, p *mydoc.StructInfo)
+}
+
 // Option overrides behavior of Connect.  特有的不定方法参数使用..
 type Option interface {
 	apply(*BaseGin)
@@ -192,7 +201,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		doc.GenSwagger(modFile + "/docs/swagger/")
 		doc.GenMarkdown(modFile + "/docs/markdown/")
 	}
-	genOutPut(b.outPath, modFile) // generate code   为了测试方便，暂时不生成 init文件
+	genOutPut(b.outPath, modFile) // generate code
 	return true
 }
 
@@ -247,82 +256,35 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	//最好的方式不是从注释中取，而是从方法本身，但是由于注释/配置大于默认，所以还是从注释中拿，如果没有的话就从它方法本身去获取
 	//解析 f.Type的内容，里面包含上述内容
 
-	/*
-		if f.Type != nil {
-			for _, field := range f.Type.Params.List {
-				fmt.Println(field.Names, field.Type, "----入参参数类型") //  当传指针的时候，里面是这样 &{972 0xc0003165b8} 一串 且不方便转，
-				//   可能需要依赖注释来generater -- 或者通过反射来吧，ast语法树并不能很好的处理各种类型，那么对应的parm的name交给语法树（因为只有语法树拿得到，type交给反射）
-				//  为什么是field.Names name是个数组呢，因为存在很恶心的情况，比如 name, password string 它会把name放到一起去，
-				//  Params.List根据类型来划分的，每个类型对应有个names数组，里面存放真正的参数名称，也就是说参数数量根据names里面的len来的
-				//fmt.Println(field)
-				//fmt.Println(i,field.Type,field.Tag,field.Doc,field.Comment,field.Names)
-			}
-			for _, fieldResult := range f.Type.Results.List {
-				fmt.Println(fieldResult.Names, fieldResult.Type, "----出参参数类型")
-				//fmt.Println(i,fieldResult)
-			}
-		}*/
-
 	// 方法上所有的注解都会检查一遍,
 	if f.Doc != nil {
+		gc := &utils.GenComment{}
 		for _, c := range f.Doc.List {
-			gc := &utils.GenComment{}
-
-			// 判断是否以大驼峰命名风格，为GenComment的RouterPath赋值
-			if b.isBigCamel { // big camel style.大驼峰
-				gc.RouterPath = objName + "." + objFunc
-			} else {
-				gc.RouterPath = mybigcamel.UnMarshal(objName) + "." + mybigcamel.UnMarshal(objFunc)
-			}
-
 			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
 			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
-			// 传入的注释并非路由相关，这里else 有些问题
 			httpMethod, has := utils.ContainsHttpMethod(t)
 			if has {
 				gc.Methods = []string{httpMethod}
+				//判断是否存在路由信息，有的话提取出来，
+				router, isContains := utils.ContainsHttpRouter(t)
+				if isContains {
+					gc.RouterPath = router
+				} else {
+					// 判断是否以大驼峰命名风格，为GenComment的RouterPath赋值，这个是默认的写法，就是不存在路由信息注释的时候
+					if b.isBigCamel { // big camel style.大驼峰
+						gc.RouterPath = objName + "." + objFunc
+					} else {
+						gc.RouterPath = mybigcamel.UnMarshal(objName) + "." + mybigcamel.UnMarshal(objFunc)
+					}
+				}
+
 				ignore = true
-				gcs = append(gcs, gc)
-
 			}
-			//else {
-			//	gc.Methods = []string{"ANY"}
-			//}
+			//解析入参与出参相关的注释，然后填充到gc中
+			utils.ContainsParmsOrResults(t, gc)
 
-			//
-			//if  {
-			//
-			//}
-			//判断是否有 @Router  有的话为gc赋值，然后丢到数组内；
-			//更好的方式，判断注解中是否有 @GET @POST @HEAD @DELETE --- 等开头，然后表示可接收的类型
-
-			/*			if strings.HasPrefix(t, "@Router") {
-							// t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
-							matches := routeRegex.FindStringSubmatch(t)
-							if len(matches) == 3 {
-								gc.RouterPath = matches[1]
-								methods := matches[2]
-								if methods != "-" {
-									if methods == "" {
-										gc.Methods = []string{"get"}
-									} else {
-										gc.Methods = strings.Split(methods, ",")
-									}
-									gcs = append(gcs, gc)
-								} else {
-									ignore = true
-								}
-
-							}
-							// else {
-							// return nil, errors.New("Router information is missing")
-							// }
-						} else if strings.HasPrefix(t, objFunc) { // find note
-							t = strings.TrimSpace(strings.TrimPrefix(t, objFunc))
-							note += t
-						}
-			*/
 		}
+		gcs = append(gcs, gc)
 
 	}
 
@@ -337,7 +299,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	for i := 0; i < len(gcs); i++ {
 		gcs[i].Note = note
 	}
-
+	// todo 如果用户未添加参数注释，则自动根据参数名称，自动绑定，当前是自动绑定
 	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
 	for i := 0; i < len(gcs); i++ {
 		if f.Type != nil {
