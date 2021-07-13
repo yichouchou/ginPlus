@@ -167,7 +167,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除
 			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
 			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b
-			_genInfo.PkgImportList = imports
+			_genInfo.PkgImportList = utils.MapMergeMost(_genInfo.PkgImportList, imports)
 			funMp := myast.GetObjFunMp(astPkgs, objName)
 			// ast.Print(token.NewFileSet(), astPkgs)
 			// fmt.Println(b)
@@ -247,6 +247,11 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 
 // 解析内容，目前看来主要是为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
 func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
+	//for i := range f.Type.Params.List {
+	//	fmt.Println(f.Type.Params.List[i].Type)
+	//	fmt.Println(f.Type.Params.List[i].Names)
+	//}
+
 	var note string
 	var gcs []*utils.GenComment
 	req := analysisParm(f.Type.Params, imports, objPkg, 0)
@@ -259,6 +264,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	// 方法上所有的注解都会检查一遍,
 	if f.Doc != nil {
 		gc := &utils.GenComment{}
+		gc.Parms = make([]*utils.Parm, f.Type.Params.NumFields())
 		for _, c := range f.Doc.List {
 			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
 			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
@@ -303,12 +309,17 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
 	for i := 0; i < len(gcs); i++ {
 		if f.Type != nil {
-			for _, field := range f.Type.Params.List {
+			for index, field := range f.Type.Params.List {
 				for fieldName := range field.Names {
-					gcs[i].Parms = append(gcs[i].Parms, &utils.Parm{
-						//为gcs下的所有的parms 赋ParmName
-						ParmName: field.Names[fieldName].Name,
-					})
+					//lenParms := len(gcs[i].Parms)
+					//如果经过注解内的参数装填完成之后，参数的parmname还是空的话，那么就通过默认的参数name去绑定
+					if gcs[i].Parms[index] == nil || gcs[i].Parms[index].ParmName == "" {
+						gcs[i].Parms[index] = &utils.Parm{
+							//为gcs下的所有的parms 赋ParmName
+							ParmName: f.Type.Params.List[index].Names[fieldName].Name,
+						}
+					}
+
 				}
 			}
 			for _, fieldResult := range f.Type.Results.List {
@@ -316,32 +327,30 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 					gcs[i].Result = append(gcs[i].Result, &utils.Parm{
 						ParmName: fieldResult.Names[resultNameIndex].Name,
 					})
-
 				}
-
 			}
 		}
-	}
 
-	//在这里为gcs里面的GenComment的入参与出参的type 赋值
-	// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
-	for _, gc := range gcs {
-		// 从1开始，因为调用者也会在其中的第1个位置
-		for i := 1; i < t.NumIn(); i++ {
-			fmt.Println(t.In(i), "--入参")
-			// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
-			gc.Parms[i-1].ParmType = t.In(i)
-			gc.Parms[i-1].ParmKind = t.In(i).Kind()
+		//在这里为gcs里面的GenComment的入参与出参的type 赋值
+		// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
+		for _, gc := range gcs {
+			// 从1开始，因为调用者也会在其中的第1个位置
+			for i := 1; i < t.NumIn(); i++ {
+				fmt.Println(t.In(i), "--入参")
+				// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+				gc.Parms[i-1].ParmType = t.In(i)
+				gc.Parms[i-1].ParmKind = t.In(i).Kind()
+			}
+
+			// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
+			for i := 0; i < t.NumOut(); i++ {
+				fmt.Println(t.Out(i), "--出参")
+				//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
+				gc.Result[i].ParmType = t.Out(i)
+				gc.Result[i].ParmKind = t.Out(i).Kind()
+			}
+
 		}
-
-		// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
-		for i := 0; i < t.NumOut(); i++ {
-			fmt.Println(t.Out(i), "--出参")
-			//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
-			gc.Result[i].ParmType = t.Out(i)
-			gc.Result[i].ParmKind = t.Out(i).Kind()
-		}
-
 	}
 	return gcs, req, resp
 }
@@ -421,7 +430,7 @@ func genCode(outDir, modFile string) bool {
 	}
 	pkgName := getPkgName(outDir)
 	// 这个时候的data里面的 PkgImportList 是键值对形式，非常恶心，思考下来 最好的方式就是原封不动，然后原封不动导入回去 由于键值对不好
-	// todo 目前里面存在冗余import内容,把现在的 key value颠倒使用最佳 ginplus/reqtest reqtest 然后自动去重了
+	//  目前里面存在冗余import内容,把现在的 key value颠倒使用最佳 ginplus/reqtest reqtest 然后自动去重了 已经完成
 	//在template中使用，直接拼接字符串更好，然后放list
 	data := struct {
 		utils.GenInfo

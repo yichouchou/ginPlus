@@ -1,29 +1,34 @@
 package routers
 
 import (
-	"ginPlus/annotation"
-	"ginPlus/bind"
-	"ginPlus/examples"
-	"ginPlus/utils"
-	"github.com/gin-gonic/gin"
-
 	"reflect"
+
+	"ginPlus/annotation"
+	"ginPlus/utils"
+
+	bind "ginPlus/bind"
+
+	examples "ginPlus/examples"
+
+	gin "github.com/gin-gonic/gin"
 )
 
 func init() {
-	annotation.SetVersion(1626081735)
+	annotation.SetVersion(1626160037)
 
 	abchiValue3 := new(bind.ReqTest)
 
 	abchiValue1 := new(bind.ReqTest)
 
-	abcreqList0 := new([]bind.ReqTest)
+	abcList0 := new([]bind.ReqTest)
 
 	abcstr10 := new(examples.DemoRest)
 
 	abcstr21 := new(examples.DemoRest)
 
 	abcstr32 := new(examples.DemoRest)
+
+	abcrest3 := new(examples.DemoRest)
 
 	cbacommentHi20 := new(bind.ReqTest)
 
@@ -187,8 +192,8 @@ func init() {
 		Parms: []*utils.Parm{
 
 			{
-				ParmName: "reqList",
-				ParmType: reflect.TypeOf(*abcreqList0),
+				ParmName: "List",
+				ParmType: reflect.TypeOf(*abcList0),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -217,7 +222,7 @@ func init() {
 		Parms: []*utils.Parm{
 
 			{
-				ParmName: "req",
+				ParmName: "reqList",
 				ParmType: reflect.TypeOf(new(bind.ReqTest)),
 				IsMust:   false,
 				ParmKind: reflect.Ptr,
@@ -285,23 +290,30 @@ func init() {
 
 			{
 				ParmName: "str1",
-				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
-				ParmKind: reflect.Ptr,
+				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "str2",
-				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
-				ParmKind: reflect.Ptr,
+				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "str3",
-				ParmType: reflect.TypeOf(new(examples.DemoRest)),
+				ParmType: reflect.TypeOf(new(string)),
 				IsMust:   false,
-				ParmKind: reflect.Ptr,
+				ParmKind: reflect.String,
+			},
+
+			{
+				ParmName: "rest",
+				ParmType: reflect.TypeOf(*abcrest3),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
 			},
 		},
 		Result: []*utils.Parm{

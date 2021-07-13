@@ -11,7 +11,7 @@ type UserRest struct {
 }
 
 // Hello Annotated route (bese on beego way)
-// [str1, str2, str3 examples.DemoRest] [commentHi1 string,errHi1 error]
+// [name string, age int]
 // @POST /RegistUser
 func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
 	fmt.Println(name, age, "-----user")
@@ -19,7 +19,7 @@ func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
 }
 
 // Hello Annotated route (bese on beego way)
-// [str1, str2, str3 examples.DemoRest] [commentHi1 string,errHi1 error]
+// [name string, age int]
 // @GET /LogOutUser
 func (receiver *UserRest) LogOutUser(name string, age int) (success bool) {
 	fmt.Println(name, age, "-----user")
