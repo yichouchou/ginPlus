@@ -294,7 +294,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 	}
 
-	//defalt  --上面的条件都不匹配的话，也还是会创建一个GenComment；添加RouterPath 和Methods 其中Methods 为any
+	//defalt  --上面的条件都不匹配的话，也还是会创建一个GenComment；添加RouterPath 和Methods 其中Methods 为any；如果是默认的话，请求头也不限制
 	if len(gcs) == 0 && !ignore {
 		gc := &utils.GenComment{}
 		gc.RouterPath, gc.Methods = b.getDefaultComments(objName, objFunc, num)

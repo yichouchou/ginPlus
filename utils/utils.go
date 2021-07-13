@@ -77,7 +77,8 @@ func ContainsParmsOrResults(annoDoc string, gc *GenComment) (resultGc *GenCommen
 		split := strings.Split(anno, ",")
 		for index, annoParm := range split {
 			gc.Parms[index] = &Parm{
-				ParmName: annto2Parm(annoParm),
+				ParmName:       annto2Parm(annoParm),
+				IsHeaderOrBody: Header,
 			}
 
 		}
@@ -91,7 +92,8 @@ func ContainsParmsOrResults(annoDoc string, gc *GenComment) (resultGc *GenCommen
 		Reverse(&split)
 		for index, annoParm := range split {
 			gc.Parms[len(gc.Parms)-index-1] = &Parm{
-				ParmName: annto2Parm(annoParm),
+				ParmName:       annto2Parm(annoParm),
+				IsHeaderOrBody: Body,
 			}
 
 		}

@@ -42,16 +42,17 @@ type ParmInfo struct {
 // store the comment for the controller method. 生成注解路由--由ast解析出来的内容，包括RouterPath路由，note注释文档，以及rest controller方法
 type GenComment struct {
 	RouterPath string
-	Note       string // 注释
-	Methods    []string
+	Note       string   // api注释
+	Headers    []string // 请求头键值对
+	Methods    []string //请求方式
 	Parms      []*Parm
 	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
 
 type HeaderOrBody uint //判断是请求头内的参数还是请求体内的参数
 const (
-	header HeaderOrBody = iota
-	body
+	Header HeaderOrBody = iota
+	Body
 )
 
 type Parm struct {
@@ -62,13 +63,14 @@ type Parm struct {
 	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（ maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
-	IsMust       bool
-	NewValueStr  string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
-	StrInTypeOf  string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
-	ParmKindStr  string // 保存kind分类的字段 reflect.String 类似这样
-	NewResultStr string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
-	IsHeader     HeaderOrBody
-	IsBody       HeaderOrBody
+	IsMust         bool
+	NewValueStr    string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
+	StrInTypeOf    string // 保存 new(bind.ReqTest) 或者 *b 或者 new(error)的内容
+	ParmKindStr    string // 保存kind分类的字段 reflect.String 类似这样
+	NewResultStr   string // 保存 创建结构体的 string 内容 例如：b := new(bind.ReqTest)
+	IsHeaderOrBody HeaderOrBody
+	//ContentType  string // 传输的格式 比如：表单提交
+
 }
 
 //存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
