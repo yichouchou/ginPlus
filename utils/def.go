@@ -59,8 +59,9 @@ type Parm struct {
 	FiledNote string //参数说明 todo 保留字段
 	ParmName  string
 	Name      string
-	ParmType  reflect.Type //在注释阶段，已经塞进去了内容了
-	ParmKind  reflect.Kind //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（ maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
+	Value     reflect.Value //新增字段，方便后续call的时候塞真正的参数
+	ParmType  reflect.Type  //在注释阶段，已经塞进去了内容了
+	ParmKind  reflect.Kind  //在   这个字段保存参数的种类，比如reflect.Int reflect.String  reflect.Struct 参数是什么类型（ maybe应当禁止值和接口传递，目前看起来暂时没有必要，接口未必）
 	//ParmTypetype reflect.Type  //在
 	//可能还需要保存对应的名字，比如string int bind.ReqTest{}
 	IsMust         bool

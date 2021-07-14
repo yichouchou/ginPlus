@@ -17,6 +17,7 @@ import (
 	"sync"
 	"text/template"
 	"time"
+	"unsafe"
 
 	"ginPlus/utils"
 	"github.com/gin-gonic/gin"
@@ -288,13 +289,16 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 			}
 			//解析入参与出参相关的注释，然后填充到gc中
 			utils.ContainsParmsOrResults(t, gc)
-
 		}
+		//需要考虑gc里面，部分参数有标注请求头/请求体，如果部分标准，余下部分则反之，另外：如果是get请求，则所有参数都是请求头内。（这样的话就无法支持多请求方式了）
+		//todo 伪代码 如果未标注请求头，则默认赋值，另外部分标注的也都给赋值，get请求也全部赋值，不再支持多请求方式，为了统一规范
+		utils.ReplenishParmsOrResults(gc)
 		gcs = append(gcs, gc)
 
 	}
 
 	//defalt  --上面的条件都不匹配的话，也还是会创建一个GenComment；添加RouterPath 和Methods 其中Methods 为any；如果是默认的话，请求头也不限制
+	//默认的话，就是不写注解，请求方式也不给，那么可以支持多请求方式，会根据里面的参数数量和类型自动分析 todo 迫切性不高，代码量不小
 	if len(gcs) == 0 && !ignore {
 		gc := &utils.GenComment{}
 		gc.RouterPath, gc.Methods = b.getDefaultComments(objName, objFunc, num)
@@ -935,8 +939,37 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 			switch method {
 			//todo 规范参数 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
 			case "POST":
+				//所有请求头的内容都优先处理了 todo 取出请求头里面的内容
+				for index, parm := range v.GenComment.Parms {
+					if parm.IsHeaderOrBody == utils.Header {
+						switch parm.ParmKind {
+						case reflect.String:
+							parm.Value.SetString(c.Query(parm.ParmName))
+						case reflect.Int:
+							parm.Value.SetInt(c.GetInt64(parm.ParmName))
+						case reflect.Int64:
+							parm.Value.SetInt(int64(c.GetInt(parm.ParmName)))
+						case reflect.Float64:
+							parm.Value.SetFloat(c.GetFloat64(parm.ParmName))
+						case reflect.Float32:
+							parm.Value.SetFloat(c.GetFloat64(parm.ParmName))
+						case reflect.Ptr:
+							value := reflect.New(v.GenComment.Parms[0].ParmType)
+							err := c.ShouldBind(value.Interface())
+							if err != nil {
+								fmt.Println("----错误")
+							}
+							parm.Value = value.Elem()
+						case reflect.Struct:
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							c.ShouldBind(value.Interface())
+							parm.Value = value.Elem()
+						}
+					}
+				}
+
 				// 数组是值传递，切记  应当和指针传递区分开来
-				//如果只有一个参数，那么直接默认为json body,而且是传指针的话  --数组貌似也应该是值传递
+				//如果只有一个参数，那么直接默认为json body,而且是传指针的话  --数组貌似也应该是值传递 指针数组尚未尝试，忘记了这样传是否可以
 				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr || v.GenComment.Parms[0].ParmKind == reflect.Slice {
 					//var arr []bind.ReqTest
 					//err3 := c.ShouldBind(&arr)
@@ -959,10 +992,128 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					} else {
 						c.JSON(200, values[0].Interface())
 					}
+					//如果post请求参数大于1，那么只能部分是请求头，部分是请求体上/表单提交部分 或者完全是表单提交里面
+				} else if len(v.GenComment.Parms) > 1 {
+					//首先查看请求体提交的参数的数量，大于1则查看是否为表单提交，不是的话就抛出错误
+					var temp int
+					for _, parm := range v.GenComment.Parms {
+						if parm.IsHeaderOrBody == utils.Body {
+							temp++
+						}
+					}
+					if temp >= 1 {
+						contentType := c.Request.Header.Get("Content-Type")
+						//如果是表单提交（此时也是post请求） todo 更多提交方式还需补充
+						if "application/x-www-form-urlencoded" == contentType {
+							for index, parm := range v.GenComment.Parms {
+								if parm.IsHeaderOrBody == utils.Body {
+									//请求体的参数且非表单提交且参数为多个且参数类型为指针或者数组
+									//todo 最终form里面的value好像存放的时候都是作为字符串存放，需要手动转一下
+									if parm.ParmKind == reflect.Ptr {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										c.Bind(value.Interface())
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Struct {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										c.ShouldBind(value.Interface())
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Array {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formArray := c.PostFormArray(parm.ParmName)
+										value.SetPointer(unsafe.Pointer(&formArray))
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.String {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formString := c.PostForm(parm.ParmName)
+										value.SetString(formString)
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Int {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formInt := c.PostForm(parm.ParmName)
+										atoi, err := strconv.Atoi(formInt)
+										if err != nil {
+											fmt.Println("--转换错误")
+										}
+										value.SetInt(int64(atoi))
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Int64 {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formInt := c.PostForm(parm.ParmName)
+										atoi, err := strconv.ParseInt(formInt, 10, 64)
+										if err != nil {
+											fmt.Println("--转换错误")
+										}
+										value.SetInt(int64(atoi))
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Float64 {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formInt := c.PostForm(parm.ParmName)
+										atoi, err := strconv.ParseFloat(formInt, 64)
+										if err != nil {
+											fmt.Println("--转换错误")
+										}
+										value.SetFloat(atoi)
+										parm.Value = value.Elem()
+									}
+									if parm.ParmKind == reflect.Float32 {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formInt := c.PostForm(parm.ParmName)
+										atoi, err := strconv.ParseFloat(formInt, 32)
+										if err != nil {
+											fmt.Println("--转换错误")
+										}
+										value.SetFloat(atoi)
+										parm.Value = value.Elem()
+									}
+									//不确定是否能用
+									if parm.ParmKind == reflect.Map {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										formMap, err := c.GetPostFormMap(parm.ParmName)
+										if !err {
+											fmt.Println(err, "无法转换")
+										}
+										value.SetPointer(unsafe.Pointer(&formMap))
+										parm.Value = value.Elem()
+									}
+
+								}
+							}
+
+							//不是表单提交,然后请求体参数也是1
+						} else if temp == 1 && c.Request.Header.Get("Content-Type") != "application/x-www-form-urlencoded" {
+							for index, parm := range v.GenComment.Parms {
+								if parm.IsHeaderOrBody == utils.Body {
+									//请求体的参数且非表单提交且参数为1且参数类型为指针或者数组
+									if parm.ParmKind == reflect.Ptr || parm.ParmKind == reflect.Array {
+										value := reflect.New(v.GenComment.Parms[index].ParmType)
+										err := c.ShouldBind(value.Interface())
+										//todo 这种方式很不恰当，后续纠正
+										if err != nil {
+											c.JSON(500, "传值错误")
+										}
+										parm.Value = value.Elem()
+									}
+								}
+							}
+
+						} else {
+							c.JSON(500, "---参数过多，不支持的类型")
+						}
+					}
+
+					//遍历parms，如果是请求头的，就根据类型去请求头拿，如果是请求体的，查看请求体的数量，数量大于1则为表单提交，等于1则为body内容
+
 				}
 
-			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体估计不行
+			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体
 			case "GET":
+				//结构体指针的时候这样足够，类似：[req *bind.ReqTest]
 				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr {
 					value := reflect.New(v.GenComment.Parms[0].ParmType.Elem())
 					err := c.ShouldBind(value.Interface())
@@ -978,6 +1129,102 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					} else {
 						c.JSON(200, values[0].Interface())
 					}
+					//如果是一个参数且这个参数为结构体对象，类似：[reqList bind.ReqTest]
+				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Struct {
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					err := c.ShouldBind(value.Interface())
+					if err != nil {
+						c.JSON(500, "传值错误")
+					}
+					//只有一个参数的话，把调用者obj和参数都传进去
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					//判断第二个参数是否为nil，为nil的话说明正常，否则服务端报错
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.String {
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					//当SetString
+					value.SetString(c.Query(v.GenComment.Parms[0].ParmName))
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Int {
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					//当SetInt里面类型对不上会宕机
+					value.SetInt(int64(c.GetInt(v.GenComment.Parms[0].ParmName)))
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Int64 {
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					//当SetInt里面类型对不上会宕机
+					value.SetInt(c.GetInt64(v.GenComment.Parms[0].ParmName))
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Float64 {
+					value := reflect.New(v.GenComment.Parms[0].ParmType)
+					//当SetInt里面类型对不上会宕机
+					value.SetFloat(c.GetFloat64(v.GenComment.Parms[0].ParmName))
+					values := tvl.Call([]reflect.Value{obj, value.Elem()})
+					valueOf := values[1].Interface()
+					if valueOf != nil {
+						c.JSON(500, valueOf)
+					} else {
+						c.JSON(200, values[0].Interface())
+					}
+					//当参数大于一的时候，里面如果是基本数据类型，通过反射赋值
+				} else if len(v.GenComment.Parms) > 1 {
+					var values []reflect.Value
+					values = append(values, obj)
+					for index, parm := range v.GenComment.Parms {
+						if parm.ParmKind == reflect.Float64 {
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							value.SetFloat(c.GetFloat64(v.GenComment.Parms[index].ParmName))
+							values = append(values, value.Elem())
+						} else if parm.ParmKind == reflect.Int64 {
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							value.SetInt(c.GetInt64(v.GenComment.Parms[index].ParmName))
+							values = append(values, value.Elem())
+						} else if parm.ParmKind == reflect.Int {
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							value.SetInt(int64(c.GetInt(v.GenComment.Parms[index].ParmName)))
+							values = append(values, value.Elem())
+						} else if parm.ParmKind == reflect.String {
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							value.SetString(c.Query(v.GenComment.Parms[index].ParmName))
+							values = append(values, value.Elem())
+						}
+					}
+					results := tvl.Call(values)
+					if len(results) == 2 {
+						valueOut := results[1].Interface()
+						if valueOut != nil {
+							c.JSON(500, valueOut)
+						} else {
+							c.JSON(200, results[0].Interface())
+						}
+					} else {
+						valueOut := results[0].Interface()
+						c.JSON(200, valueOut)
+					}
+
 				}
 
 			case "DELETE":

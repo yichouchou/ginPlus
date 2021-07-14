@@ -70,7 +70,7 @@ func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
 }
 
 // Hello Annotated route (bese on beego way)
-// [reqList []bind.ReqTest]
+// [reqList *bind.ReqTest]
 // @GET /block5
 func (s *Hello) Hi5(reqList *bind.ReqTest) (index int, errHi5 error) {
 	fmt.Println(reqList)

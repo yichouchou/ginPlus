@@ -245,3 +245,30 @@ func MapMergeMost(first, second map[string]string) map[string]string {
 	return n
 
 }
+
+func ReplenishParmsOrResults(gc *GenComment) {
+	var others HeaderOrBody
+	for _, parm := range gc.Parms {
+		if parm.IsHeaderOrBody == Header {
+			others = Body
+			break
+		} else if parm.IsHeaderOrBody == Body {
+			others = Header
+			break
+		}
+	}
+
+	for _, parm := range gc.Parms {
+		if parm.IsHeaderOrBody != Header || parm.IsHeaderOrBody != Body {
+			if others == Header || others == Body {
+				parm.IsHeaderOrBody = others
+			}
+		}
+	}
+	//如果是get请求，则所有参数都是请求头内
+	if len(gc.Methods) == 1 && gc.Methods[0] == "GET" {
+		for _, parm := range gc.Parms {
+			parm.IsHeaderOrBody = Header
+		}
+	}
+}
