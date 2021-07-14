@@ -1110,7 +1110,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					//遍历parms，如果是请求头的，就根据类型去请求头拿，如果是请求体的，查看请求体的数量，数量大于1则为表单提交，等于1则为body内容
 
 				}
-
+				//get 请求也是可以表单提交的，这里理解有误，可能需要后续更正 todo
 			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体
 			case "GET":
 				//结构体指针的时候这样足够，类似：[req *bind.ReqTest]
