@@ -51,8 +51,9 @@ type GenComment struct {
 
 type HeaderOrBody uint //判断是请求头内的参数还是请求体内的参数
 const (
-	Header HeaderOrBody = iota
-	Body
+	Header  HeaderOrBody = 0
+	Body    HeaderOrBody = 1
+	Default HeaderOrBody = 2
 )
 
 type Parm struct {

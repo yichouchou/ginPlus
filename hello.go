@@ -5,7 +5,6 @@ import (
 
 	bind "ginPlus/bind"
 	"ginPlus/examples"
-	"github.com/gin-gonic/gin"
 )
 
 //type ReqTest struct {
@@ -43,17 +42,16 @@ func (s *Hello) Hi1(parm1 string, parm2 string, parm3 int, hiValue bind.ReqTest,
 	return "ni hao", nil
 }
 
-// @GET /block2
-func (s *Hello) Hi2(ctx *gin.Context, hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi2 bind.ReqTest, errHi2 error) {
+// @POST /block2
+func (s *Hello) Hi2(hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi2 bind.ReqTest, errHi2 error) {
 	fmt.Println(hi)
 	fmt.Println(hiValue)
 	return bind.ReqTest{}, nil
 }
 
-// [name, password string, age, year int]
 // @GET /block3
 func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi3 error) {
-
+	fmt.Println("---get请求，无参数注解，多基本数据类型已经调通")
 	return 10, nil
 }
 
@@ -62,6 +60,7 @@ func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi
 // @POST /block4
 func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
 	fmt.Println("这是post请求接受结构体数组")
+	fmt.Println("---post请求，有参数注解，结构体值数组已经调通")
 
 	for i := range reqList {
 		fmt.Println(reqList[i])
@@ -75,7 +74,20 @@ func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
 func (s *Hello) Hi5(reqList *bind.ReqTest) (index int, errHi5 error) {
 	fmt.Println(reqList)
 	fmt.Println("这是get请求接受结构体指针")
+	fmt.Println("---这是get请求接受结构体指针已经调通")
 	return 5, nil
+}
+
+// Hello Annotated route (bese on beego way)
+// {List []*bind.ReqTest}
+// @POST /block6
+func (s *Hello) Hi6(reqList []*bind.ReqTest) (index int, errHi4 error) {
+	fmt.Println("这是post请求接受指针结构体数组")
+	fmt.Println("---post请求，有参数注解，结构体指针数组已经调通")
+	for i := range reqList {
+		fmt.Println(reqList[i])
+	}
+	return 6, nil
 }
 
 //
@@ -109,12 +121,12 @@ func (example *Example) Say1(str1, str2, str3 examples.DemoRest) (str4 string) {
 	return "这个是example say1方法rest"
 }
 
-// Hello Annotated route (bese on beego way)
 // [str1, str2, str3 string]
 // {rest examples.DemoRest}
-// @GET /Say2
+// @POST /Say2
 func (example *Example) Say2(str1, str2, str3 string, rest examples.DemoRest) (str4 string) {
-	fmt.Println(&str1, &str2, &str3)
+	fmt.Println("--post请求，既包含请求体的内容，也包含请求头的内容，参数绑定成功---")
+	fmt.Println(str1, str2, str3)
 	fmt.Println(rest)
 	return "这个是example say2方法rest"
 }

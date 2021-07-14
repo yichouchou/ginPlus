@@ -290,9 +290,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 			//解析入参与出参相关的注释，然后填充到gc中
 			utils.ContainsParmsOrResults(t, gc)
 		}
-		//需要考虑gc里面，部分参数有标注请求头/请求体，如果部分标准，余下部分则反之，另外：如果是get请求，则所有参数都是请求头内。（这样的话就无法支持多请求方式了）
-		//todo 伪代码 如果未标注请求头，则默认赋值，另外部分标注的也都给赋值，get请求也全部赋值，不再支持多请求方式，为了统一规范
-		utils.ReplenishParmsOrResults(gc)
+
 		gcs = append(gcs, gc)
 
 	}
@@ -313,23 +311,27 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
 	for i := 0; i < len(gcs); i++ {
 		if f.Type != nil {
+			var temp = 0
 			for index, field := range f.Type.Params.List {
 				for fieldName := range field.Names {
 					//lenParms := len(gcs[i].Parms)
 					//如果经过注解内的参数装填完成之后，参数的parmname还是空的话，那么就通过默认的参数name去绑定
-					if gcs[i].Parms[index] == nil || gcs[i].Parms[index].ParmName == "" {
-						gcs[i].Parms[index] = &utils.Parm{
+					if gcs[i].Parms[temp] == nil || gcs[i].Parms[temp].ParmName == "" {
+						gcs[i].Parms[temp] = &utils.Parm{
 							//为gcs下的所有的parms 赋ParmName
-							ParmName: f.Type.Params.List[index].Names[fieldName].Name,
+							ParmName:       f.Type.Params.List[index].Names[fieldName].Name,
+							IsHeaderOrBody: utils.Default,
 						}
 					}
-
+					temp++
 				}
 			}
+			//todo 下方如果也出现类似：name, password string, age, year int 的返回参数，result部分不完整
 			for _, fieldResult := range f.Type.Results.List {
 				for resultNameIndex := range fieldResult.Names {
 					gcs[i].Result = append(gcs[i].Result, &utils.Parm{
-						ParmName: fieldResult.Names[resultNameIndex].Name,
+						ParmName:       fieldResult.Names[resultNameIndex].Name,
+						IsHeaderOrBody: utils.Default,
 					})
 				}
 			}
@@ -338,6 +340,10 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 		//在这里为gcs里面的GenComment的入参与出参的type 赋值
 		// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
 		for _, gc := range gcs {
+			//需要考虑gc里面，部分参数有标注请求头/请求体，如果部分标准，余下部分则反之，另外：如果是get请求，则所有参数都是请求头内。（这样的话就无法支持多请求方式了）
+			//todo 伪代码 如果未标注请求头，则默认赋值，另外部分标注的也都给赋值，get请求也全部赋值，不再支持多请求方式，为了统一规范
+			utils.ReplenishParmsOrResults(gc)
+
 			// 从1开始，因为调用者也会在其中的第1个位置
 			for i := 1; i < t.NumIn(); i++ {
 				fmt.Println(t.In(i), "--入参")
@@ -941,10 +947,15 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 			case "POST":
 				//所有请求头的内容都优先处理了 todo 取出请求头里面的内容
 				for index, parm := range v.GenComment.Parms {
+					//var values []reflect.Value
 					if parm.IsHeaderOrBody == utils.Header {
 						switch parm.ParmKind {
 						case reflect.String:
-							parm.Value.SetString(c.Query(parm.ParmName))
+							value := reflect.New(parm.ParmType)
+							str := c.Query(parm.ParmName)
+							var s = value.Elem().Interface().(string)
+							s = str
+							parm.Value = reflect.ValueOf(s)
 						case reflect.Int:
 							parm.Value.SetInt(c.GetInt64(parm.ParmName))
 						case reflect.Int64:
@@ -1098,6 +1109,13 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 											c.JSON(500, "传值错误")
 										}
 										parm.Value = value.Elem()
+									} else if parm.ParmKind == reflect.Struct {
+										value := reflect.New(parm.ParmType)
+										err := c.ShouldBind(value.Interface())
+										if err != nil {
+											fmt.Println(err)
+										}
+										parm.Value = value.Elem()
 									}
 								}
 							}
@@ -1110,6 +1128,15 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					//遍历parms，如果是请求头的，就根据类型去请求头拿，如果是请求体的，查看请求体的数量，数量大于1则为表单提交，等于1则为body内容
 
 				}
+				var values []reflect.Value
+				values = append(values, obj)
+				for _, parm := range v.GenComment.Parms {
+					values = append(values, parm.Value)
+				}
+				results := tvl.Call(values)
+
+				c.JSON(200, results[0].Interface())
+
 				//get 请求也是可以表单提交的，这里理解有误，可能需要后续更正 todo
 			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体
 			case "GET":
@@ -1204,12 +1231,20 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 							values = append(values, value.Elem())
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
-							value.SetInt(int64(c.GetInt(v.GenComment.Parms[index].ParmName)))
-							values = append(values, value.Elem())
+							getInt := c.Query(v.GenComment.Parms[index].ParmName)
+							var s = value.Elem().Interface().(int)
+							atoi, err := strconv.Atoi(getInt)
+							if err != nil {
+								fmt.Println(err)
+							}
+							s = atoi
+							values = append(values, reflect.ValueOf(s))
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
-							value.SetString(c.Query(v.GenComment.Parms[index].ParmName))
-							values = append(values, value.Elem())
+							str := c.Query(v.GenComment.Parms[index].ParmName)
+							var s = value.Elem().Interface().(string)
+							s = str
+							values = append(values, reflect.ValueOf(s))
 						}
 					}
 					results := tvl.Call(values)

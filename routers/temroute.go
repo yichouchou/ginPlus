@@ -1,26 +1,27 @@
 package routers
 
 import (
-	"reflect"
-
 	"ginPlus/annotation"
 	"ginPlus/utils"
+	"reflect"
 
 	bind "ginPlus/bind"
 
 	examples "ginPlus/examples"
 
-	gin "github.com/gin-gonic/gin"
+	fmt "fmt"
 )
 
 func init() {
-	annotation.SetVersion(1626160037)
+	annotation.SetVersion(1626273372)
 
 	abchiValue3 := new(bind.ReqTest)
 
-	abchiValue1 := new(bind.ReqTest)
+	abchiValue0 := new(bind.ReqTest)
 
 	abcList0 := new([]bind.ReqTest)
+
+	abcList0 := new([]*bind.ReqTest)
 
 	abcstr10 := new(examples.DemoRest)
 
@@ -93,19 +94,12 @@ func init() {
 	annotation.AddGenOne("Hello.Hi2", utils.GenComment{
 		RouterPath: "/block2",
 		Note:       "",
-		Methods:    []string{"GET"},
+		Methods:    []string{"POST"},
 		Parms: []*utils.Parm{
 
 			{
-				ParmName: "ctx",
-				ParmType: reflect.TypeOf(new(gin.Context)),
-				IsMust:   false,
-				ParmKind: reflect.Ptr,
-			},
-
-			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abchiValue1),
+				ParmType: reflect.TypeOf(*abchiValue0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -245,6 +239,36 @@ func init() {
 			},
 		},
 	})
+	annotation.AddGenOne("Hello.Hi6", utils.GenComment{
+		RouterPath: "/block6",
+		Note:       "",
+		Methods:    []string{"POST"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "List",
+				ParmType: reflect.TypeOf(*abcList0),
+				IsMust:   false,
+				ParmKind: reflect.Slice,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "index",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+
+			{
+				ParmName: "errHi4",
+				ParmType: reflect.TypeOf(new(error)),
+				IsMust:   false,
+				ParmKind: reflect.Interface,
+			},
+		},
+	})
 	annotation.AddGenOne("Example.Say1", utils.GenComment{
 		RouterPath: "/Say1",
 		Note:       "",
@@ -285,7 +309,7 @@ func init() {
 	annotation.AddGenOne("Example.Say2", utils.GenComment{
 		RouterPath: "/Say2",
 		Note:       "",
-		Methods:    []string{"GET"},
+		Methods:    []string{"POST"},
 		Parms: []*utils.Parm{
 
 			{
