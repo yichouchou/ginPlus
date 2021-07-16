@@ -1140,13 +1140,16 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 				//get 请求也是可以表单提交的，这里理解有误，可能需要后续更正 todo
 			//todo 如果是get请求，那么参数只能从url中获取，ShouldBind非常友好，貌似一样的用，如果是单个结构体对象的话，get也是可以的，数组结构体
 			case "GET":
+				//for i, parm := range v.GenComment.Parms {
+				//
+				//}
+
 				//结构体指针的时候这样足够，类似：[req *bind.ReqTest]
 				if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Ptr {
 					value := reflect.New(v.GenComment.Parms[0].ParmType.Elem())
 					err := c.ShouldBind(value.Interface())
 					if err != nil {
 						fmt.Println(err)
-						c.JSON(500, err)
 					}
 					values := tvl.Call([]reflect.Value{obj, value})
 					//判断第二个参数是否为nil，为nil的话说明正常，否则服务端报错
@@ -1261,6 +1264,14 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					}
 
 				}
+				var values []reflect.Value
+				values = append(values, obj)
+				for _, parm := range v.GenComment.Parms {
+					values = append(values, parm.Value)
+				}
+				results := tvl.Call(values)
+				//todo 更友好的处理rest的返回结果
+				c.JSON(200, results[0].Interface())
 
 			case "DELETE":
 
