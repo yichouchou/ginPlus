@@ -940,7 +940,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		//value := reflect.ValueOf(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypeX).Elem().Interface()
 		//i := value.(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypetype)
 
-		//todo 简单的处理下参数绑定吧，复杂的需要另外弄
+		//todo 简单的处理下参数绑定吧，复杂的需要另外弄 如果参数传了gin.context 原封不动把ctx放进去，但是返回参数不再允许
 		for _, method := range v.GenComment.Methods {
 			switch method {
 			//todo 规范参数 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
@@ -1221,17 +1221,17 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					}
 					//当参数大于一的时候，里面如果是基本数据类型，通过反射赋值
 				} else if len(v.GenComment.Parms) > 1 {
-					var values []reflect.Value
-					values = append(values, obj)
+					//var values []reflect.Value
+					//values = append(values, obj)
 					for index, parm := range v.GenComment.Parms {
 						if parm.ParmKind == reflect.Float64 {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							value.SetFloat(c.GetFloat64(v.GenComment.Parms[index].ParmName))
-							values = append(values, value.Elem())
+							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.Int64 {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							value.SetInt(c.GetInt64(v.GenComment.Parms[index].ParmName))
-							values = append(values, value.Elem())
+							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							getInt := c.Query(v.GenComment.Parms[index].ParmName)
@@ -1241,16 +1241,23 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 								fmt.Println(err)
 							}
 							s = atoi
-							values = append(values, reflect.ValueOf(s))
+							parm.Value = reflect.ValueOf(s)
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							str := c.Query(v.GenComment.Parms[index].ParmName)
 							var s = value.Elem().Interface().(string)
 							s = str
-							values = append(values, reflect.ValueOf(s))
+							parm.Value = reflect.ValueOf(s)
 						}
 					}
+					var values []reflect.Value
+					values = append(values, obj)
+					for _, parm := range v.GenComment.Parms {
+						values = append(values, parm.Value)
+					}
 					results := tvl.Call(values)
+
+					c.JSON(200, results[0].Interface())
 					if len(results) == 2 {
 						valueOut := results[1].Interface()
 						if valueOut != nil {
@@ -1264,14 +1271,14 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					}
 
 				}
-				var values []reflect.Value
-				values = append(values, obj)
-				for _, parm := range v.GenComment.Parms {
-					values = append(values, parm.Value)
-				}
-				results := tvl.Call(values)
-				//todo 更友好的处理rest的返回结果
-				c.JSON(200, results[0].Interface())
+				//var values []reflect.Value
+				//values = append(values, obj)
+				//for _, parm := range v.GenComment.Parms {
+				//	values = append(values, parm.Value)
+				//}
+				//results := tvl.Call(values)
+				////todo 更友好的处理rest的返回结果
+				//c.JSON(200, results[0].Interface())
 
 			case "DELETE":
 
