@@ -1025,9 +1025,15 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 										c.Bind(value.Interface())
 										parm.Value = value.Elem()
 									}
+									// form表单本身无法传json，这里是把value json string转为json结构体
 									if parm.ParmKind == reflect.Struct {
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
-										c.ShouldBind(value.Interface())
+										formString := c.PostForm(parm.ParmName)
+										err := json.Unmarshal([]byte(formString), value.Interface())
+										if err != nil {
+											fmt.Println(err)
+										}
+										fmt.Println(value.Interface())
 										parm.Value = value.Elem()
 									}
 									if parm.ParmKind == reflect.Array {
@@ -1039,8 +1045,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 									if parm.ParmKind == reflect.String {
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
 										formString := c.PostForm(parm.ParmName)
-										value.SetString(formString)
-										parm.Value = value.Elem()
+										fmt.Println(formString)
+										var s = value.Elem().Interface().(string)
+										s = formString
+										parm.Value = reflect.ValueOf(s)
 									}
 									if parm.ParmKind == reflect.Int {
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
@@ -1106,7 +1114,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 										err := c.ShouldBind(value.Interface())
 										//todo 这种方式很不恰当，后续纠正
 										if err != nil {
-											c.JSON(500, "传值错误")
+											c.JSON(500, "传参错误")
 										}
 										parm.Value = value.Elem()
 									} else if parm.ParmKind == reflect.Struct {

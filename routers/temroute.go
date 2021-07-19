@@ -5,15 +5,15 @@ import (
 	"ginPlus/utils"
 	"reflect"
 
-	bind "ginPlus/bind"
-
 	examples "ginPlus/examples"
 
 	fmt "fmt"
+
+	bind "ginPlus/bind"
 )
 
 func init() {
-	annotation.SetVersion(1626273372)
+	annotation.SetVersion(1626687317)
 
 	abchiValue3 := new(bind.ReqTest)
 
@@ -22,6 +22,8 @@ func init() {
 	abcList0 := new([]bind.ReqTest)
 
 	abcList0 := new([]*bind.ReqTest)
+
+	abcreqList0 := new(bind.ReqTest)
 
 	abcstr10 := new(examples.DemoRest)
 
@@ -263,6 +265,36 @@ func init() {
 
 			{
 				ParmName: "errHi4",
+				ParmType: reflect.TypeOf(new(error)),
+				IsMust:   false,
+				ParmKind: reflect.Interface,
+			},
+		},
+	})
+	annotation.AddGenOne("Hello.Hi7", utils.GenComment{
+		RouterPath: "/block7",
+		Note:       "",
+		Methods:    []string{"GET"},
+		Parms: []*utils.Parm{
+
+			{
+				ParmName: "reqList",
+				ParmType: reflect.TypeOf(*abcreqList0),
+				IsMust:   false,
+				ParmKind: reflect.Struct,
+			},
+		},
+		Result: []*utils.Parm{
+
+			{
+				ParmName: "index",
+				ParmType: reflect.TypeOf(new(int)),
+				IsMust:   false,
+				ParmKind: reflect.Int,
+			},
+
+			{
+				ParmName: "errHi5",
 				ParmType: reflect.TypeOf(new(error)),
 				IsMust:   false,
 				ParmKind: reflect.Interface,

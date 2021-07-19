@@ -90,6 +90,16 @@ func (s *Hello) Hi6(reqList []*bind.ReqTest) (index int, errHi4 error) {
 	return 6, nil
 }
 
+// Hello Annotated route (bese on beego way)
+// [reqList bind.ReqTest]
+// @GET /block7
+func (s *Hello) Hi7(reqList bind.ReqTest) (index int, errHi5 error) {
+	fmt.Println(reqList)
+	fmt.Println("这是get请求接受结构体指针")
+	fmt.Println("---这是get请求接受结构体指针已经调通")
+	return 5, nil
+}
+
 //
 //func init() {
 //	annotation.SetVersion(1625327764)
@@ -121,8 +131,7 @@ func (example *Example) Say1(str1, str2, str3 examples.DemoRest) (str4 string) {
 	return "这个是example say1方法rest"
 }
 
-// [str1, str2, str3 string]
-// {rest examples.DemoRest}
+// {str1, str2, str3 string,rest examples.DemoRest}
 // @POST /Say2
 func (example *Example) Say2(str1, str2, str3 string, rest examples.DemoRest) (str4 string) {
 	fmt.Println("--post请求，既包含请求体的内容，也包含请求头的内容，参数绑定成功---")
