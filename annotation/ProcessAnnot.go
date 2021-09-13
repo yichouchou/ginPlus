@@ -542,7 +542,7 @@ func getPkgName(dir string) string {
 	return pkgName
 }
 
-// GetStringList format string
+//  format string
 func GetStringList(list []string) string {
 	return `"` + strings.Join(list, `","`) + `"`
 }

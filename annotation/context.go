@@ -1,8 +1,7 @@
 package annotation
-// Package api The next version of the underlying category will support automatic parsing of a single struct.
 
 import (
-"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 // Context Wrapping gin context to custom context
@@ -29,4 +28,3 @@ func NewCtx(c *gin.Context) *Context { // 新建一个自定义context
 func NewApiFunc(c *gin.Context) interface{} {
 	return NewCtx(c)
 }
-

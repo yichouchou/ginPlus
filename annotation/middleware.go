@@ -68,5 +68,3 @@ func (d *DefaultGinBeforeAfter) GinAfter(req *GinBeforeAfterInfo) bool {
 
 	return true
 }
-
-// ----------------end

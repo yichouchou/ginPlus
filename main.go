@@ -32,7 +32,7 @@ func main() {
 //todo 随着功能的拓展，导入的内容可能会越来越多，需要尽可能的限制（目前先ide格式化一下）
 
 func main2() {
-	engine := gin.Default() //todo 考虑兼容 iris的注解路由
+	engine := gin.Default() //todo 考虑兼容 beego iris 等的的注解路由
 	engine.POST("hello.hi4", func(ctx *gin.Context) {
 		var temp []bind.ReqTest
 		ctx.ShouldBind(&temp)

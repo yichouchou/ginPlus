@@ -25,6 +25,10 @@ type Hello struct {
 //	c.JSON(http.StatusOK, "ok")
 //}
 
+//请求头的参数[str1, str2, str3 string,rest examples.DemoRest] 类似这种，如果是表单提交的参数内容，则标注特殊符号
+//请求头的参数str1, str2, str3 string,rest examples.DemoRest）
+//请求体的参数{str1, str2, str3 string,rest examples.DemoRest}
+//表单提交的参数[str1, str2, str3 string,rest examples.DemoRest]
 //// Hello2 Route without annotation (the parameter is 2 default post)
 //func (s *Hello) Hello2(c *gin.Context, req ReqTest) {
 //	fmt.Println(req)

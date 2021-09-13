@@ -2,12 +2,9 @@ package routers
 
 import (
 	"ginPlus/annotation"
+	examples "ginPlus/examples"
 	"ginPlus/utils"
 	"reflect"
-
-	examples "ginPlus/examples"
-
-	fmt "fmt"
 
 	bind "ginPlus/bind"
 )
@@ -20,8 +17,6 @@ func init() {
 	abchiValue0 := new(bind.ReqTest)
 
 	abcList0 := new([]bind.ReqTest)
-
-	abcList0 := new([]*bind.ReqTest)
 
 	abcreqList0 := new(bind.ReqTest)
 
