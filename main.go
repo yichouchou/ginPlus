@@ -7,14 +7,16 @@ import (
 	"ginPlus/bind"
 	"ginPlus/examples"
 
-	//_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
+	_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 	"github.com/gin-gonic/gin"
 )
 
+//todo 自动参数绑定推导；get请求比较好处理，全部从请求头拿参数；post请求，先从请求头获取，然后请求体，最后请求体的表单。
+//todo 如果post请求既在请求头携带了参数，又在请求体/表单携带了参数，那么必须显示标注哪些是请求头，哪些是请求体/表单
 func main() {
 	engine := gin.Default() //todo 考虑兼容 iris的注解路由
 	base := annotation.New()
-	//base.Dev(false)
+	base.Dev(true)
 	base.Register(engine, new(Hello), new(Example), new(examples.UserRest))
 	engine.Run(":8088")
 }

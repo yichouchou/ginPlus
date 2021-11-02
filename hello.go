@@ -59,7 +59,6 @@ func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi
 	return 10, nil
 }
 
-// Hello Annotated route (bese on beego way)
 // {List []bind.ReqTest}
 // @POST /block4
 func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
@@ -72,7 +71,6 @@ func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
 	return 4, nil
 }
 
-// Hello Annotated route (bese on beego way)
 // [reqList *bind.ReqTest]
 // @GET /block5
 func (s *Hello) Hi5(reqList *bind.ReqTest) (index int, errHi5 error) {
@@ -82,7 +80,6 @@ func (s *Hello) Hi5(reqList *bind.ReqTest) (index int, errHi5 error) {
 	return 5, nil
 }
 
-// Hello Annotated route (bese on beego way)
 // {List []*bind.ReqTest}
 // @POST /block6
 func (s *Hello) Hi6(reqList []*bind.ReqTest) (index int, errHi4 error) {
@@ -94,7 +91,6 @@ func (s *Hello) Hi6(reqList []*bind.ReqTest) (index int, errHi4 error) {
 	return 6, nil
 }
 
-// Hello Annotated route (bese on beego way)
 // [reqList bind.ReqTest]
 // @GET /block7
 func (s *Hello) Hi7(reqList bind.ReqTest) (index int, errHi5 error) {
@@ -127,7 +123,6 @@ func (s *Hello) Hi7(reqList bind.ReqTest) (index int, errHi5 error) {
 type Example struct {
 }
 
-// Hello Annotated route (bese on beego way)
 // [str1, str2, str3 examples.DemoRest]
 // @GET /Say1
 func (example *Example) Say1(str1, str2, str3 examples.DemoRest) (str4 string) {

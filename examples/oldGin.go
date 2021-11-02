@@ -8,9 +8,10 @@ type DemoRest struct {
 }
 
 type UserRest struct {
+	Tel  int
+	Time string
 }
 
-// Hello Annotated route (bese on beego way)
 // [name string, age int]
 // @POST /RegistUser
 func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
@@ -18,7 +19,6 @@ func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
 	return true
 }
 
-// Hello Annotated route (bese on beego way)
 // [name string, age int]
 // @GET /LogOutUser
 func (receiver *UserRest) LogOutUser(name string, age int) (success bool) {
