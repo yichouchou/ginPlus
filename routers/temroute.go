@@ -2,33 +2,36 @@ package routers
 
 import (
 	"ginPlus/annotation"
-	examples "ginPlus/examples"
 	"ginPlus/utils"
 	"reflect"
 
 	bind "ginPlus/bind"
+
+	examples "ginPlus/examples"
 )
 
 func init() {
-	annotation.SetVersion(1626687317)
+	annotation.SetVersion(1636805177)
 
-	abchiValue3 := new(bind.ReqTest)
+	abchiValuestruct3 := new(bind.ReqTest)
 
-	abchiValue0 := new(bind.ReqTest)
+	abchiValuestruct0 := new(bind.ReqTest)
 
-	abcList0 := new([]bind.ReqTest)
+	abcListslice0 := new([]bind.ReqTest)
 
-	abcreqList0 := new(bind.ReqTest)
+	abcListslice02 := new([]*bind.ReqTest)
 
-	abcstr10 := new(examples.DemoRest)
+	abcreqListstruct0 := new(bind.ReqTest)
 
-	abcstr21 := new(examples.DemoRest)
+	abcstr1struct0 := new(examples.DemoRest)
 
-	abcstr32 := new(examples.DemoRest)
+	abcstr2struct1 := new(examples.DemoRest)
 
-	abcrest3 := new(examples.DemoRest)
+	abcstr3struct2 := new(examples.DemoRest)
 
-	cbacommentHi20 := new(bind.ReqTest)
+	abcreststruct3 := new(examples.DemoRest)
+
+	cbacommentHi2struct0 := new(bind.ReqTest)
 
 	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
 		RouterPath: "/block1",
@@ -59,7 +62,7 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abchiValue3),
+				ParmType: reflect.TypeOf(*abchiValuestruct3),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -96,7 +99,7 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abchiValue0),
+				ParmType: reflect.TypeOf(*abchiValuestruct0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -112,7 +115,7 @@ func init() {
 
 			{
 				ParmName: "commentHi2",
-				ParmType: reflect.TypeOf(*cbacommentHi20),
+				ParmType: reflect.TypeOf(*cbacommentHi2struct0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -184,7 +187,7 @@ func init() {
 
 			{
 				ParmName: "List",
-				ParmType: reflect.TypeOf(*abcList0),
+				ParmType: reflect.TypeOf(*abcListslice0),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -244,7 +247,7 @@ func init() {
 
 			{
 				ParmName: "List",
-				ParmType: reflect.TypeOf(*abcList0),
+				ParmType: reflect.TypeOf(*abcListslice02),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -274,7 +277,7 @@ func init() {
 
 			{
 				ParmName: "reqList",
-				ParmType: reflect.TypeOf(*abcreqList0),
+				ParmType: reflect.TypeOf(*abcreqListstruct0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -304,21 +307,21 @@ func init() {
 
 			{
 				ParmName: "str1",
-				ParmType: reflect.TypeOf(*abcstr10),
+				ParmType: reflect.TypeOf(*abcstr1struct0),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "str2",
-				ParmType: reflect.TypeOf(*abcstr21),
+				ParmType: reflect.TypeOf(*abcstr2struct1),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "str3",
-				ParmType: reflect.TypeOf(*abcstr32),
+				ParmType: reflect.TypeOf(*abcstr3struct2),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -362,7 +365,7 @@ func init() {
 
 			{
 				ParmName: "rest",
-				ParmType: reflect.TypeOf(*abcrest3),
+				ParmType: reflect.TypeOf(*abcreststruct3),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},

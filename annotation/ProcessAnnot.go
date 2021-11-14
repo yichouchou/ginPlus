@@ -165,7 +165,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 				}
 			}
 			imports := myast.AnalysisImport(astPkgs)
-			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除
+			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除(比如目前的fmt )
 			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
 			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b
 			_genInfo.PkgImportList = utils.MapMergeMost(_genInfo.PkgImportList, imports)
@@ -462,9 +462,9 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
 			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
 			if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Slice {
-				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数
-				parm.NewValueStr = "abc" + parm.ParmName + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
-				parm.StrInTypeOf = "*abc" + parm.ParmName + strconv.Itoa(index)
+				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数（最好是使用写明的参数作为名称，但是由于不同方法会重复 所以也会遇到挑战）
+				parm.NewValueStr = "abc" + parm.ParmName + parm.ParmKind.String() + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
+				parm.StrInTypeOf = "*abc" + parm.ParmName + parm.ParmKind.String() + strconv.Itoa(index)
 			} else {
 				parm.NewValueStr = ""
 				parm.StrInTypeOf = "new" + "(" + strings.TrimPrefix(parm.ParmType.String(), "*") + ")"
@@ -477,8 +477,8 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
 			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
 			if result.ParmKind == reflect.Struct || result.ParmKind == reflect.Array {
-				result.NewResultStr = "cba" + result.ParmName + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
-				result.StrInTypeOf = "*cba" + result.ParmName + strconv.Itoa(index)
+				result.NewResultStr = "cba" + result.ParmName + result.ParmKind.String() + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
+				result.StrInTypeOf = "*cba" + result.ParmName + result.ParmKind.String() + strconv.Itoa(index)
 			} else {
 				result.NewValueStr = ""
 				result.StrInTypeOf = "new" + "(" + strings.TrimPrefix(result.ParmType.String(), "*") + ")"
