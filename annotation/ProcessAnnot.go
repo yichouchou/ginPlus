@@ -19,7 +19,6 @@ import (
 	"time"
 	"unsafe"
 
-	"ginPlus/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/xxjwxc/public/errors"
@@ -31,6 +30,7 @@ import (
 	"github.com/xxjwxc/public/myreflect"
 	"github.com/xxjwxc/public/serializing"
 	"github.com/xxjwxc/public/tools"
+	"github.com/yichouchou/ginPlus/utils"
 )
 
 // BaseGin  运行时存储结构体
@@ -136,7 +136,7 @@ func SetVersion(tm int64) {
 
 //处理自动路由和参数绑定的入口
 func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool {
-	//获取当前运行时条件
+	//获取当前运行目录和模块名
 	modPkg, modFile, isFind := myast.GetModuleInfo(2)
 	if !isFind {
 		return false
@@ -167,13 +167,35 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			imports := myast.AnalysisImport(astPkgs)
 			//由于当前的imports 还存在对应controller里面其他以来pkg，所以需要剔除，必须依靠参数的 关键字信息进行剔除
 			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
-			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b
+			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b？？
 			_genInfo.PkgImportList = utils.MapMergeMost(_genInfo.PkgImportList, imports)
 			funMp := myast.GetObjFunMp(astPkgs, objName)
 			// ast.Print(token.NewFileSet(), astPkgs)
 			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
+			hello := reflect.New(refTyp)
+			fmt.Println(hello.Elem().String())
+			fmt.Println(hello.Elem().Kind())
+			fmt.Println(hello.Elem().Type())
+			fmt.Println(hello.Elem().NumMethod())
+			//fmt.Println(hello.Elem().Method(1).Type().Field(1))
+			//fmt.Println(hello.Elem().Method(1).Type().Field(1).Name)
+			//fmt.Println(hello.Elem().Method(1).Type().Field(1).Type)
+			//fmt.Println(hello.Elem().Method(1).Type().Field(1).PkgPath)
+			fmt.Println(hello.Elem().Method(1).Type().NumIn())
+			fmt.Println(hello.Elem().Method(1).Type().NumOut())
+			fmt.Println(hello.Elem().Method(1).Type().In(0).Kind())
+			fmt.Println(hello.Elem().Method(1).Type().In(0))
+			fmt.Println(hello.Elem().Method(1).Type().In(0).Kind().String())
+			fmt.Println(hello.Elem().Method(1).Type().In(0).Name())
+			fmt.Println(hello.Elem().Method(1).Type().In(0).PkgPath())
+			fmt.Println(hello.Elem().Method(1).Type().NumOut())
+			fmt.Println(hello.Elem().Method(1).Type().Out(0).Name())
+			fmt.Println(hello.Elem().Method(1).Type().Out(0).NumField())
+			fmt.Println(reflect.ValueOf(&hello).Elem().NumField())
+			fmt.Println(hello.Elem().Interface())
+
 			fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
 			// Install the methods
 			for m := 0; m < refTyp.NumMethod(); m++ {
@@ -487,7 +509,7 @@ func genCode(outDir, modFile string) bool {
 		}
 
 	}
-	//todo 上方传入template的结构体的思路
+	// todo 上方传入template的结构体的思路
 	// 1。要有imports的内容，这个会是一个map结构，目前已经完成
 	// 2。PkgName 这个目前已经有
 	// 3。GenRouterInfo 结构体信息
@@ -929,6 +951,34 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 				b.recoverErrorFunc(err)
 			}
 		}()
+		objObj := reflect.New(reflect.TypeOf(obj))
+		err := c.ShouldBind(obj)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(objObj.Elem().Interface())
+
+		for i := 0; i < objObj.NumMethod(); i++ {
+			fmt.Println(objObj.Method(i).String())
+			fmt.Println(objObj.Method(i))
+			for j := 0; j < objObj.Method(i).NumField(); j++ {
+				field := objObj.Method(i).Field(j)
+				fmt.Println("field.Type(): ", field.Type())
+				fmt.Println("field.Kind(): ", field.Kind())
+				fmt.Println("field.String(): ", field.String())
+			}
+
+			//name := field.Name
+			//query := c.Query(name)
+			//fmt.Println(query)
+			//v := reflect.New(field.Type)
+			//fmt.Println(v.Kind())
+			//fmt.Println(v.Type())
+			//var s = v.Elem().Interface()
+			//s = query
+			//fmt.Println(s)
+		}
+
 		//在参数绑定的时候，首先查询 _genInfoCnf 内的类型 和约束 比如 name string must
 		//然后根据类型断言，如果是string,则 执行代码如下 c.Query("name")
 
@@ -953,7 +1003,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						case reflect.String:
 							value := reflect.New(parm.ParmType)
 							str := c.Query(parm.ParmName)
-							var s = value.Elem().Interface().(string)
+							var s = value.Elem().Interface()
 							s = str
 							parm.Value = reflect.ValueOf(s)
 						case reflect.Int:
@@ -1046,7 +1096,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
 										formString := c.PostForm(parm.ParmName)
 										fmt.Println(formString)
-										var s = value.Elem().Interface().(string)
+										var s = value.Elem().Interface()
 										s = formString
 										parm.Value = reflect.ValueOf(s)
 									}
@@ -1243,7 +1293,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							getInt := c.Query(v.GenComment.Parms[index].ParmName)
-							var s = value.Elem().Interface().(int)
+							var s = value.Elem().Interface()
 							atoi, err := strconv.Atoi(getInt)
 							if err != nil {
 								fmt.Println(err)
@@ -1253,7 +1303,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							str := c.Query(v.GenComment.Parms[index].ParmName)
-							var s = value.Elem().Interface().(string)
+							var s = value.Elem().Interface()
 							s = str
 							parm.Value = reflect.ValueOf(s)
 						}
@@ -1265,7 +1315,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					}
 					results := tvl.Call(values)
 
-					c.JSON(200, results[0].Interface())
+					//c.JSON(200, results[0].Interface())
 					if len(results) == 2 {
 						valueOut := results[1].Interface()
 						if valueOut != nil {
