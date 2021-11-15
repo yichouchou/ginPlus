@@ -1,12 +1,12 @@
 package routers
 
 import (
-	"ginPlus/annotation"
-	examples "ginPlus/examples"
-	"ginPlus/utils"
+	"github.com/yichouchou/ginPlus/annotation"
+	examples "github.com/yichouchou/ginPlus/examples"
+	"github.com/yichouchou/ginPlus/utils"
 	"reflect"
 
-	bind "ginPlus/bind"
+	bind "github.com/yichouchou/ginPlus/bind"
 )
 
 func init() {

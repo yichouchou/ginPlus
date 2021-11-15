@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"ginPlus/annotation"
-	"ginPlus/bind"
-	"ginPlus/examples"
+	"github.com/yichouchou/ginPlus/annotation"
+	"github.com/yichouchou/ginPlus/bind"
+	"github.com/yichouchou/ginPlus/examples"
 
-	_ "ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 	"github.com/gin-gonic/gin"
+	_ "github.com/yichouchou/ginPlus/routers" // Debug mode requires adding [mod] / routes to register annotation routes.debug模式需要添加[mod]/routers 注册注解路由
 )
 
 //todo 自动参数绑定推导；get请求比较好处理，全部从请求头拿参数；post请求，先从请求头获取，然后请求体，最后请求体的表单。

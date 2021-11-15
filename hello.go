@@ -3,8 +3,8 @@ package main
 import (
 	fmt "fmt"
 
-	bind "ginPlus/bind"
-	"ginPlus/examples"
+	bind "github.com/yichouchou/ginPlus/bind"
+	"github.com/yichouchou/ginPlus/examples"
 )
 
 //type ReqTest struct {

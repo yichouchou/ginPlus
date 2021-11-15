@@ -1,4 +1,4 @@
-module ginPlus
+module github.com/yichouchou/ginPlus
 
 go 1.16
 
