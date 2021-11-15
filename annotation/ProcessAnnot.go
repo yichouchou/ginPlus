@@ -65,7 +65,7 @@ func (f optionFunc) apply(o *BaseGin) {
 	f(o)
 }
 
-// Model use custom context //使用经典的context 应该是指gin.context 在rest路由中传入这个  其实我用不到应该
+// Model use custom context //使用经典的context 指gin.context 在rest路由中传入这个  其实我用不到
 func (b *BaseGin) Model(middleware utils.NewAPIFunc) *BaseGin {
 	if middleware == nil { // default middleware
 		middleware = NewApiFunc
@@ -118,9 +118,9 @@ func New(opts ...Option) *BaseGin {
 	return b
 }
 
-var serviceMapMu sync.Mutex // protects the serviceMap //保护serviceMap？为了线程安全？
+var serviceMapMu sync.Mutex // protects the serviceMap //保护serviceMap安全
 
-var consolePrint sync.Once //目前来看作用是一次性输出到控制台 把rest和func名称
+var consolePrint sync.Once //一次性输出到控制台 把rest和func名称
 
 var _genInfo utils.GenInfo //存储路由规则信息的结构体
 
