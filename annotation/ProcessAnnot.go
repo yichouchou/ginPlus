@@ -19,7 +19,6 @@ import (
 	"time"
 	"unsafe"
 
-	"ginPlus/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/xxjwxc/public/errors"
@@ -31,6 +30,7 @@ import (
 	"github.com/xxjwxc/public/myreflect"
 	"github.com/xxjwxc/public/serializing"
 	"github.com/xxjwxc/public/tools"
+	"github.com/yichouchou/ginPlus/utils"
 )
 
 // BaseGin  运行时存储结构体
@@ -160,7 +160,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		if _b {
 			//获得astPkgs 之后，去除掉里面的main
 			for s := range astPkgs.Files {
-				if strings.Contains(s, "main.go") {
+				if strings.Contains(s, "main.txt") {
 					delete(astPkgs.Files, s)
 				}
 			}
