@@ -484,8 +484,8 @@ var (
 	package {{.PkgName}}
 	
 	import (
-	"ginPlus/annotation"
-	"ginPlus/utils"
+	"github.com/yichouchou/ginPlus/annotation"
+	"github.com/yichouchou/ginPlus/utils"
 	"reflect"
 {{range $i, $v := .PkgImportStrs}}
 	{{ $v}}

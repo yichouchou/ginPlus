@@ -519,8 +519,10 @@ func genCode(outDir, modFile string) bool {
 	defer f.Close()
 	f.Write(buf.Bytes())
 
-	// format
-	exec.Command("gofmt", "-l", "-w", outDir).Output()
+	// format 格式化代码
+	exec.Command("gofmt", "-l", "-s", "-w", outDir).Output()
+	// goimports 移除非必要的依赖，需要安装goimports到go/bin目录下
+	exec.Command("goimports", "-w", outDir).Output()
 	return true
 }
 
