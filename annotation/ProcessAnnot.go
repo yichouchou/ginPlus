@@ -457,14 +457,16 @@ func genCode(outDir, modFile string) bool {
 
 	for i := range data.GenInfo.List {
 		parms := data.GenInfo.List[i].GenComment.Parms
-		for index, parm := range parms {
+		for _, parm := range parms {
 			parm.ParmKindStr = utils.Kind2String(parm.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
 			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
-			if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Slice {
+			if parm.ParmKind != reflect.Ptr {
+				randString := utils.RandString(10)
 				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数
-				parm.NewValueStr = "abc" + parm.ParmName + strconv.Itoa(index) + " := new(" + parm.ParmType.String() + ")"
-				parm.StrInTypeOf = "*abc" + parm.ParmName + strconv.Itoa(index)
+				parm.NewValueStr = randString + " := new(" + parm.ParmType.String() + ")"
+				parm.StrInTypeOf = "*" + randString
+				//todo bug 只有指针类型才应该采用下方的方式，基本数据类型和结构体和数组都应当采用上方的
 			} else {
 				parm.NewValueStr = ""
 				parm.StrInTypeOf = "new" + "(" + strings.TrimPrefix(parm.ParmType.String(), "*") + ")"
@@ -472,13 +474,14 @@ func genCode(outDir, modFile string) bool {
 
 		}
 		results := data.GenInfo.List[i].GenComment.Result
-		for index, result := range results {
+		for _, result := range results {
 			result.ParmKindStr = utils.Kind2String(result.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
 			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
-			if result.ParmKind == reflect.Struct || result.ParmKind == reflect.Array {
-				result.NewResultStr = "cba" + result.ParmName + strconv.Itoa(index) + " := new(" + result.ParmType.String() + ")"
-				result.StrInTypeOf = "*cba" + result.ParmName + strconv.Itoa(index)
+			if result.ParmKind != reflect.Ptr {
+				randString := utils.RandString(10)
+				result.NewResultStr = randString + " := new(" + result.ParmType.String() + ")"
+				result.StrInTypeOf = "*" + randString
 			} else {
 				result.NewValueStr = ""
 				result.StrInTypeOf = "new" + "(" + strings.TrimPrefix(result.ParmType.String(), "*") + ")"
@@ -941,6 +944,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		//i := value.(_genInfoCnf.List[0].GenComment.Parms[0].ParmTypetype)
 
 		//todo 简单的处理下参数绑定吧，复杂的需要另外弄 如果参数传了gin.context 原封不动把ctx放进去，但是返回参数不再允许
+		//todo 解决有些时候参数是必传，有些时候不需要传的问题，先判断，如果没有取得就给一个默认，否则就给赋值
 		for _, method := range v.GenComment.Methods {
 			switch method {
 			//todo 规范参数 如果是post请求，那么默认为表单方式提交？！除非指定了parm获取，但是参数只有一个的话肯定可能也不现实
@@ -1265,7 +1269,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					}
 					results := tvl.Call(values)
 
-					c.JSON(200, results[0].Interface())
+					//c.JSON(200, results[0].Interface())
 					if len(results) == 2 {
 						valueOut := results[1].Interface()
 						if valueOut != nil {

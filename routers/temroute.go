@@ -2,33 +2,98 @@ package routers
 
 import (
 	"github.com/yichouchou/ginPlus/annotation"
-	examples "github.com/yichouchou/ginPlus/examples"
 	"github.com/yichouchou/ginPlus/utils"
 	"reflect"
 
 	bind "github.com/yichouchou/ginPlus/bind"
+
+	examples "github.com/yichouchou/ginPlus/examples"
 )
 
 func init() {
-	annotation.SetVersion(1626687317)
+	annotation.SetVersion(1637029395)
 
-	abchiValue3 := new(bind.ReqTest)
+	WPDYNTTCES := new(string)
 
-	abchiValue0 := new(bind.ReqTest)
+	NUHWDXWJGD := new(string)
 
-	abcList0 := new([]bind.ReqTest)
+	RRZFBGMCEC := new(int)
 
-	abcreqList0 := new(bind.ReqTest)
+	GCATEBNRRR := new(bind.ReqTest)
 
-	abcstr10 := new(examples.DemoRest)
+	DNUWCDJTKN := new(bind.ReqTest)
 
-	abcstr21 := new(examples.DemoRest)
+	AUUNUWSNET := new(string)
 
-	abcstr32 := new(examples.DemoRest)
+	EURUTGREUE := new(string)
 
-	abcrest3 := new(examples.DemoRest)
+	PAGYYPVJPR := new(int)
 
-	cbacommentHi20 := new(bind.ReqTest)
+	VRRPSZFCXG := new(int)
+
+	NACKRJLJJE := new([]bind.ReqTest)
+
+	JXSBDAIXII := new([]*bind.ReqTest)
+
+	ZPOEZZPZVM := new(bind.ReqTest)
+
+	EPCMIUPYPR := new(examples.DemoRest)
+
+	GPTZFSWXPD := new(examples.DemoRest)
+
+	JUNNOBPBQU := new(examples.DemoRest)
+
+	ETEQPSTVKZ := new(string)
+
+	NETPLEVWCI := new(string)
+
+	UOVVKWOPYN := new(string)
+
+	FGJBPYMXGZ := new(examples.DemoRest)
+
+	DNGIERTNOB := new(string)
+
+	ULJYQZMPML := new(int)
+
+	CZMUKUNBSB := new(string)
+
+	UVRGBNUKYX := new(int)
+
+	CHGQPGEBOV := new(string)
+
+	MJFPZMSGPJ := new(error)
+
+	GKQOSLVWSL := new(bind.ReqTest)
+
+	LQXDROGJGS := new(error)
+
+	HVYUJSWESK := new(int)
+
+	UHEDEMHVAF := new(error)
+
+	JMVQKERTJC := new(int)
+
+	RQHBYDNZTJ := new(error)
+
+	NBFGBGGZKL := new(int)
+
+	BNFOACDMEL := new(error)
+
+	LJBYZPNMJY := new(int)
+
+	XIZNCALPFP := new(error)
+
+	KGSJPAKKSS := new(int)
+
+	THHQKIBTEU := new(error)
+
+	NZNGKBDOBQ := new(string)
+
+	NYQFIMQGRR := new(string)
+
+	QTSZNLZATK := new(bool)
+
+	OUUWZEQTJW := new(bool)
 
 	annotation.AddGenOne("Hello.Hi1", utils.GenComment{
 		RouterPath: "/block1",
@@ -38,28 +103,28 @@ func init() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*WPDYNTTCES),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "password",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*NUHWDXWJGD),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*RRZFBGMCEC),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abchiValue3),
+				ParmType: reflect.TypeOf(*GCATEBNRRR),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -75,14 +140,14 @@ func init() {
 
 			{
 				ParmName: "commentHi1",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*CHGQPGEBOV),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "errHi1",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*MJFPZMSGPJ),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -96,7 +161,7 @@ func init() {
 
 			{
 				ParmName: "hiValue",
-				ParmType: reflect.TypeOf(*abchiValue0),
+				ParmType: reflect.TypeOf(*DNUWCDJTKN),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -112,14 +177,14 @@ func init() {
 
 			{
 				ParmName: "commentHi2",
-				ParmType: reflect.TypeOf(*cbacommentHi20),
+				ParmType: reflect.TypeOf(*GKQOSLVWSL),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "errHi2",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*LQXDROGJGS),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -133,28 +198,28 @@ func init() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*AUUNUWSNET),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "password",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*EURUTGREUE),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*PAGYYPVJPR),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "year",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*VRRPSZFCXG),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
@@ -163,14 +228,14 @@ func init() {
 
 			{
 				ParmName: "commentHi3",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*HVYUJSWESK),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "errHi3",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*UHEDEMHVAF),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -184,7 +249,7 @@ func init() {
 
 			{
 				ParmName: "List",
-				ParmType: reflect.TypeOf(*abcList0),
+				ParmType: reflect.TypeOf(*NACKRJLJJE),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -193,14 +258,14 @@ func init() {
 
 			{
 				ParmName: "index",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*JMVQKERTJC),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "errHi4",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*RQHBYDNZTJ),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -223,14 +288,14 @@ func init() {
 
 			{
 				ParmName: "index",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*NBFGBGGZKL),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "errHi5",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*BNFOACDMEL),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -244,7 +309,7 @@ func init() {
 
 			{
 				ParmName: "List",
-				ParmType: reflect.TypeOf(*abcList0),
+				ParmType: reflect.TypeOf(*JXSBDAIXII),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -253,14 +318,14 @@ func init() {
 
 			{
 				ParmName: "index",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*LJBYZPNMJY),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "errHi4",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*XIZNCALPFP),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -274,7 +339,7 @@ func init() {
 
 			{
 				ParmName: "reqList",
-				ParmType: reflect.TypeOf(*abcreqList0),
+				ParmType: reflect.TypeOf(*ZPOEZZPZVM),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -283,14 +348,14 @@ func init() {
 
 			{
 				ParmName: "index",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*KGSJPAKKSS),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "errHi5",
-				ParmType: reflect.TypeOf(new(error)),
+				ParmType: reflect.TypeOf(*THHQKIBTEU),
 				IsMust:   false,
 				ParmKind: reflect.Interface,
 			},
@@ -304,21 +369,21 @@ func init() {
 
 			{
 				ParmName: "str1",
-				ParmType: reflect.TypeOf(*abcstr10),
+				ParmType: reflect.TypeOf(*EPCMIUPYPR),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "str2",
-				ParmType: reflect.TypeOf(*abcstr21),
+				ParmType: reflect.TypeOf(*GPTZFSWXPD),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
 
 			{
 				ParmName: "str3",
-				ParmType: reflect.TypeOf(*abcstr32),
+				ParmType: reflect.TypeOf(*JUNNOBPBQU),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -327,7 +392,7 @@ func init() {
 
 			{
 				ParmName: "str4",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*NZNGKBDOBQ),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
@@ -341,28 +406,28 @@ func init() {
 
 			{
 				ParmName: "str1",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*ETEQPSTVKZ),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "str2",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*NETPLEVWCI),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "str3",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*UOVVKWOPYN),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "rest",
-				ParmType: reflect.TypeOf(*abcrest3),
+				ParmType: reflect.TypeOf(*FGJBPYMXGZ),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -371,7 +436,7 @@ func init() {
 
 			{
 				ParmName: "str4",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*NYQFIMQGRR),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
@@ -385,14 +450,14 @@ func init() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*DNGIERTNOB),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*ULJYQZMPML),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
@@ -401,7 +466,7 @@ func init() {
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(new(bool)),
+				ParmType: reflect.TypeOf(*QTSZNLZATK),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -415,14 +480,14 @@ func init() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(new(string)),
+				ParmType: reflect.TypeOf(*CZMUKUNBSB),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(new(int)),
+				ParmType: reflect.TypeOf(*UVRGBNUKYX),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
@@ -431,7 +496,7 @@ func init() {
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(new(bool)),
+				ParmType: reflect.TypeOf(*OUUWZEQTJW),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
