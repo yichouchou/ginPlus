@@ -14,6 +14,7 @@ import (
 //	Age          string `json:"age"`
 //}
 
+//todo 在controller结构体上添加请求类型，请求内容类型，字符类型等等，鉴权类型等
 // Hello ...
 type Hello struct {
 }
