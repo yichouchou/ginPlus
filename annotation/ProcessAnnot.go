@@ -174,7 +174,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
-			fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
+			//fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
 			// Install the methods
 			for m := 0; m < refTyp.NumMethod(); m++ {
 				method := refTyp.Method(m)
@@ -346,7 +346,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 			// 从1开始，因为调用者也会在其中的第1个位置
 			for i := 1; i < t.NumIn(); i++ {
-				fmt.Println(t.In(i), "--入参")
+				//fmt.Println(t.In(i), "--入参")
 				// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
 				gc.Parms[i-1].ParmType = t.In(i)
 				gc.Parms[i-1].ParmKind = t.In(i).Kind()
@@ -354,7 +354,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 			// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
 			for i := 0; i < t.NumOut(); i++ {
-				fmt.Println(t.Out(i), "--出参")
+				//fmt.Println(t.Out(i), "--出参")
 				//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
 				gc.Result[i].ParmType = t.Out(i)
 				gc.Result[i].ParmKind = t.Out(i).Kind()
@@ -460,7 +460,7 @@ func genCode(outDir, modFile string) bool {
 		for _, parm := range parms {
 			parm.ParmKindStr = utils.Kind2String(parm.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
-			fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
+			//fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
 			if parm.ParmKind != reflect.Ptr {
 				randString := utils.RandString(10)
 				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数
@@ -477,7 +477,7 @@ func genCode(outDir, modFile string) bool {
 		for _, result := range results {
 			result.ParmKindStr = utils.Kind2String(result.ParmKind)
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
-			fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
+			//fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
 			if result.ParmKind != reflect.Ptr {
 				randString := utils.RandString(10)
 				result.NewResultStr = randString + " := new(" + result.ParmType.String() + ")"
@@ -756,9 +756,9 @@ func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, httpMethod []string
 func (b *BaseGin) handlerFuncObj(tvl, obj reflect.Value, methodName string) gin.HandlerFunc { // 获取并过滤要绑定的参数(obj 对象类型)
 	//tvl是方法的反射对象
 	typ := tvl.Type()
-	fmt.Println(typ.NumIn())
+	//fmt.Println(typ.NumIn())
 	for i := 0; i < typ.NumIn(); i++ {
-		fmt.Println(typ.In(i))
+		//fmt.Println(typ.In(i))
 	}
 	//判断该方法参数数量- 如果是两个，则绑定上gin.context 和自定义结构体
 	if typ.NumIn() == 2 { // Parameter checking 参数检查
