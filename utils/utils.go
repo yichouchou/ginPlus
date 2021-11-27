@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"reflect"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -277,6 +278,7 @@ func ReplenishParmsOrResults(gc *GenComment) {
 
 }
 
+//随机生成controller对象的名称；todo 采用更加合理的方式
 func RandString(len int) string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	bytes := make([]byte, len)
@@ -284,5 +286,5 @@ func RandString(len int) string {
 		b := r.Intn(26) + 65
 		bytes[i] = byte(b)
 	}
-	return string(bytes)
+	return string(bytes) + strconv.Itoa(rand.Int())
 }
