@@ -174,6 +174,9 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
+
+			//todo 获取请求头，请求方式和请求路径，从对象上边的注解获取（调用的时候优先找方法上边的注解请求头、请求方式等核心信息，然后再找请求头，再找默认）,其中对象的注解在 astPkgs 下的的Files的Decls的第二个位置，非绝对位置，type为GenDecl
+
 			//fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
 			// Install the methods
 			for m := 0; m < refTyp.NumMethod(); m++ {
@@ -246,7 +249,7 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 	return num, true
 }
 
-// 解析内容，目前看来主要是为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
+// 解析内容，为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
 func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
 	//for i := range f.Type.Params.List {
 	//	fmt.Println(f.Type.Params.List[i].Type)
