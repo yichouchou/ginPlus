@@ -1009,8 +1009,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
 					}
 					//如果post请求参数大于1，那么只能部分是请求头，部分是请求体上/表单提交部分 或者完全是表单提交里面
 				} else if len(v.GenComment.Parms) > 1 {
@@ -1189,8 +1191,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
 					}
 				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.String {
 					value := reflect.New(v.GenComment.Parms[0].ParmType)
@@ -1200,8 +1204,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
 					}
 				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Int {
 					value := reflect.New(v.GenComment.Parms[0].ParmType)
@@ -1211,8 +1217,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
 					}
 				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Int64 {
 					value := reflect.New(v.GenComment.Parms[0].ParmType)
@@ -1222,8 +1230,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
 					}
 				} else if len(v.GenComment.Parms) == 1 && v.GenComment.Parms[0].ParmKind == reflect.Float64 {
 					value := reflect.New(v.GenComment.Parms[0].ParmType)
@@ -1233,8 +1243,11 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					valueOf := values[1].Interface()
 					if valueOf != nil {
 						c.JSON(500, valueOf)
+						return
 					} else {
 						c.JSON(200, values[0].Interface())
+						return
+
 					}
 					//当参数大于一的时候，里面如果是基本数据类型，通过反射赋值
 				} else if len(v.GenComment.Parms) > 1 {
