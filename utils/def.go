@@ -28,6 +28,31 @@ type ParmInfo struct {
 	Import string // import 包
 }
 
+//注解事务保留结构体
+//todo 在启动的时候指定需要数据库事务管理的对象，然后该对象下具有事务注解的方法都能够被事务管理；对事务方法的调用不再能够调，而是采用一个包装类，然后调用(类似gomonkey的mock方法操作)。类似以下代码：
+/*
+
+	//以下是一段类似使用的方式,先开启事务，然后调用，如果TrySet内返回了error 或者中途出现了异常，都会出现回滚。
+	Transactional.try(Transactional.UserDao.TrySet,"zhangsan","18");
+
+
+
+
+@Transactional(roolback="xxx err")
+func(userDao UserDao)  (form formSource) TrySet() error{
+	//下方是数据库操作
+	........
+
+	return err.new("xxxxx");
+
+}
+
+
+*/
+
+type TransactionalComment struct {
+}
+
 // store the comment for the controller method. 生成注解路由--由ast解析出来的内容，包括RouterPath路由，note注释文档，以及rest controller方法
 type GenComment struct {
 	RouterPath string
