@@ -34,6 +34,8 @@ type GenComment struct {
 	Note       string   // api注释
 	Headers    []string // 请求头键值对
 	Methods    []string //请求方式
+	Consumes   []string //请求头支持的请求内容类型 --todo 待开发
+	Produces   []string //响应时，响应的头上的内容类型 --todo 待开发
 	Parms      []*Parm
 	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
