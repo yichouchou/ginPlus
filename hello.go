@@ -141,3 +141,14 @@ func (example *Example) Say2(str1, str2, str3 string, rest examples.DemoRest) (s
 	fmt.Println(rest)
 	return "这个是example say2方法rest"
 }
+
+type DemoRest struct {
+	Tel  int
+	Time string
+}
+
+// TestRest TestRest
+type TestRest struct {
+	Tel  int
+	Time string
+}

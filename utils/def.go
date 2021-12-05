@@ -99,10 +99,17 @@ const (
 //路由规则 正则表达式
 var routeRegex = regexp.MustCompile(`@Router\s+(\S+)(?:\s+\[(\S+)\])?`)
 
-// router style list.路由规则列表
+// router style list.路由规则列表，这个是存放rest结构体上边的注解的参数信息的实体
 type GenRouterInfo struct {
-	GenComment  GenComment
+	GenComment  *GenComment
 	HandFunName string
+	RouterPath  string
+	Note        string   // api注释
+	Headers     []string // 请求头键值对
+	Methods     []string //请求方式
+	Consumes    []string //请求头支持的请求内容类型 --todo 待开发
+	Produces    []string //响应时，响应的头上的内容类型 --todo 待开发
+
 }
 
 //路由规则信息

@@ -152,6 +152,29 @@ func GetObjFunMp(astPkg *ast.Package, objName string) map[string]*ast.FuncDecl {
 	return funMp
 }
 
+// GetObjMp
+// GetObjMp 导出类中的注解
+func GetObjMp(astPkg *ast.Package, objName string) map[string]*ast.GenDecl {
+	funMp := make(map[string]*ast.GenDecl)
+	// find all exported func of sturct objName
+	for _, fl := range astPkg.Files {
+		for _, d := range fl.Decls {
+			switch specDecl := d.(type) {
+			case *ast.GenDecl:
+				if specDecl.Specs != nil {
+					if exp, ok := specDecl.Specs[0].(*ast.TypeSpec); ok { // Check that the type is correct first beforing throwing to parser
+						if strings.Compare(fmt.Sprint(exp.Name), objName) == 0 { // is the same struct
+							funMp[specDecl.Specs[0].(*ast.TypeSpec).Name.Name] = specDecl // catch
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return funMp
+}
+
 // AnalysisImport 分析整合import相关信息
 func AnalysisImport(astPkgs *ast.Package) map[string]string {
 	imports := make(map[string]string)

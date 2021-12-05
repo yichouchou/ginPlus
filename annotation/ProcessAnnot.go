@@ -169,14 +169,22 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 			//由于有人可能会写别名，所以还需要特别考虑- 操蛋啊
 			//todo 需要纠正下，路由的结构体未必都放在一起扽，这里直接赋值会导致a盖掉b
 			_genInfo.PkgImportList = utils.MapMergeMost(_genInfo.PkgImportList, imports)
+
+			//这里只是解析出了rest方法的注解，不包括rest对象上的
 			funMp := myast.GetObjFunMp(astPkgs, objName)
+
+			//这是类上的注解
+			objMp := myast.GetObjMp(astPkgs, objName)
+			for s := range objMp {
+				fmt.Println(s)
+			}
 			// ast.Print(token.NewFileSet(), astPkgs)
 			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
 
 			//todo 获取请求头，请求方式和请求路径，从对象上边的注解获取（调用的时候优先找方法上边的注解请求头、请求方式等核心信息，然后再找请求头，再找默认）,其中对象的注解在 astPkgs 下的的Files的Decls的第二个位置，非绝对位置，type为GenDecl
-
+			// Files的Decls 非main方法下的ast会把多个对象都塞进去，即使不是rest实体
 			//fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
 			// Install the methods
 			for m := 0; m < refTyp.NumMethod(); m++ {
@@ -184,17 +192,18 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 				num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 				if _b {
 					if sdl, ok := funMp[method.Name]; ok {
-						gcs, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type)
+						var objgenDecl = objMp[method.Name]
+
+						//todo 把objMp 类上的注解也传入进去
+						gc, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, objgenDecl)
 						if b.isOutDoc { // output doc  如果是OutDoc，则...  了解这里parse结构体的意义
 							docReq, docResp := b.parserStruct(req, resp, astPkgs, modPkg, modFile)
-							for _, gc := range gcs {
-								doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
-							}
-						}
 
-						for _, gc := range gcs {
-							checkOnceAdd(objName+"."+method.Name, *gc)
+							doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
+
 						}
+						checkOnceAdd(objName+"."+method.Name, *gc)
+
 					}
 				}
 			}
@@ -205,6 +214,8 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		doc.GenSwagger(modFile + "/docs/swagger/")
 		doc.GenMarkdown(modFile + "/docs/markdown/")
 	}
+
+	//todo 更新新的router输出方法，把rest objeck 上边的关键信息也输出
 	genOutPut(b.outPath, modFile) // generate code
 	return true
 }
@@ -250,14 +261,22 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 }
 
 // 解析内容，为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
-func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
-	//for i := range f.Type.Params.List {
-	//	fmt.Println(f.Type.Params.List[i].Type)
-	//	fmt.Println(f.Type.Params.List[i].Names)
-	//}
+func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type, objGenDecl *ast.GenDecl) (*utils.GenRouterInfo, *utils.ParmInfo, *utils.ParmInfo) {
+
+	var genRouterInfo = &utils.GenRouterInfo{}
+
+	//请求头上边的注解 todo 从注解获取关键信息然后填充
+	if objGenDecl != nil {
+		genRouterInfo.Methods = []string{"get", "post"}
+		genRouterInfo.Note = "aa"
+		genRouterInfo.Headers = []string{}
+	}
 
 	var note string
-	var gcs []*utils.GenComment
+
+	//解释下这里 gcs 为数组的原因：即使是一个rest，可能不限制请求方式，post/get都可以访问或者其他情况，然后就可能存多个rest；但是不太合理！！ 因为请求方式是[ ],其他情况一时没有想到很详细的，可变参数的实现用这种方式也不太好
+	gc := &utils.GenComment{}
+	genRouterInfo.GenComment = gc
 	req := analysisParm(f.Type.Params, imports, objPkg, 0)
 	resp := analysisParm(f.Type.Results, imports, objPkg, 0)
 	ignore := false
@@ -267,7 +286,6 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 	// 方法上所有的注解都会检查一遍,
 	if f.Doc != nil {
-		gc := &utils.GenComment{}
 		gc.Parms = make([]*utils.Parm, f.Type.Params.NumFields())
 		for _, c := range f.Doc.List {
 			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
@@ -294,78 +312,68 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 			utils.ContainsParmsOrResults(t, gc)
 		}
 
-		gcs = append(gcs, gc)
-
 	}
 
 	//defalt  --上面的条件都不匹配的话，也还是会创建一个GenComment；添加RouterPath 和Methods 其中Methods 为any；如果是默认的话，请求头也不限制
 	//默认的话，就是不写注解，请求方式也不给，那么可以支持多请求方式，会根据里面的参数数量和类型自动分析 todo 迫切性不高，代码量不小
-	if len(gcs) == 0 && !ignore {
-		gc := &utils.GenComment{}
+	if !ignore {
 		gc.RouterPath, gc.Methods = b.getDefaultComments(objName, objFunc, num)
-		gcs = append(gcs, gc)
 	}
 
 	// add note 添加注释
-	for i := 0; i < len(gcs); i++ {
-		gcs[i].Note = note
-	}
+	gc.Note = note
 	// todo 如果用户未添加参数注释，则自动根据参数名称，自动绑定，当前是自动绑定
 	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
-	for i := 0; i < len(gcs); i++ {
-		if f.Type != nil {
-			var temp = 0
-			for index, field := range f.Type.Params.List {
-				for fieldName := range field.Names {
-					//lenParms := len(gcs[i].Parms)
-					//如果经过注解内的参数装填完成之后，参数的parmname还是空的话，那么就通过默认的参数name去绑定
-					if gcs[i].Parms[temp] == nil || gcs[i].Parms[temp].ParmName == "" {
-						gcs[i].Parms[temp] = &utils.Parm{
-							//为gcs下的所有的parms 赋ParmName
-							ParmName:       f.Type.Params.List[index].Names[fieldName].Name,
-							IsHeaderOrBody: utils.Default,
-						}
-					}
-					temp++
-				}
-			}
-			//todo 下方如果也出现类似：name, password string, age, year int 的返回参数，result部分不完整
-			for _, fieldResult := range f.Type.Results.List {
-				for resultNameIndex := range fieldResult.Names {
-					gcs[i].Result = append(gcs[i].Result, &utils.Parm{
-						ParmName:       fieldResult.Names[resultNameIndex].Name,
+	if f.Type != nil {
+		var temp = 0
+		for index, field := range f.Type.Params.List {
+			for fieldName := range field.Names {
+				//lenParms := len(gcs[i].Parms)
+				//如果经过注解内的参数装填完成之后，参数的parmname还是空的话，那么就通过默认的参数name去绑定
+				if gc.Parms[temp] == nil || gc.Parms[temp].ParmName == "" {
+					gc.Parms[temp] = &utils.Parm{
+						//为gcs下的所有的parms 赋ParmName
+						ParmName:       f.Type.Params.List[index].Names[fieldName].Name,
 						IsHeaderOrBody: utils.Default,
-					})
+					}
 				}
+				temp++
 			}
 		}
-
-		//在这里为gcs里面的GenComment的入参与出参的type 赋值
-		// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
-		for _, gc := range gcs {
-			//需要考虑gc里面，部分参数有标注请求头/请求体，如果部分标准，余下部分则反之，另外：如果是get请求，则所有参数都是请求头内。（这样的话就无法支持多请求方式了）
-			//todo 伪代码 如果未标注请求头，则默认赋值，另外部分标注的也都给赋值，get请求也全部赋值，不再支持多请求方式，为了统一规范
-			utils.ReplenishParmsOrResults(gc)
-
-			// 从1开始，因为调用者也会在其中的第1个位置
-			for i := 1; i < t.NumIn(); i++ {
-				//fmt.Println(t.In(i), "--入参")
-				// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
-				gc.Parms[i-1].ParmType = t.In(i)
-				gc.Parms[i-1].ParmKind = t.In(i).Kind()
+		//todo 下方如果也出现类似：name, password string, age, year int 的返回参数，result部分不完整
+		for _, fieldResult := range f.Type.Results.List {
+			for resultNameIndex := range fieldResult.Names {
+				gc.Result = append(gc.Result, &utils.Parm{
+					ParmName:       fieldResult.Names[resultNameIndex].Name,
+					IsHeaderOrBody: utils.Default,
+				})
 			}
-
-			// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
-			for i := 0; i < t.NumOut(); i++ {
-				//fmt.Println(t.Out(i), "--出参")
-				//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
-				gc.Result[i].ParmType = t.Out(i)
-				gc.Result[i].ParmKind = t.Out(i).Kind()
-			}
-
 		}
 	}
-	return gcs, req, resp
+
+	//在这里为gcs里面的GenComment的入参与出参的type 赋值
+	// 这里需要谨慎，可能有误，t是方法还是 结构体参数 -如果是结构体 方法对应很多的
+	//需要考虑gc里面，部分参数有标注请求头/请求体，如果部分标准，余下部分则反之，另外：如果是get请求，则所有参数都是请求头内。（这样的话就无法支持多请求方式了）
+	//todo 伪代码 如果未标注请求头，则默认赋值，另外部分标注的也都给赋值，get请求也全部赋值，不再支持多请求方式，为了统一规范
+	utils.ReplenishParmsOrResults(gc)
+
+	// 从1开始，因为调用者也会在其中的第1个位置
+	for i := 1; i < t.NumIn(); i++ {
+		//fmt.Println(t.In(i), "--入参")
+		// 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值
+		gc.Parms[i-1].ParmType = t.In(i)
+		gc.Parms[i-1].ParmKind = t.In(i).Kind()
+	}
+
+	// 在这里，遍历为gcs内的gc result内的出参的ParmType 赋值 这里注意从0开始，返回参数
+	for i := 0; i < t.NumOut(); i++ {
+		//fmt.Println(t.Out(i), "--出参")
+		//todo 在这里，遍历为gcs内的gc的Parms的入参的ParmType 赋值 注意：有时候单返回值，是不存在返回值对应的name的，需要兼容 issues#6
+		gc.Result[i].ParmType = t.Out(i)
+		gc.Result[i].ParmKind = t.Out(i).Kind()
+	}
+
+	return genRouterInfo, req, resp
 }
 
 //从结构体解析出内容，最终服务于doc文档 todo 以后填充
@@ -392,8 +400,8 @@ func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, m
 	return
 }
 
-//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出文档？
-func checkOnceAdd(handFunName string, gc utils.GenComment) {
+//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出router
+func checkOnceAdd(handFunName string, gc utils.GenRouterInfo) {
 	consolePrint.Do(func() {
 		serviceMapMu.Lock()
 		defer serviceMapMu.Unlock()
@@ -405,13 +413,11 @@ func checkOnceAdd(handFunName string, gc utils.GenComment) {
 }
 
 // AddGenOne add one to base case 添加一个路由规则到规则列表
-func AddGenOne(handFunName string, gc utils.GenComment) {
+func AddGenOne(handFunName string, gc utils.GenRouterInfo) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
-	_genInfo.List = append(_genInfo.List, utils.GenRouterInfo{
-		HandFunName: handFunName,
-		GenComment:  gc,
-	})
+	gc.HandFunName = handFunName
+	_genInfo.List = append(_genInfo.List, gc)
 }
 
 // 生成路由文件
@@ -649,6 +655,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 			if _b {
 				if v, ok := mp[objName+"."+method.Name]; ok {
 					for _, v1 := range v { // 第一格是方法的 refTyp.Method(m) 第二个传入结构体的 reflect.ValueOf(c)
+						//todo 除了rest方法上边的注解，还需要把rest实体类上边的注解考虑进去，包括请求头、返回头信息限制和 path，和请求方式，目前这个信息在 GenRouterInfo 已经有保存了，暂时还未解析放进去
 						b.registerHandlerObjTemp(router, v1.GenComment.Methods, v1.GenComment.RouterPath, method.Name, method.Func, refVal, v1)
 					}
 				} else { // not find using default case
