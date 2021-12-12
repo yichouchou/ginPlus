@@ -192,7 +192,10 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 				num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 				if _b {
 					if sdl, ok := funMp[method.Name]; ok {
-						var objgenDecl = objMp[method.Name]
+						var objgenDecl *ast.GenDecl
+						for _, v := range objMp {
+							objgenDecl = v
+						}
 
 						//todo 把objMp 类上的注解也传入进去
 						gc, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, objgenDecl)
@@ -216,7 +219,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 	}
 
 	//todo 更新新的router输出方法，把rest objeck 上边的关键信息也输出
-	genOutPut(b.outPath, modFile) // generate code
+	//genOutPut(b.outPath, modFile) // generate code
 	return true
 }
 
