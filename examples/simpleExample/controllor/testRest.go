@@ -20,14 +20,14 @@ type UserRest222 struct {
 }
 
 // [name string, age int]
-// @POST /RegistUser
+// @POST /RegistUser4
 func (receiver *UserRest222) RegistUser(name string, age int) (success bool) {
 	fmt.Println(name, age, "-----user")
 	return true
 }
 
 // [name string, age int]
-// @GET /LogOutUser
+// @GET /LogOutUser4
 func (receiver *UserRest222) LogOutUser(name string, age int) (success bool) {
 	fmt.Println(name, age, "-----user")
 	return false

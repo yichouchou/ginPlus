@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go/ast"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
@@ -205,7 +206,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 							doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
 
 						}
-						checkOnceAdd(objName+"."+method.Name, *gc)
+						checkOnceAdd(objPkg+"."+objName+"."+method.Name, *gc)
 
 					}
 				}
@@ -219,7 +220,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 	}
 
 	//todo 更新新的router输出方法，把rest objeck 上边的关键信息也输出
-	//genOutPut(b.outPath, modFile) // generate code
+	genOutPut(b.outPath, modFile) // generate code
 	return true
 }
 
@@ -272,7 +273,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	if objGenDecl != nil {
 		genRouterInfo.Methods = []string{"get", "post"}
 		genRouterInfo.Note = "aa"
-		genRouterInfo.Headers = []string{}
+		genRouterInfo.Headers = map[string]string{}
 	}
 
 	var note string
@@ -420,6 +421,16 @@ func AddGenOne(handFunName string, gc utils.GenRouterInfo) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
 	gc.HandFunName = handFunName
+	gc.RouterPath = "/hi"
+	gc.Headers = map[string]string{
+		"Content-Type": "application/json",
+	}
+	gc.Consumes = map[string]string{
+		"Content-Type": "application/Consumes",
+	}
+	gc.Produces = map[string]string{
+		"Content-Type": "application/Produces",
+	}
 	_genInfo.List = append(_genInfo.List, gc)
 }
 
@@ -474,10 +485,10 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()")
 			//fmt.Println(parm.ParmType.String() + "----parm.ParmType.String()")
 			if parm.ParmKind != reflect.Ptr {
-				randString := utils.RandString(10)
+				randString := fmt.Sprint(rand.Intn(10000000))
 				//todo 由于多个rest请求的存在，会会导致name重复，建议name为关键字的拼接，或者不重复的随机数
-				parm.NewValueStr = randString + " := new(" + parm.ParmType.String() + ")"
-				parm.StrInTypeOf = "*" + randString
+				parm.NewValueStr = "parm" + randString + " := new(" + parm.ParmType.String() + ")"
+				parm.StrInTypeOf = "*" + "parm" + randString
 				//todo bug 只有指针类型才应该采用下方的方式，基本数据类型和结构体和数组都应当采用上方的
 			} else {
 				parm.NewValueStr = ""
@@ -491,9 +502,9 @@ func genCode(outDir, modFile string) bool {
 			//fmt.Println(parm.ParmType.Name() + "----parm.ParmType.Name()") //name不带前缀的包名，而string是带包名的
 			//fmt.Println(result.ParmType.String() + "----parm.ParmType.String()")
 			if result.ParmKind != reflect.Ptr {
-				randString := utils.RandString(10)
-				result.NewResultStr = randString + " := new(" + result.ParmType.String() + ")"
-				result.StrInTypeOf = "*" + randString
+				randString := fmt.Sprint(rand.Intn(10000000))
+				result.NewResultStr = "parm" + randString + " := new(" + result.ParmType.String() + ")"
+				result.StrInTypeOf = "*" + "parm" + randString
 			} else {
 				result.NewValueStr = ""
 				result.StrInTypeOf = "new" + "(" + strings.TrimPrefix(result.ParmType.String(), "*") + ")"
@@ -649,6 +660,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 		refTyp := reflect.TypeOf(c)
 		refVal := reflect.ValueOf(c)
 		t := reflect.Indirect(refVal).Type()
+		pkgPath := t.PkgPath()
 		objName := t.Name()
 
 		// Install the methods
@@ -656,7 +668,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 			method := refTyp.Method(m)
 			num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 			if _b {
-				if v, ok := mp[objName+"."+method.Name]; ok {
+				if v, ok := mp[pkgPath+"."+objName+"."+method.Name]; ok {
 					for _, v1 := range v { // 第一格是方法的 refTyp.Method(m) 第二个传入结构体的 reflect.ValueOf(c)
 						//todo 除了rest方法上边的注解，还需要把rest实体类上边的注解考虑进去，包括请求头、返回头信息限制和 path，和请求方式，目前这个信息在 GenRouterInfo 已经有保存了，暂时还未解析放进去
 						b.registerHandlerObjTemp(router, method.Name, method.Func, refVal, v1)
@@ -731,7 +743,7 @@ func (b *BaseGin) registerHandlerObj(router gin.IRoutes, httpMethod []string, re
 func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, methodName string, tvl, obj reflect.Value, info utils.GenRouterInfo) error {
 	call := b.handlerFuncObjTemp(tvl, obj, methodName, info)
 
-	objMethods := info.Methods
+	//objMethods := info.Methods
 	restMethods := info.GenComment.Methods
 
 	objPath := info.RouterPath
@@ -749,9 +761,9 @@ func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, methodName string, 
 	realPath = strings.ReplaceAll(realPath, "//", "/")
 
 	//请求方法，优先使用rest方法上面的method，如果rest方法上面的method为空，那么则使用obj上面的
-	if len(restMethods) == 0 {
-		restMethods = objMethods
-	}
+	//if len(restMethods) == 0 {
+	//	restMethods = objMethods
+	//}
 
 	for _, v := range restMethods {
 		// method := strings.ToUpper(v)
@@ -972,6 +984,10 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 		}()
 
 		//todo 请求头校验与检查，如果没有的话就不检查，优先从rest方法上找，然后从obj
+
+		//采用c.GetHeader("") 的方式，因为 c.ShouldBindHeader 只会检查是否携带请求头不会对内容检验
+
+		//遍历标准/自定义请求头校验结构体属性，然后根据header tag c.GetHeader 获取参数，然后根据是否必须，做出continue 或者抛出异常
 
 		//todo 指定Consumes，如果没有指定的话就不检查，优先从rest方法上找，然后从obj
 

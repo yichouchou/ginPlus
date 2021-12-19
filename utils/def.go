@@ -56,11 +56,11 @@ type TransactionalComment struct {
 // store the comment for the controller method. 生成注解路由--由ast解析出来的内容，包括RouterPath路由，note注释文档，以及rest controller方法
 type GenComment struct {
 	RouterPath string
-	Note       string   // api注释
-	Headers    []string // 请求头键值对
-	Methods    []string //请求方式
-	Consumes   []string //请求头支持的请求内容类型 --todo 待开发
-	Produces   []string //响应时，响应的头上的内容类型 --todo 待开发
+	Note       string            // api注释
+	Headers    map[string]string // 请求头键值对
+	Methods    []string          //请求方式
+	Consumes   map[string]string //请求头支持的请求内容类型 --todo 待开发
+	Produces   map[string]string //响应时，响应的头上的内容类型 --todo 待开发
 	Parms      []*Parm
 	Result     []*Parm //组装返回参数的结构体，强烈建议，struct/基本数据类型 +err的返回方式 err是为了辨认是否为500服务器错误
 }
@@ -104,12 +104,11 @@ type GenRouterInfo struct {
 	GenComment  *GenComment
 	HandFunName string
 	RouterPath  string
-	Note        string   // api注释
-	Headers     []string // 请求头键值对
-	Methods     []string //请求方式
-	Consumes    []string //请求头支持的请求内容类型 --todo 待开发
-	Produces    []string //响应时，响应的头上的内容类型 --todo 待开发
-
+	Note        string            // api注释
+	Headers     map[string]string // 请求头键值对 --todo 必须是一个map
+	Methods     []string          //请求方式
+	Consumes    map[string]string //请求头支持的请求内容类型 --todo 待开发，是一个map
+	Produces    map[string]string //响应时，响应的头上的内容类型 --todo 待开发，是一个map
 }
 
 //路由规则信息
@@ -514,6 +513,9 @@ var (
 	//	{{range .List}}annotation.AddGenOne("{{.HandFunName}}", "{{.GenComment.RouterPath}}", []string{ {{GetStringList .GenComment.Methods}} })
 	//	{{end}} }
 	//`
+
+	//todo 把请求头 响应头 consumersCheck producesSet 添加到GenTemp 中
+
 	GenTemp = `
 	package {{.PkgName}}
 	
@@ -541,37 +543,82 @@ var (
 			{{end -}}
 		{{end}}
 
-		{{range .List}}annotation.AddGenOne("{{.HandFunName}}", utils.GenComment{
-		RouterPath: "{{.GenComment.RouterPath}}",
-		Note:       "",
-		Methods:    []string{ {{GetStringList .GenComment.Methods}} },
-		Parms: []*utils.Parm{	
+		{{range .List}}annotation.AddGenOne("{{.HandFunName}}", utils.GenRouterInfo{
+		HandFunName: "{{.HandFunName}}",
+		RouterPath: "{{.RouterPath}}",
+		Note:        "",
+		Methods:    []string{ {{GetStringList .Methods}} },
+        Headers:    map[string]string{
+					{{range $key, $value := .Headers }}
+            			"{{ $key}}" : "{{ $value}}",
+  					{{end}}
+					},
+		Consumes:    map[string]string{
+					{{range $key, $value := .Consumes }}
+            			"{{$key}}":"{{$value}}",
+  					{{end}}
+					},
+ 		Produces:    map[string]string{
+					{{range $key, $value := .Produces }}
+            			"{{$key}}": "{{$value}}",
+  					{{end}}
+					},
+		GenComment: &utils.GenComment{
+
+					RouterPath: "{{.GenComment.RouterPath}}",
+
+					Note:       "{{.GenComment.RouterPath}}",
+
+					Methods:    []string{ {{GetStringList .GenComment.Methods}} },
+
+					Headers:     map[string]string{
+								{{range $key, $value := .GenComment.Headers }}
+            						"{{$key}}": "{{$value}}",
+											{{end}}
+								},
+
+					Consumes:   map[string]string{
+								{{range $key, $value := .GenComment.Consumes }}
+            						"{{$key}}": "{{$value}}",
+											{{end}}
+								},
+
+					Produces:   map[string]string{
+								{{range $key, $value := .GenComment.Produces }}
+            						"{{$key}}": "{{$value}}",
+											{{end}}
+								},
+
+					Parms:      []*utils.Parm{
 		
-	{{range .GenComment.Parms}}
+								{{range .GenComment.Parms}}
+								{
+									ParmName: "{{.ParmName}}",
+									ParmType: reflect.TypeOf({{.StrInTypeOf}}),
+									IsMust:   {{.IsMust}},
+									ParmKind: {{.ParmKindStr}},
+								},	
 
-		{
-			ParmName: "{{.ParmName}}",
-			ParmType: reflect.TypeOf({{.StrInTypeOf}}),
-			IsMust:   {{.IsMust}},
-			ParmKind: {{.ParmKindStr}},
-		},	
+								{{end -}}
+											},
 
-	{{end -}}
+					Result:     []*utils.Parm{	
+		
+								{{range .GenComment.Result}}
+
+								{
+									ParmName: "{{.ParmName}}",
+									ParmType: reflect.TypeOf({{.StrInTypeOf}}),
+									IsMust:   {{.IsMust}},
+									ParmKind: {{.ParmKindStr}},
+								},	
+
+								{{end -}}
 
 
-		},
-		Result: []*utils.Parm{
-	{{range .GenComment.Result}}
-			{
-			ParmName: "{{.ParmName}}",
-			ParmType: reflect.TypeOf({{.StrInTypeOf}}),
-			IsMust:   {{.IsMust}},
-			ParmKind: {{.ParmKindStr}},
-			},
-	{{end -}}
-
-			
-		},
+										},
+							},
+		
 	})
 {{end}} }
 	`

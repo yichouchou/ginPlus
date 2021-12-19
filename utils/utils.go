@@ -160,6 +160,8 @@ func Kind2String(kind reflect.Kind) (kinStr string) {
 		return "reflect.Array"
 	case reflect.Interface:
 		return "reflect.Interface"
+	case reflect.Bool:
+		return "reflect.Bool"
 	default:
 		return "reflect.Slice"
 	}
