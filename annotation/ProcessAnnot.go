@@ -659,7 +659,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 				if v, ok := mp[objName+"."+method.Name]; ok {
 					for _, v1 := range v { // 第一格是方法的 refTyp.Method(m) 第二个传入结构体的 reflect.ValueOf(c)
 						//todo 除了rest方法上边的注解，还需要把rest实体类上边的注解考虑进去，包括请求头、返回头信息限制和 path，和请求方式，目前这个信息在 GenRouterInfo 已经有保存了，暂时还未解析放进去
-						b.registerHandlerObjTemp(router, v1.GenComment.Methods, v1.GenComment.RouterPath, method.Name, method.Func, refVal, v1)
+						b.registerHandlerObjTemp(router, method.Name, method.Func, refVal, v1)
 					}
 				} else { // not find using default case
 					routerPath, methods := b.getDefaultComments(objName, method.Name, num)
@@ -728,10 +728,32 @@ func (b *BaseGin) registerHandlerObj(router gin.IRoutes, httpMethod []string, re
 }
 
 // registerHandlerObj Multiple registration methods.获取并过滤要绑定的参数  主要开发内容
-func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, httpMethod []string, relativePath, methodName string, tvl, obj reflect.Value, v utils.GenRouterInfo) error {
-	call := b.handlerFuncObjTemp(tvl, obj, methodName, v)
+func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, methodName string, tvl, obj reflect.Value, info utils.GenRouterInfo) error {
+	call := b.handlerFuncObjTemp(tvl, obj, methodName, info)
 
-	for _, v := range httpMethod {
+	objMethods := info.Methods
+	restMethods := info.GenComment.Methods
+
+	objPath := info.RouterPath
+	restPath := info.GenComment.RouterPath
+
+	var realPath string
+
+	//请求路径为：objPath+restPath；标准的路径类似：/user/login
+	if objPath != "" {
+		realPath = "/" + objPath + "/" + restPath
+	} else {
+		realPath = "/" + restPath
+	}
+	//把
+	realPath = strings.ReplaceAll(realPath, "//", "/")
+
+	//请求方法，优先使用rest方法上面的method，如果rest方法上面的method为空，那么则使用obj上面的
+	if len(restMethods) == 0 {
+		restMethods = objMethods
+	}
+
+	for _, v := range restMethods {
 		// method := strings.ToUpper(v)
 		// switch method{
 		// case "ANY":
@@ -742,23 +764,24 @@ func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, httpMethod []string
 		// or
 		switch strings.ToUpper(v) {
 		case "POST":
-			router.POST(relativePath, call)
+			//真实路由是rest obj上面的路由+方法上面的path
+			router.POST(realPath, call)
 		case "GET":
-			router.GET(relativePath, call)
+			router.GET(realPath, call)
 		case "DELETE":
-			router.DELETE(relativePath, call)
+			router.DELETE(realPath, call)
 		case "PATCH":
-			router.PATCH(relativePath, call)
+			router.PATCH(realPath, call)
 		case "PUT":
-			router.PUT(relativePath, call)
+			router.PUT(realPath, call)
 		case "OPTIONS":
-			router.OPTIONS(relativePath, call)
+			router.OPTIONS(realPath, call)
 		case "HEAD":
-			router.HEAD(relativePath, call)
+			router.HEAD(realPath, call)
 		case "ANY":
-			router.Any(relativePath, call)
+			router.Any(realPath, call)
 		default:
-			return errors.Errorf("method:[%v] not support", httpMethod)
+			return errors.Errorf("method:[%v] not support", restPath)
 		}
 	}
 
@@ -947,6 +970,13 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 				b.recoverErrorFunc(err)
 			}
 		}()
+
+		//todo 请求头校验与检查
+
+		//todo 指定Consumes
+
+		//todo 指定Produces
+
 		//在参数绑定的时候，首先查询 _genInfoCnf 内的类型 和约束 比如 name string must
 		//然后根据类型断言，如果是string,则 执行代码如下 c.Query("name")
 
