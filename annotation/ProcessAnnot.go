@@ -971,11 +971,11 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 			}
 		}()
 
-		//todo 请求头校验与检查
+		//todo 请求头校验与检查，如果没有的话就不检查，优先从rest方法上找，然后从obj
 
-		//todo 指定Consumes
+		//todo 指定Consumes，如果没有指定的话就不检查，优先从rest方法上找，然后从obj
 
-		//todo 指定Produces
+		//todo 指定Produces，如果没有的话就不检查，优先从rest方法上找，然后从obj
 
 		//在参数绑定的时候，首先查询 _genInfoCnf 内的类型 和约束 比如 name string must
 		//然后根据类型断言，如果是string,则 执行代码如下 c.Query("name")
