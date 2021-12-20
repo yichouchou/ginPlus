@@ -271,8 +271,8 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 	//请求头上边的注解 todo 从注解获取关键信息然后填充
 	if objGenDecl != nil {
-		genRouterInfo.Methods = []string{"get", "post"}
-		genRouterInfo.Note = "aa"
+		genRouterInfo.Methods = []string{"any"}
+		genRouterInfo.Note = "notes"
 		genRouterInfo.Headers = map[string]string{}
 	}
 
@@ -421,16 +421,16 @@ func AddGenOne(handFunName string, gc utils.GenRouterInfo) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
 	gc.HandFunName = handFunName
-	gc.RouterPath = "/hi"
-	gc.Headers = map[string]string{
-		"Content-Type": "application/json",
-	}
-	gc.Consumes = map[string]string{
-		"Content-Type": "application/Consumes",
-	}
-	gc.Produces = map[string]string{
-		"Content-Type": "application/Produces",
-	}
+	//gc.RouterPath = "/hi"
+	//gc.Headers = map[string]string{
+	//	"Content-Type": "application/json",
+	//}
+	//gc.Consumes = map[string]string{
+	//	"Content-Type": "application/Consumes",
+	//}
+	//gc.Produces = map[string]string{
+	//	"Content-Type": "application/Produces",
+	//}
 	_genInfo.List = append(_genInfo.List, gc)
 }
 
@@ -743,7 +743,7 @@ func (b *BaseGin) registerHandlerObj(router gin.IRoutes, httpMethod []string, re
 func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, methodName string, tvl, obj reflect.Value, info utils.GenRouterInfo) error {
 	call := b.handlerFuncObjTemp(tvl, obj, methodName, info)
 
-	//objMethods := info.Methods
+	objMethods := info.Methods
 	restMethods := info.GenComment.Methods
 
 	objPath := info.RouterPath
@@ -761,9 +761,9 @@ func (b *BaseGin) registerHandlerObjTemp(router gin.IRoutes, methodName string, 
 	realPath = strings.ReplaceAll(realPath, "//", "/")
 
 	//请求方法，优先使用rest方法上面的method，如果rest方法上面的method为空，那么则使用obj上面的
-	//if len(restMethods) == 0 {
-	//	restMethods = objMethods
-	//}
+	if len(restMethods) == 0 {
+		restMethods = objMethods
+	}
 
 	for _, v := range restMethods {
 		// method := strings.ToUpper(v)

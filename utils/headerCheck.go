@@ -20,22 +20,27 @@ type ResponseHeader struct {
 	Attribute      map[string]string
 }
 
+//定义很多的请求头常量
+const ApplicationJson = "application/json"
+const GZIP = "gzip"
+const UTF8 = "utf-8"
+
 //请求头可以由用户自定义修改，在utils内定义多个标准的请求头类型，用户可以直接使用标准的请求头类型配合标准的请求头注解。也可以使用非标准的请求头类型和非标准的请求头注解个性化拓展
 var StandardRequestHeader = RequestHeader{
-	ContentType:    "",
-	AcceptEncoding: "",
+	ContentType:    ApplicationJson,
+	AcceptEncoding: GZIP,
 	RefererReferer: "",
 	Accept:         "",
-	AcceptLanguage: "",
+	AcceptLanguage: UTF8,
 	Attribute:      map[string]string{},
 }
 
 var StandardResponseHeader = ResponseHeader{
-	ContentType:    "",
-	AcceptEncoding: "",
+	ContentType:    ApplicationJson,
+	AcceptEncoding: GZIP,
 	RefererReferer: "",
 	Accept:         "",
-	AcceptLanguage: "",
+	AcceptLanguage: UTF8,
 	Attribute:      map[string]string{},
 }
 

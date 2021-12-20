@@ -567,7 +567,7 @@ var (
 
 					RouterPath: "{{.GenComment.RouterPath}}",
 
-					Note:       "{{.GenComment.RouterPath}}",
+					Note:       "{{.GenComment.Note}}",
 
 					Methods:    []string{ {{GetStringList .GenComment.Methods}} },
 
