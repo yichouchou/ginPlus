@@ -6,13 +6,13 @@ import (
 	"github.com/yichouchou/ginPlus/annotation"
 	"github.com/yichouchou/ginPlus/utils"
 
-	bind "github.com/yichouchou/ginPlus/bind"
-
 	examples "github.com/yichouchou/ginPlus/examples"
+
+	bind "github.com/yichouchou/ginPlus/bind"
 )
 
 func init() {
-	annotation.SetVersion(1639992250)
+	annotation.SetVersion(1639924621)
 
 	parm8498081 := new(string)
 
@@ -122,17 +122,26 @@ func init() {
 
 	annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi1",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block1",
 
-			Note: "",
+			Note: "/block1",
 
 			Methods: []string{"GET"},
 
@@ -200,17 +209,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi2", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi2",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block2",
 
-			Note: "",
+			Note: "/block2",
 
 			Methods: []string{"POST"},
 
@@ -257,17 +275,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi3",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block3",
 
-			Note: "",
+			Note: "/block3",
 
 			Methods: []string{"GET"},
 
@@ -328,17 +355,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi4", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi4",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block4",
 
-			Note: "",
+			Note: "/block4",
 
 			Methods: []string{"POST"},
 
@@ -378,17 +414,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi5", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi5",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block5",
 
-			Note: "",
+			Note: "/block5",
 
 			Methods: []string{"GET"},
 
@@ -428,17 +473,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi6", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi6",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block6",
 
-			Note: "",
+			Note: "/block6",
 
 			Methods: []string{"POST"},
 
@@ -478,17 +532,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi7", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi7",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block7",
 
-			Note: "",
+			Note: "/block7",
 
 			Methods: []string{"GET"},
 
@@ -528,17 +591,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Example.Say1", utils.GenRouterInfo{
 		HandFunName: "main.Example.Say1",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/Say1",
 
-			Note: "",
+			Note: "/Say1",
 
 			Methods: []string{"GET"},
 
@@ -585,17 +657,26 @@ func init() {
 	})
 	annotation.AddGenOne("main.Example.Say2", utils.GenRouterInfo{
 		HandFunName: "main.Example.Say2",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/Say2",
 
-			Note: "",
+			Note: "/Say2",
 
 			Methods: []string{"POST"},
 
@@ -649,17 +730,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples.UserRest.LogOutUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/examples.UserRest.LogOutUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/LogOutUser3",
 
-			Note: "",
+			Note: "/LogOutUser3",
 
 			Methods: []string{"GET"},
 
@@ -699,17 +789,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples.UserRest.RegistUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/examples.UserRest.RegistUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/RegistUser3",
 
-			Note: "",
+			Note: "/RegistUser3",
 
 			Methods: []string{"POST"},
 
@@ -749,17 +848,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.LogOutUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.LogOutUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/LogOutUser4",
 
-			Note: "",
+			Note: "/LogOutUser4",
 
 			Methods: []string{"GET"},
 
@@ -799,17 +907,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.RegistUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.RegistUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/RegistUser4",
 
-			Note: "",
+			Note: "/RegistUser4",
 
 			Methods: []string{"POST"},
 
@@ -849,17 +966,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/LogOutUser2",
 
-			Note: "",
+			Note: "/LogOutUser2",
 
 			Methods: []string{"GET"},
 
@@ -899,17 +1025,26 @@ func init() {
 	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.RegistUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/bind.UserRest222.RegistUser",
-		RouterPath:  "",
+		RouterPath:  "/hi",
 		Note:        "",
-		Methods:     []string{"any"},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
+		Methods:     []string{"get", "post"},
+		Headers: map[string]string{
+
+			"Content-Type": "application/json",
+		},
+		Consumes: map[string]string{
+
+			"Content-Type": "application/Consumes",
+		},
+		Produces: map[string]string{
+
+			"Content-Type": "application/Produces",
+		},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/RegistUser2",
 
-			Note: "",
+			Note: "/RegistUser2",
 
 			Methods: []string{"POST"},
 

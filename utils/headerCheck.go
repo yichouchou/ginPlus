@@ -70,6 +70,27 @@ var CustomResponseHeaderMap = map[string]string{
 	"Content-Type": "application/json",
 }
 
+type ReqHeaderInfoWithTag struct {
+	Type    string `请求头、响应头、公共头`
+	Tag     string
+	Headers map[string]string
+}
+
+// todo 提供一个init方法，在启动之后，加载所有内置的、自定义的 rest 头注解
+
+var UserReqHeadersAnno = ReqHeaderInfoWithTag{
+	Tag: "@resp-custom-user",
+	Headers: map[string]string{
+		"Content-Type": "application/json",
+	},
+	Type: "common-header",
+}
+
+type RespHeaderInfoWithTag struct {
+	Tag     string
+	Headers map[string]string
+}
+
 //自定义请求头，启动的时候可以往这里添加，然后注册rest的时候提前绑定
 var CustomRequestHeader = RequestHeader{}
 
