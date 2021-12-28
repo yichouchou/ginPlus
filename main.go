@@ -13,30 +13,7 @@ import (
 func main() {
 	engine := gin.Default() //todo 考虑兼容 iris的注解路由
 	base := annotation.New()
-	base.Dev(false)
+	base.Dev(true)
 	base.Register(engine, new(Hello), new(Example), new(examples.UserRest), new(controllor.UserRest222), new(bind.UserRest222))
 	engine.Run(":8088")
 }
-
-//
-//annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
-//HandFunName: "",
-//RouterPath:  "",
-//Note:        "",
-//Headers:     map[string]string{},
-//Methods:     []string{},
-//Consumes:    map[string]string{
-//	"aaa":"aaa",
-//},
-//Produces:    map[string]string{},
-//GenComment: &utils.GenComment{
-//RouterPath: "",
-//Note:       "",
-//Headers:    nil,
-//Methods:    nil,
-//Consumes:   nil,
-//Produces:   nil,
-//Parms:      nil,
-//Result:     nil,
-//},
-//})

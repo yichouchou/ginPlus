@@ -13,7 +13,8 @@ type TestRest struct {
 	Time string
 }
 
-// test UserRest
+// @POST /UserRest222
+// @resp-custom-user
 type UserRest222 struct {
 	Tel  int
 	Time string

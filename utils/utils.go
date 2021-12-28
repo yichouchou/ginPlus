@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"go/ast"
 	"math/rand"
 	"reflect"
 	"regexp"
@@ -289,4 +290,68 @@ func RandString(len int) string {
 		bytes[i] = byte(b)
 	}
 	return string(bytes) + strconv.Itoa(rand.Int())
+}
+
+func GetInfoFromRestObj(ty reflect.Type, objInfo *ast.GenDecl) GenRestObjInfo {
+	var info = GenRestObjInfo{}
+
+	comments := objInfo.Doc.List
+	for _, comment := range comments {
+		space := strings.TrimSpace(strings.TrimPrefix(comment.Text, "//"))
+
+		for _, annoInfo := range CommonHeaderAnnoConfig {
+			//判断是否存在obj 头注解，存在的话解析，不存在的话就不操作
+			if strings.Contains(space, annoInfo.Tag) {
+				info.Headers = annoInfo.Headers
+				info.Consumes = annoInfo.Consumes
+				info.Produces = annoInfo.Produces
+			}
+		}
+		//判断是否存在path注解,类似：@GET /block1
+		httpMethod, has := ContainsHttpMethod(space)
+		if has {
+			// todo bug fix 追加而不是替换请求method
+			info.Methods = []string{httpMethod}
+			httpRouter, contains := ContainsHttpRouter(space)
+			if contains {
+				info.RouterPath = httpRouter
+			}
+		}
+	}
+
+	//然后去找 rest obj上边的field name type 和 tag (非常不友好的设计，看上去非常杂乱，还是建议注解的方式)
+	//这里info2 未投入使用，主要考虑就是不建议使用，后续可能引入，并设置开关
+
+	var info2 = GenRestObjInfo{
+		Headers:  map[string]string{},
+		Consumes: map[string]string{},
+		Produces: map[string]string{},
+		Methods:  []string{},
+	}
+
+	fields := ty.Elem().NumField()
+	for i := 0; i < fields; i++ {
+		//首先检查该属性是否为ReqHeaderInfo 或者 RespHeaderInfo
+		var header = ReqHeaderInfo{}
+		if ty.Elem().Field(i).Type.ConvertibleTo(reflect.TypeOf(header)) {
+			if strings.Contains(ty.Elem().Field(i).Name, "Req") {
+				split := strings.TrimPrefix(ty.Elem().Field(i).Name, "Req")
+				//解析请求头信息
+				info2.Consumes[split] = ty.Elem().Field(i).Tag.Get("head")
+
+			} else if strings.Contains(ty.Elem().Field(i).Name, "Resp") {
+				split := strings.TrimPrefix(ty.Elem().Field(i).Name, "Resp")
+				//解析响应头信息
+				info2.Produces[split] = ty.Elem().Field(i).Tag.Get("head")
+
+			} else if strings.Contains(ty.Elem().Field(i).Name, "Com") {
+				split := strings.TrimPrefix(ty.Elem().Field(i).Name, "Com")
+				//解析公共头信息
+				info2.Headers[split] = ty.Elem().Field(i).Tag.Get("head")
+
+			}
+		}
+	}
+
+	return info
 }

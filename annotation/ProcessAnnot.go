@@ -176,30 +176,28 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 
 			//这是类上的注解
 			objMp := myast.GetObjMp(astPkgs, objName)
-			for s := range objMp {
-				fmt.Println(s)
-			}
-			// ast.Print(token.NewFileSet(), astPkgs)
-			// fmt.Println(b)
 
 			refTyp := reflect.TypeOf(c)
 
+			//根据objMp 和 refTyp restObj反射对象，获取到上边的注解和对象上的tag/头信息
+			objGenDecl := objMp[objName]
+
+			//一个公共方法，提取出关键信息
+			infoFromRestObj := utils.GetInfoFromRestObj(refTyp, objGenDecl)
+
 			//todo 获取请求头，请求方式和请求路径，从对象上边的注解获取（调用的时候优先找方法上边的注解请求头、请求方式等核心信息，然后再找请求头，再找默认）,其中对象的注解在 astPkgs 下的的Files的Decls的第二个位置，非绝对位置，type为GenDecl
 			// Files的Decls 非main方法下的ast会把多个对象都塞进去，即使不是rest实体
-			//fmt.Println(refTyp.NumMethod(), "---有多少rest方法")
-			// Install the methods
+
 			for m := 0; m < refTyp.NumMethod(); m++ {
 				method := refTyp.Method(m)
 				num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 				if _b {
 					if sdl, ok := funMp[method.Name]; ok {
-						var objgenDecl *ast.GenDecl
-						for _, v := range objMp {
-							objgenDecl = v
-						}
+
+						//修改下方方法的入参：只处理rest method的部分，把rest obj的部分放到 遍历外部，否则会出现重复处理
 
 						//todo 把objMp 类上的注解也传入进去
-						gc, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, objgenDecl)
+						gc, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, infoFromRestObj)
 						if b.isOutDoc { // output doc  如果是OutDoc，则...  了解这里parse结构体的意义
 							docReq, docResp := b.parserStruct(req, resp, astPkgs, modPkg, modFile)
 
@@ -265,16 +263,16 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 }
 
 // 解析内容，为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
-func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type, objGenDecl *ast.GenDecl) (*utils.GenRouterInfo, *utils.ParmInfo, *utils.ParmInfo) {
+func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type, objInfo utils.GenRestObjInfo) (*utils.GenRouterInfo, *utils.ParmInfo, *utils.ParmInfo) {
 
 	var genRouterInfo = &utils.GenRouterInfo{}
 
 	//请求头上边的注解 todo 从注解获取关键信息然后填充
-	if objGenDecl != nil {
-		genRouterInfo.Methods = []string{"any"}
-		genRouterInfo.Note = "notes"
-		genRouterInfo.Headers = map[string]string{}
-	}
+	genRouterInfo.Methods = objInfo.Methods
+	genRouterInfo.RouterPath = objInfo.RouterPath
+	genRouterInfo.Produces = objInfo.Produces
+	genRouterInfo.Consumes = objInfo.Consumes
+	genRouterInfo.Headers = objInfo.Headers
 
 	var note string
 

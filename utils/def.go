@@ -111,6 +111,17 @@ type GenRouterInfo struct {
 	Produces    map[string]string //响应时，响应的头上的内容类型 --todo 待开发，是一个map
 }
 
+//rest obj 信息结构体
+type GenRestObjInfo struct {
+	HandFunName string
+	RouterPath  string
+	Note        string
+	Methods     []string
+	Headers     map[string]string
+	Consumes    map[string]string
+	Produces    map[string]string
+}
+
 //路由规则信息
 type GenInfo struct {
 	List          []GenRouterInfo

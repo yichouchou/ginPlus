@@ -71,9 +71,11 @@ var CustomResponseHeaderMap = map[string]string{
 }
 
 type ReqHeaderInfoWithTag struct {
-	Type    string `请求头、响应头、公共头`
-	Tag     string
-	Headers map[string]string
+	Type     string `请求头、响应头、公共头`
+	Tag      string
+	Headers  map[string]string
+	Consumes map[string]string
+	Produces map[string]string
 }
 
 // todo 提供一个init方法，在启动之后，加载所有内置的、自定义的 rest 头注解
@@ -109,13 +111,13 @@ type RespHeaderInfo struct {
 // todo 下边是只支持rest obj的方式
 //把 名称作为请求头的key,把tag信息作为value，其中的 , 作为分隔符；可以在dev的时候直接解析到router文件中，方便生成rest接口文档，然后生产环境直接加载
 type RestObj struct {
-	ReqContentType    ReqHeaderInfo `application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8`
-	ReqUserAgent      ReqHeaderInfo `PostmanRuntime/7.26.8`
-	ReqAcceptEncoding ReqHeaderInfo `gzip, deflate, br`
+	ReqContentType    ReqHeaderInfo `head:"application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8"`
+	ReqUserAgent      ReqHeaderInfo `head:"PostmanRuntime/7.26.8"`
+	ReqAcceptEncoding ReqHeaderInfo `head:"gzip, deflate, br"`
 
-	RespContentType    RespHeaderInfo `application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8`
-	RespUserAgent      RespHeaderInfo `PostmanRuntime/7.26.8`
-	RespAcceptEncoding RespHeaderInfo `gzip, deflate, br`
+	RespContentType    RespHeaderInfo `head:"application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8"`
+	RespUserAgent      RespHeaderInfo `head:"PostmanRuntime/7.26.8"`
+	RespAcceptEncoding RespHeaderInfo `head:"gzip, deflate, br"`
 }
 
 // Hello ...
