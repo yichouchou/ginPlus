@@ -1245,7 +1245,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					values = append(values, parm.Value)
 				}
 				results := tvl.Call(values)
-
+				//todo 校验：如果没有返回值类型（用户ctx 处理了响应），则直接返回-- 用户可能在方法内更改响应头，我们应当允许这样的情况，且以用户更改的优先
 				c.JSON(200, results[0].Interface())
 
 				//get 请求也是可以表单提交的，这里理解有误，可能需要后续更正 todo
