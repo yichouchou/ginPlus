@@ -419,6 +419,32 @@ func AddGenOne(handFunName string, gc utils.GenRouterInfo) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
 	gc.HandFunName = handFunName
+	//todo 请求头校验与检查，如果没有的话就不检查，优先从rest方法上找，然后从obj
+	if len(gc.GenComment.Produces) == 0 || gc.GenComment.Produces == nil {
+		if gc.GenComment.Headers == nil || len(gc.GenComment.Headers) == 0 {
+			if gc.Produces == nil || len(gc.Produces) == 0 {
+				gc.GenComment.Produces = gc.Headers
+			} else {
+				gc.GenComment.Produces = gc.Produces
+			}
+
+		} else {
+			gc.GenComment.Produces = gc.GenComment.Headers
+		}
+	}
+
+	if len(gc.GenComment.Consumes) == 0 || gc.GenComment.Produces == nil {
+		if gc.GenComment.Headers == nil || len(gc.GenComment.Headers) == 0 {
+			if gc.Consumes == nil || len(gc.Consumes) == 0 {
+				gc.GenComment.Consumes = gc.Headers
+			} else {
+				gc.GenComment.Consumes = gc.Consumes
+			}
+		} else {
+			gc.GenComment.Produces = gc.GenComment.Headers
+		}
+
+	}
 	//gc.RouterPath = "/hi"
 	//gc.Headers = map[string]string{
 	//	"Content-Type": "application/json",
@@ -981,7 +1007,19 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 			}
 		}()
 
-		//todo 请求头校验与检查，如果没有的话就不检查，优先从rest方法上找，然后从obj
+		//设置响应头
+		for index, value := range v.GenComment.Produces {
+			c.Writer.Header().Set(index, value)
+		}
+
+		//请求头校验
+		for key, value := range v.GenComment.Consumes {
+			Keyheader := c.GetHeader(key)
+			if strings.Compare(value, Keyheader) != 0 {
+				c.JSON(500, "请求头错误")
+				return
+			}
+		}
 
 		//采用c.GetHeader("") 的方式，因为 c.ShouldBindHeader 只会检查是否携带请求头不会对内容检验
 

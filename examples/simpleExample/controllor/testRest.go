@@ -1,6 +1,9 @@
 package controllor
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
 
 type DemoRest struct {
 	Tel  int
@@ -21,7 +24,7 @@ type UserRest222 struct {
 
 // [name string, age int]
 // @POST /RegistUser4
-func (receiver *UserRest222) RegistUser(name string, age int) (success bool) {
+func (receiver *UserRest222) RegistUser(ctx gin.Context, name string, age int) (success bool) {
 	fmt.Println(name, age, "-----user")
 	return true
 }

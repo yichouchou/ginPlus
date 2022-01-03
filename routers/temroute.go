@@ -6,13 +6,15 @@ import (
 	"github.com/yichouchou/ginPlus/annotation"
 	"github.com/yichouchou/ginPlus/utils"
 
+	gin "github.com/gin-gonic/gin"
+
 	bind "github.com/yichouchou/ginPlus/bind"
 
 	examples "github.com/yichouchou/ginPlus/examples"
 )
 
 func init() {
-	annotation.SetVersion(1640676536)
+	annotation.SetVersion(1641216428)
 
 	parm8498081 := new(string)
 
@@ -64,17 +66,19 @@ func init() {
 
 	parm8565194 := new(int)
 
-	parm8712433 := new(string)
+	parm8712433 := new(gin.Context)
 
-	parm9424147 := new(int)
+	parm9424147 := new(string)
 
-	parm5764324 := new(string)
+	parm4474078 := new(int)
 
-	parm3516159 := new(int)
+	parm3516159 := new(string)
 
-	parm951957 := new(string)
+	parm6971353 := new(int)
 
-	parm8043721 := new(int)
+	parm8043721 := new(string)
+
+	parm627189 := new(int)
 
 	parm1902081 := new(string)
 
@@ -114,11 +118,11 @@ func init() {
 
 	parm8090563 := new(bool)
 
-	parm4474078 := new(bool)
+	parm5764324 := new(bool)
 
-	parm6971353 := new(bool)
+	parm951957 := new(bool)
 
-	parm627189 := new(bool)
+	parm9282199 := new(bool)
 
 	annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi1",
@@ -147,9 +151,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -234,9 +244,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -300,9 +316,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -380,9 +402,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -439,9 +467,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -498,9 +532,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -557,9 +597,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -616,9 +662,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -682,9 +734,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -755,9 +813,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -814,9 +878,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
@@ -924,12 +994,19 @@ func init() {
 					ParmName: "name",
 					ParmType: reflect.TypeOf(*parm8712433),
 					IsMust:   false,
-					ParmKind: reflect.String,
+					ParmKind: reflect.Struct,
 				},
 
 				{
 					ParmName: "age",
 					ParmType: reflect.TypeOf(*parm9424147),
+					IsMust:   false,
+					ParmKind: reflect.String,
+				},
+
+				{
+					ParmName: "age",
+					ParmType: reflect.TypeOf(*parm4474078),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -939,7 +1016,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm4474078),
+					ParmType: reflect.TypeOf(*parm5764324),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
@@ -973,22 +1050,28 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm5764324),
+					ParmType: reflect.TypeOf(*parm3516159),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm3516159),
+					ParmType: reflect.TypeOf(*parm6971353),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -998,7 +1081,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm6971353),
+					ParmType: reflect.TypeOf(*parm951957),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
@@ -1032,22 +1115,28 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{},
+			Consumes: map[string]string{
 
-			Produces: map[string]string{},
+				"RefererReferer": "www.baidu.com",
+			},
+
+			Produces: map[string]string{
+
+				"Accept-Language": "cn",
+			},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm951957),
+					ParmType: reflect.TypeOf(*parm8043721),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm8043721),
+					ParmType: reflect.TypeOf(*parm627189),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -1057,7 +1146,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm627189),
+					ParmType: reflect.TypeOf(*parm9282199),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
