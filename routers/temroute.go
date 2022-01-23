@@ -7,10 +7,12 @@ import (
 	"github.com/yichouchou/ginPlus/utils"
 
 	bind "github.com/yichouchou/ginPlus/bind"
+
+	utils "github.com/yichouchou/ginPlus/utils"
 )
 
 func init() {
-	annotation.SetVersion(1642923123)
+	annotation.SetVersion(1642940588)
 
 	parm8498081 := new(string)
 
