@@ -6,15 +6,11 @@ import (
 	"github.com/yichouchou/ginPlus/annotation"
 	"github.com/yichouchou/ginPlus/utils"
 
-	gin "github.com/gin-gonic/gin"
-
 	bind "github.com/yichouchou/ginPlus/bind"
-
-	examples "github.com/yichouchou/ginPlus/examples"
 )
 
 func init() {
-	annotation.SetVersion(1641216428)
+	annotation.SetVersion(1642923123)
 
 	parm8498081 := new(string)
 
@@ -40,45 +36,13 @@ func init() {
 
 	parm2186258 := new(bind.ReqTest)
 
-	parm6138287 := new(examples.DemoRest)
+	parm6138287 := new(string)
 
-	parm3632888 := new(examples.DemoRest)
+	parm3632888 := new(int)
 
-	parm8292790 := new(examples.DemoRest)
+	parm6193015 := new(string)
 
-	parm4895541 := new(string)
-
-	parm780408 := new(string)
-
-	parm7387 := new(string)
-
-	parm4066831 := new(examples.DemoRest)
-
-	parm625356 := new(string)
-
-	parm7341737 := new(int)
-
-	parm6111485 := new(string)
-
-	parm7515026 := new(int)
-
-	parm2003090 := new(string)
-
-	parm8565194 := new(int)
-
-	parm8712433 := new(gin.Context)
-
-	parm9424147 := new(string)
-
-	parm4474078 := new(int)
-
-	parm3516159 := new(string)
-
-	parm6971353 := new(int)
-
-	parm8043721 := new(string)
-
-	parm627189 := new(int)
+	parm4895541 := new(int)
 
 	parm1902081 := new(string)
 
@@ -108,21 +72,9 @@ func init() {
 
 	parm7979947 := new(error)
 
-	parm6193015 := new(string)
+	parm8292790 := new(bool)
 
-	parm4315429 := new(string)
-
-	parm6960631 := new(bool)
-
-	parm2086413 := new(bool)
-
-	parm8090563 := new(bool)
-
-	parm5764324 := new(bool)
-
-	parm951957 := new(bool)
-
-	parm9282199 := new(bool)
+	parm780408 := new(bool)
 
 	annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi1",
@@ -635,394 +587,6 @@ func init() {
 			},
 		},
 	})
-	annotation.AddGenOne("main.Example.Say1", utils.GenRouterInfo{
-		HandFunName: "main.Example.Say1",
-		RouterPath:  "/Example",
-		Note:        "",
-		Methods:     []string{"GET"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/Say1",
-
-			Note: "",
-
-			Methods: []string{"GET"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{
-
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "str1",
-					ParmType: reflect.TypeOf(*parm6138287),
-					IsMust:   false,
-					ParmKind: reflect.Struct,
-				},
-
-				{
-					ParmName: "str2",
-					ParmType: reflect.TypeOf(*parm3632888),
-					IsMust:   false,
-					ParmKind: reflect.Struct,
-				},
-
-				{
-					ParmName: "str3",
-					ParmType: reflect.TypeOf(*parm8292790),
-					IsMust:   false,
-					ParmKind: reflect.Struct,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "str4",
-					ParmType: reflect.TypeOf(*parm6193015),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-			},
-		},
-	})
-	annotation.AddGenOne("main.Example.Say2", utils.GenRouterInfo{
-		HandFunName: "main.Example.Say2",
-		RouterPath:  "/Example",
-		Note:        "",
-		Methods:     []string{"GET"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/Say2",
-
-			Note: "",
-
-			Methods: []string{"POST"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{
-
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "str1",
-					ParmType: reflect.TypeOf(*parm4895541),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "str2",
-					ParmType: reflect.TypeOf(*parm780408),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "str3",
-					ParmType: reflect.TypeOf(*parm7387),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "rest",
-					ParmType: reflect.TypeOf(*parm4066831),
-					IsMust:   false,
-					ParmKind: reflect.Struct,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "str4",
-					ParmType: reflect.TypeOf(*parm4315429),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-			},
-		},
-	})
-	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples.UserRest.LogOutUser", utils.GenRouterInfo{
-		HandFunName: "github.com/yichouchou/ginPlus/examples.UserRest.LogOutUser",
-		RouterPath:  "/example.UserRest",
-		Note:        "",
-		Methods:     []string{"GET"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/LogOutUser3",
-
-			Note: "",
-
-			Methods: []string{"GET"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{
-
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm625356),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm7341737),
-					IsMust:   false,
-					ParmKind: reflect.Int,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm6960631),
-					IsMust:   false,
-					ParmKind: reflect.Bool,
-				},
-			},
-		},
-	})
-	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples.UserRest.RegistUser", utils.GenRouterInfo{
-		HandFunName: "github.com/yichouchou/ginPlus/examples.UserRest.RegistUser",
-		RouterPath:  "/example.UserRest",
-		Note:        "",
-		Methods:     []string{"GET"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/RegistUser3",
-
-			Note: "",
-
-			Methods: []string{"POST"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{
-
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm6111485),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm7515026),
-					IsMust:   false,
-					ParmKind: reflect.Int,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm2086413),
-					IsMust:   false,
-					ParmKind: reflect.Bool,
-				},
-			},
-		},
-	})
-	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.LogOutUser", utils.GenRouterInfo{
-		HandFunName: "github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.LogOutUser",
-		RouterPath:  "",
-		Note:        "",
-		Methods:     []string{""},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/LogOutUser4",
-
-			Note: "",
-
-			Methods: []string{"GET"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{},
-
-			Produces: map[string]string{},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm2003090),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm8565194),
-					IsMust:   false,
-					ParmKind: reflect.Int,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm8090563),
-					IsMust:   false,
-					ParmKind: reflect.Bool,
-				},
-			},
-		},
-	})
-	annotation.AddGenOne("github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.RegistUser", utils.GenRouterInfo{
-		HandFunName: "github.com/yichouchou/ginPlus/examples/simpleExample/controllor.UserRest222.RegistUser",
-		RouterPath:  "",
-		Note:        "",
-		Methods:     []string{""},
-		Headers:     map[string]string{},
-		Consumes:    map[string]string{},
-		Produces:    map[string]string{},
-		GenComment: &utils.GenComment{
-
-			RouterPath: "/RegistUser4",
-
-			Note: "",
-
-			Methods: []string{"POST"},
-
-			Headers: map[string]string{},
-
-			Consumes: map[string]string{},
-
-			Produces: map[string]string{},
-
-			Parms: []*utils.Parm{
-
-				{
-					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm8712433),
-					IsMust:   false,
-					ParmKind: reflect.Struct,
-				},
-
-				{
-					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm9424147),
-					IsMust:   false,
-					ParmKind: reflect.String,
-				},
-
-				{
-					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm4474078),
-					IsMust:   false,
-					ParmKind: reflect.Int,
-				},
-			},
-
-			Result: []*utils.Parm{
-
-				{
-					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm5764324),
-					IsMust:   false,
-					ParmKind: reflect.Bool,
-				},
-			},
-		},
-	})
 	annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser", utils.GenRouterInfo{
 		HandFunName: "github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser",
 		RouterPath:  "/UserRest222",
@@ -1064,14 +628,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm3516159),
+					ParmType: reflect.TypeOf(*parm6138287),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm6971353),
+					ParmType: reflect.TypeOf(*parm3632888),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -1081,7 +645,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm951957),
+					ParmType: reflect.TypeOf(*parm8292790),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
@@ -1129,14 +693,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm8043721),
+					ParmType: reflect.TypeOf(*parm6193015),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm627189),
+					ParmType: reflect.TypeOf(*parm4895541),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -1146,7 +710,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm9282199),
+					ParmType: reflect.TypeOf(*parm780408),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},

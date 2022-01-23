@@ -143,9 +143,6 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		return false
 	}
 
-	groupPath := b.BasePath(router)
-	doc := mydoc.NewDoc(groupPath)
-
 	for _, c := range cList {
 		refVal := reflect.ValueOf(c)
 		t := reflect.Indirect(refVal).Type()
@@ -197,13 +194,8 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 						//修改下方方法的入参：只处理rest method的部分，把rest obj的部分放到 遍历外部，否则会出现重复处理
 
 						//todo 把objMp 类上的注解也传入进去
-						gc, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, infoFromRestObj)
-						if b.isOutDoc { // output doc  如果是OutDoc，则...  了解这里parse结构体的意义
-							docReq, docResp := b.parserStruct(req, resp, astPkgs, modPkg, modFile)
+						gc, _, _ := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type, infoFromRestObj)
 
-							doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
-
-						}
 						checkOnceAdd(objPkg+"."+objName+"."+method.Name, *gc)
 
 					}
@@ -212,12 +204,6 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 		}
 	}
 
-	if b.isOutDoc {
-		doc.GenSwagger(modFile + "/docs/swagger/")
-		doc.GenMarkdown(modFile + "/docs/markdown/")
-	}
-
-	//todo 更新新的router输出方法，把rest objeck 上边的关键信息也输出
 	genOutPut(b.outPath, modFile) // generate code
 	return true
 }

@@ -8,3 +8,5 @@ require (
 	github.com/xxjwxc/public v0.0.0-20210604020721-3cc06f1e88c0
 	google.golang.org/grpc v1.29.1
 )
+
+replace github.com/xxjwxc/public v0.0.0-20210604020721-3cc06f1e88c0 => github.com/yichouchou/public v0.0.0-20220119031239-572eeffef718

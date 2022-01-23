@@ -4,7 +4,6 @@ import (
 	fmt "fmt"
 
 	bind "github.com/yichouchou/ginPlus/bind"
-	"github.com/yichouchou/ginPlus/examples"
 	"github.com/yichouchou/ginPlus/utils"
 )
 
@@ -91,31 +90,4 @@ func (s *Hello) Hi7(reqList bind.ReqTest) (index int, errHi5 error) {
 // @GET /Example
 // @resp-custom-user
 type Example struct {
-}
-
-// [str1, str2, str3 examples.DemoRest]
-// @GET /Say1
-func (example *Example) Say1(str1, str2, str3 examples.DemoRest) (str4 string) {
-	fmt.Println("-- Say1 rest接口--")
-	return "这个是example say1方法rest"
-}
-
-// {str1, str2, str3 string,rest examples.DemoRest}
-// @POST /Say2
-func (example *Example) Say2(str1, str2, str3 string, rest examples.DemoRest) (str4 string) {
-	fmt.Println("--post请求，既包含请求体的内容，也包含请求头的内容，参数绑定成功---")
-	fmt.Println(str1, str2, str3)
-	fmt.Println(rest)
-	return "这个是example say2方法rest"
-}
-
-type DemoRest struct {
-	Tel  int
-	Time string
-}
-
-// TestRest TestRest
-type TestRest struct {
-	Tel  int
-	Time string
 }

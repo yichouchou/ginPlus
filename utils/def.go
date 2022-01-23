@@ -12,7 +12,6 @@ import (
 	"github.com/xxjwxc/public/errors"
 
 	"github.com/gin-gonic/gin"
-	//"github.com/xxjwxc/ginrpc/api"
 )
 
 // NewAPIFunc Custom context support

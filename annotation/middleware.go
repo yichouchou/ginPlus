@@ -2,14 +2,6 @@ package annotation
 
 import (
 	"context"
-	"fmt"
-	"time"
-
-	"github.com/xxjwxc/public/message"
-	"google.golang.org/grpc/status"
-
-	"github.com/xxjwxc/public/mylog"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,34 +29,3 @@ type DefaultGinBeforeAfter struct {
 }
 
 type timeTrace struct{}
-
-// GinBefore call之前调用
-func (d *DefaultGinBeforeAfter) GinBefore(req *GinBeforeAfterInfo) bool {
-	req.Context = context.WithValue(req.Context, timeTrace{}, time.Now())
-	return true
-}
-
-// GinAfter call之后调用
-func (d *DefaultGinBeforeAfter) GinAfter(req *GinBeforeAfterInfo) bool {
-	begin := (req.Context.Value(timeTrace{})).(time.Time)
-	now := time.Now()
-	mylog.Info(fmt.Sprintf("[middleware] call[%v] [%v]", req.FuncName, now.Sub(begin)))
-
-	msg := message.GetSuccessMsg()
-	if req.Error != nil {
-		msg = message.GetErrorMsg(message.InValidOp)
-		gerr := status.Convert(req.Error)
-		if gerr != nil {
-			msg.Code = int(gerr.Code())
-			msg.Error = gerr.Message()
-		} else {
-			msg.Error = req.Error.Error()
-		}
-	} else {
-		msg.Data = req.Resp
-	}
-
-	req.Resp = msg // 设置resp 结果
-
-	return true
-}
