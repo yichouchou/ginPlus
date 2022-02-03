@@ -198,6 +198,8 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 
 						checkOnceAdd(objPkg+"."+objName+"."+method.Name, *gc)
 
+						//todo add swagger doc
+
 					}
 				}
 			}

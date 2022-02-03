@@ -181,6 +181,8 @@ var doc = `{
     }
 }`
 
+//其中get / post 请求后边的 json内容是 github.com/go-openapi/spec包 下的 operation.go 的OperationProps 结构体的json
+
 type s struct{}
 
 func (s *s) ReadDoc() string {
