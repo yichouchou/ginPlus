@@ -87,6 +87,11 @@ func (b *BaseGin) Dev(isDev bool) {
 	b.isDev = isDev
 }
 
+// set route gen path
+func (b *BaseGin) OutPath(outPath string) {
+	b.outPath = outPath
+}
+
 // SetRecover set recover err call  设置下线重启？
 func (b *BaseGin) SetRecover(errfun func(interface{})) {
 	b.recoverErrorFunc = errfun
@@ -158,7 +163,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 
 		astPkgs, _b := myast.GetAstPkgs(objPkg, objFile) // get ast trees.
 		if _b {
-			//获得astPkgs 之后，去除掉里面的main
+			//获得astPkgs 之后，去除掉里面的main todo 由于已经有了goimports ，所以考虑摘除掉，但是不摘除它也会自动补齐，可以在将来完善，可以不依赖goimports插件
 			for s := range astPkgs.Files {
 				if strings.Contains(s, "main.go") {
 					delete(astPkgs.Files, s)
@@ -418,7 +423,7 @@ func AddGenOne(handFunName string, gc utils.GenComment) {
 func genOutPut(outDir, modFile string) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
-
+	//todo 确定生成的routers 文件路径获取需要优化，如果main不在 go.mog一级
 	b := genCode(outDir, modFile) // gen .go file
 
 	_genInfo.Tm = time.Now().Unix()
@@ -525,7 +530,12 @@ func genCode(outDir, modFile string) bool {
 	// format 格式化代码
 	exec.Command("gofmt", "-l", "-s", "-w", outDir).Output()
 	// goimports 移除非必要的依赖，需要安装goimports到go/bin目录下
-	exec.Command("goimports", "-w", outDir).Output()
+	output, err := exec.Command("goimports", "-w", outDir).Output()
+	if err != nil {
+		fmt.Printf("goimports catch errr: %v", err)
+	}
+	fmt.Printf("goimports result: %s", string(output))
+
 	return true
 }
 

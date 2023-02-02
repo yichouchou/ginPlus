@@ -91,7 +91,7 @@ type Parm struct {
 
 }
 
-//存储gen_router的路径 todo 完全不知道这个什么用途，里面内容看不到，预期是服务于生成doc
+//存储gen_router的路径 todo 默认生成的路由文件路径
 const (
 	GetRouter = "/conf/gen_router.data"
 )
