@@ -9,7 +9,13 @@ import (
 
 // @POST /hello
 // @resp-custom-user
+
+type BaseRestSetting struct {
+	CommonHeader string
+}
+
 type Hello struct {
+	BaseRestSetting
 	ReqContentType    utils.ReqHeaderInfo `head:"application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8"`
 	ReqUserAgent      utils.ReqHeaderInfo `head:"PostmanRuntime/7.26.8"`
 	ReqAcceptEncoding utils.ReqHeaderInfo `head:"gzip, deflate, br"`

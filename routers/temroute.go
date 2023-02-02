@@ -4,7 +4,6 @@ import (
 	"reflect"
 
 	"github.com/yichouchou/ginPlus/annotation"
-	"github.com/yichouchou/ginPlus/utils"
 
 	bind "github.com/yichouchou/ginPlus/bind"
 

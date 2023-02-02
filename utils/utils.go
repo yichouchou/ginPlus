@@ -292,6 +292,7 @@ func RandString(len int) string {
 	return string(bytes) + strconv.Itoa(rand.Int())
 }
 
+// 从ast 获取到使用的哪种 rest注解  从注册的controller obj对象的tag中提取使用的请求头 响应头等信息
 func GetInfoFromRestObj(ty reflect.Type, objInfo *ast.GenDecl) GenRestObjInfo {
 	var info = GenRestObjInfo{}
 
@@ -330,6 +331,9 @@ func GetInfoFromRestObj(ty reflect.Type, objInfo *ast.GenDecl) GenRestObjInfo {
 	}
 
 	fields := ty.Elem().NumField()
+
+	//先从从基础公共rest header头对象获取，然后从rest obj对象的tag上获取该对象所有rest方法的 header等信息然后配置
+
 	for i := 0; i < fields; i++ {
 		//首先检查该属性是否为ReqHeaderInfo 或者 RespHeaderInfo
 		var header = ReqHeaderInfo{}
