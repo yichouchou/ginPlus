@@ -1,4 +1,4 @@
-package examples
+package controller
 
 import "fmt"
 
@@ -19,9 +19,10 @@ func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
 	return true
 }
 
-// [name string, age int]
 // @GET /LogOutUser
-func (receiver *UserRest) LogOutUser(name string, age int) (success bool) {
+func (receiver *UserRest) LogOutUser(name string, age int, rest DemoRest) (success bool) {
 	fmt.Println(name, age, "-----user")
+	fmt.Println(rest.Tel, "-----Tel")
+	fmt.Println(rest.Time, "-----Time")
 	return false
 }
