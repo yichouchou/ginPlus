@@ -428,7 +428,9 @@ func genOutPut(outDir, modFile string) {
 
 	_genInfo.Tm = time.Now().Unix()
 	_data, _ := serializing.Encode(&_genInfo) // gob serialize 序列化
-	_path := path.Join(tools.GetCurrentDirectory(), utils.GetRouter)
+	// 使用 modFile 作为基础路径，确保路由文件生成在正确的位置
+	_routerDir := modFile + "/routers/"
+	_path := path.Join(_routerDir, "gen_router.data")
 	if !b {
 		tools.BuildDir(_path)
 	}
