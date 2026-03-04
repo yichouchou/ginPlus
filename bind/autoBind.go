@@ -1,26 +1,139 @@
 package bind
 
-//todo 参数自动绑定逻辑
+import (
+	"reflect"
 
-//需要统一规范
-//
-// 1。get请求都是通过请求头传参数 类似【name string, password string, age int 】一个个获取， 或者 【hiValue bind.ReqTest】从url解析出结构体放入
+	"github.com/gin-gonic/gin"
+)
 
-// 2。post请求可以把参数放到请求头 也可以放请求体， 如果不特别指定（规则暂时未定），那么从请求体中获取
+// ParameterBindingSource defines where to bind parameters from
+type ParameterBindingSource int
 
-// 3。表单提交参数从请求体form中根据键值对获取value，然后装填到参数内，比如下方为java post请求传参
-/*
-（ModelMap modelMap, HttpServletRequest request,
-HttpServletResponse response, String resourceId,
-String resourceDomain, String resourceVersion,
-String attributeName, String value, String fromApp,
-String token, String timeZone）
-*/
+const (
+	// BindingFromQuery binds from URL query parameters
+	BindingFromQuery ParameterBindingSource = iota
+	// BindingFromHeader binds from request headers
+	BindingFromHeader
+	// BindingFromBody binds from request body (JSON)
+	BindingFromBody
+	// BindingFromForm binds from form data
+	BindingFromForm
+	// BindingFromPath binds from URL path parameters
+	BindingFromPath
+)
 
-//todo gin.shoudbind非常友好，暂时可以直接拿来用,以后需要个性化修改和调整。
+// AutoBindParams automatically binds parameters from request to the given struct
+// Supports: JSON body, Form data, Query parameters, Headers
+func AutoBindParams(c *gin.Context, params interface{}) error {
+	return c.ShouldBind(params)
+}
 
-//todo post请求，然后先去找请求头的参数，依次绑定，然后找请求体的参数。
-//todo 如果部分注释，则先按照已经有的去寻找，剩下的理解为是其他部分（比如写了请求头的，那么剩下的就是请求体）
-//
-//todo 如果未有注解，则按照默认的方式（查看参数个数，post请求多参数的话就是表单方式，1个参数就是默认请求体内容）
-//todo get请求，全部都在请求体内，依次绑定即可。（注意：如果存在结构体，那么通过shoudbind去绑定，如果都是基本数据类型，则通过query去绑定）
+// BindParamsFromSource binds params from a specific source
+func BindParamsFromSource(c *gin.Context, source ParameterBindingSource, params interface{}) error {
+	switch source {
+	case BindingFromQuery:
+		return c.ShouldBindQuery(params)
+	case BindingFromHeader:
+		return c.ShouldBindHeader(params)
+	case BindingFromBody:
+		return c.ShouldBindJSON(params)
+	case BindingFromForm:
+		return c.ShouldBind(params)
+	case BindingFromPath:
+		return c.ShouldBindUri(params)
+	default:
+		return c.ShouldBind(params)
+	}
+}
+
+// BindByAnnotation binds parameters based on annotation rules
+// This function determines the binding method based on HTTP method and parameter types
+func BindByAnnotation(c *gin.Context, params []interface{}, method string) ([]interface{}, error) {
+	results := make([]interface{}, len(params))
+
+	for i, param := range params {
+		paramType := reflect.TypeOf(param)
+		if paramType == nil {
+			continue
+		}
+
+		// Handle pointer types
+		if paramType.Kind() == reflect.Ptr {
+			paramType = paramType.Elem()
+		}
+
+		var err error
+		switch method {
+		case "GET":
+			// For GET requests, try query first, then path
+			err = c.ShouldBindQuery(param)
+		case "POST", "PUT", "PATCH":
+			// For POST/PUT/PATCH, try JSON first, then form
+			err = c.ShouldBind(param)
+			if err != nil {
+				err = c.ShouldBindJSON(param)
+			}
+		default:
+			err = c.ShouldBind(param)
+		}
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = param
+	}
+
+	return results, nil
+}
+
+// BindStruct automatically determines the best binding method based on Content-Type
+func BindStruct(c *gin.Context, structPtr interface{}) error {
+	contentType := c.ContentType()
+
+	switch contentType {
+	case "application/json":
+		return c.ShouldBindJSON(structPtr)
+	case "application/x-www-form-urlencoded":
+		return c.ShouldBind(structPtr)
+	default:
+		// Try JSON first, then query, then form
+		if err := c.ShouldBindJSON(structPtr); err != nil {
+			if err := c.ShouldBindQuery(structPtr); err != nil {
+				return c.ShouldBind(structPtr)
+			}
+		}
+		return nil
+	}
+}
+
+// AutoBind is a convenient wrapper that automatically determines
+// the best binding method based on the HTTP method and request content type
+func AutoBind(c *gin.Context, target interface{}) error {
+	method := c.Request.Method
+
+	switch method {
+	case "GET":
+		// GET requests: bind from query parameters
+		return c.ShouldBindQuery(target)
+	case "POST", "PUT", "PATCH":
+		// POST/PUT/PATCH: determine by Content-Type
+		contentType := c.ContentType()
+		switch contentType {
+		case "application/json":
+			return c.ShouldBindJSON(target)
+		case "application/x-www-form-urlencoded":
+			return c.ShouldBind(target)
+		default:
+			return c.ShouldBind(target)
+		}
+	case "DELETE":
+		// DELETE: bind from query or body
+		if err := c.ShouldBindQuery(target); err != nil {
+			return c.ShouldBind(target)
+		}
+		return nil
+	default:
+		return c.ShouldBind(target)
+	}
+}
