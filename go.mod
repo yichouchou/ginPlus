@@ -1,10 +1,11 @@
 module github.com/yichouchou/ginPlus
 
-go 1.16
+go 1.23
 
 require (
-	github.com/gin-gonic/gin v1.7.2
-	github.com/go-playground/validator/v10 v10.4.1
-	github.com/xxjwxc/public v0.0.0-20210604020721-3cc06f1e88c0
-	google.golang.org/grpc v1.29.1
+	github.com/gin-gonic/gin v1.9.1
+	github.com/go-playground/validator/v10 v10.16.0
+	github.com/xxjwxc/public v0.0.0-20240111064616-8e3a2d6ae3a6
+	google.golang.org/grpc v1.60.1
+	google.golang.org/protobuf v1.32.0
 )
