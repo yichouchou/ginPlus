@@ -1,29 +1,28 @@
 package routers
 
 import (
-	"reflect"
-
 	"github.com/yichouchou/ginPlus/annotation"
 	"github.com/yichouchou/ginPlus/examples/controller"
 	"github.com/yichouchou/ginPlus/utils"
+	"reflect"
 )
 
-func init333() {
-	annotation.SetVersion(1675324967)
+func init() {
+	annotation.SetVersion(1772610818)
 
-	NQKRVEOAEI5577006791947779410 := new(string)
+	XHWSYFLPUW7535484998337571078 := new(string)
 
-	NQKRVEOAEI8674665223082153551 := new(int)
+	XHWSYFLPUW1837728370458510504 := new(int)
 
-	PEIDSEUDLU6129484611666145821 := new(controller.DemoRest)
+	XHWSYFLPUW2145367275043906616 := new(controller.DemoRest)
 
-	PEIDSEUDLU3916589616287113937 := new(string)
+	XHWSYFLPUW1382764017443833647 := new(string)
 
-	PEIDSEUDLU6334824724549167320 := new(int)
+	XHWSYFLPUW6303292334592687199 := new(int)
 
-	PEIDSEUDLU4037200794235010051 := new(bool)
+	XHWSYFLPUW4969082095760678017 := new(bool)
 
-	PEIDSEUDLU605394647632969758 := new(bool)
+	XHWSYFLPUW5093615082521380362 := new(bool)
 
 	annotation.AddGenOne("UserRest.LogOutUser", utils.GenComment{
 		RouterPath: "/LogOutUser",
@@ -33,21 +32,21 @@ func init333() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(*NQKRVEOAEI5577006791947779410),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW7535484998337571078),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(*NQKRVEOAEI8674665223082153551),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW1837728370458510504),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
 
 			{
 				ParmName: "rest",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU6129484611666145821),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW2145367275043906616),
 				IsMust:   false,
 				ParmKind: reflect.Struct,
 			},
@@ -56,7 +55,7 @@ func init333() {
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU4037200794235010051),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW4969082095760678017),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -70,14 +69,14 @@ func init333() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU3916589616287113937),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW1382764017443833647),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU6334824724549167320),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW6303292334592687199),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
@@ -86,7 +85,7 @@ func init333() {
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU605394647632969758),
+				ParmType: reflect.TypeOf(*XHWSYFLPUW5093615082521380362),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},

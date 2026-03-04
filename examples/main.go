@@ -12,7 +12,8 @@ func main() {
 	base := annotation.New()
 	base.Dev(true)
 	// todo fix this outpath
-	base.OutPath("D:\\goProject\\ginPlus\\examples\\routers\\")
+	//base.OutPath("D:\\goProject\\ginPlus\\examples\\routers\\")
+	base.OutPath("D:\\QAXDownload\\go-project\\ginPlus\\examples\\routers")
 	base.Register(engine, new(controller.UserRest))
 	engine.Run(":8088")
 }

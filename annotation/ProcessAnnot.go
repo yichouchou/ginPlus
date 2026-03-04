@@ -139,7 +139,7 @@ func SetVersion(tm int64) {
 	_genInfo.Tm = tm
 }
 
-//处理自动路由和参数绑定的入口
+// 处理自动路由和参数绑定的入口
 func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool {
 	//获取当前运行时条件
 	modPkg, modFile, isFind := myast.GetModuleInfo(2)
@@ -189,11 +189,11 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 				num, _b := b.checkHandlerFunc(method.Type /*.Interface()*/, true)
 				if _b {
 					if sdl, ok := funMp[method.Name]; ok {
-						gcs, req, resp := b.parserComments(sdl, objName, method.Name, imports, objPkg, num, method.Type)
+						gcs, req, resp := b.parserComments(&sdl, objName, method.Name, imports, objPkg, num, method.Type)
 						if b.isOutDoc { // output doc  如果是OutDoc，则...  了解这里parse结构体的意义
 							docReq, docResp := b.parserStruct(req, resp, astPkgs, modPkg, modFile)
 							for _, gc := range gcs {
-								doc.AddOne(objName, gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
+								doc.AddOne(objName, "tmp_method", gc.RouterPath, gc.Methods, gc.Note, docReq, docResp)
 							}
 						}
 
@@ -214,7 +214,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 	return true
 }
 
-//传入gin.IRoutes 获取basePath
+// 传入gin.IRoutes 获取basePath
 func (b *BaseGin) BasePath(router gin.IRoutes) string {
 	switch r := router.(type) {
 	case *gin.RouterGroup:
@@ -255,7 +255,7 @@ func (b *BaseGin) checkHandlerFunc(typ reflect.Type, isObj bool) (int, bool) { /
 }
 
 // 解析内容，为了填充 路由注释信息，参数 和doc文档等 --可以在此处获得关键注释内容   imports 的键值对就是想要的 import信息 objPkg 应该就是包信息；注意，这里是一个restful方法
-func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
+func (b *BaseGin) parserComments(f *myast.ObjFunInfo, objName, objFunc string, imports map[string]string, objPkg string, num int, t reflect.Type) ([]*utils.GenComment, *utils.ParmInfo, *utils.ParmInfo) {
 	//for i := range f.Type.Params.List {
 	//	fmt.Println(f.Type.Params.List[i].Type)
 	//	fmt.Println(f.Type.Params.List[i].Names)
@@ -263,18 +263,18 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 
 	var note string
 	var gcs []*utils.GenComment
-	req := analysisParm(f.Type.Params, imports, objPkg, 0)
-	resp := analysisParm(f.Type.Results, imports, objPkg, 0)
+	req := analysisParm(f.AstFunc.Type.Params, imports, objPkg, 0)
+	resp := analysisParm(f.AstFunc.Type.Results, imports, objPkg, 0)
 	ignore := false
 
 	//最好的方式不是从注释中取，而是从方法本身，但是由于注释/配置大于默认，所以还是从注释中拿，如果没有的话就从它方法本身去获取
 	//解析 f.Type的内容，里面包含上述内容
 
 	// 方法上所有的注解都会检查一遍,
-	if f.Doc != nil {
+	if f.AstFunc.Doc != nil {
 		gc := &utils.GenComment{}
-		gc.Parms = make([]*utils.Parm, f.Type.Params.NumFields())
-		for _, c := range f.Doc.List {
+		gc.Parms = make([]*utils.Parm, f.AstFunc.Type.Params.NumFields())
+		for _, c := range f.AstFunc.Doc.List {
 			t := strings.TrimSpace(strings.TrimPrefix(c.Text, "//"))
 			//在这里，查找到注解上的@GET 类似注解，为GenComment的Methods 赋值 todo 如果支持多请求方式的话还需要优化
 			httpMethod, has := utils.ContainsHttpMethod(t)
@@ -318,16 +318,16 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	// todo 如果用户未添加参数注释，则自动根据参数名称，自动绑定，当前是自动绑定
 	// 根据objFunc 来检出在 f.Type.Params.List 内的入参参数名称，和返回参数名称（type不方便获取，注意存在 name, password string 它会把name放到一起去）
 	for i := 0; i < len(gcs); i++ {
-		if f.Type != nil {
+		if f.AstFunc.Type != nil {
 			var temp = 0
-			for index, field := range f.Type.Params.List {
+			for index, field := range f.AstFunc.Type.Params.List {
 				for fieldName := range field.Names {
 					//lenParms := len(gcs[i].Parms)
 					//如果经过注解内的参数装填完成之后，参数的parmname还是空的话，那么就通过默认的参数name去绑定
 					if gcs[i].Parms[temp] == nil || gcs[i].Parms[temp].ParmName == "" {
 						gcs[i].Parms[temp] = &utils.Parm{
 							//为gcs下的所有的parms 赋ParmName
-							ParmName:       f.Type.Params.List[index].Names[fieldName].Name,
+							ParmName:       f.AstFunc.Type.Params.List[index].Names[fieldName].Name,
 							IsHeaderOrBody: utils.Default,
 						}
 					}
@@ -335,7 +335,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 				}
 			}
 			//todo 下方如果也出现类似：name, password string, age, year int 的返回参数，result部分不完整
-			for _, fieldResult := range f.Type.Results.List {
+			for _, fieldResult := range f.AstFunc.Type.Results.List {
 				for resultNameIndex := range fieldResult.Names {
 					gcs[i].Result = append(gcs[i].Result, &utils.Parm{
 						ParmName:       fieldResult.Names[resultNameIndex].Name,
@@ -373,7 +373,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	return gcs, req, resp
 }
 
-//从结构体解析出内容，最终服务于doc文档 todo 以后填充
+// 从结构体解析出内容，最终服务于doc文档 todo 以后填充
 func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, modPkg, modFile string) (r, p *mydoc.StructInfo) {
 	ant := myast.NewStructAnalys(modPkg, modFile)
 	if req != nil {
@@ -397,7 +397,7 @@ func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, m
 	return
 }
 
-//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出文档？
+// todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出文档？
 func checkOnceAdd(handFunName string, gc utils.GenComment) {
 	consolePrint.Do(func() {
 		serviceMapMu.Lock()
@@ -440,7 +440,7 @@ func genOutPut(outDir, modFile string) {
 	f.Write(_data)
 }
 
-//  生成路由信息文件
+// 生成路由信息文件
 func genCode(outDir, modFile string) bool {
 	_genInfo.Tm = time.Now().Unix()
 	if len(outDir) == 0 {
@@ -539,7 +539,7 @@ func genCode(outDir, modFile string) bool {
 	return true
 }
 
-//获取包名称
+// 获取包名称
 func getPkgName(dir string) string {
 	dir = strings.Replace(dir, "\\", "/", -1)
 	dir = strings.TrimRight(dir, "/")
@@ -560,12 +560,12 @@ func getPkgName(dir string) string {
 	return pkgName
 }
 
-//  format string
+// format string
 func GetStringList(list []string) string {
 	return `"` + strings.Join(list, `","`) + `"`
 }
 
-//格式化参数的方法  目测是服务于注释
+// 格式化参数的方法  目测是服务于注释
 func (b *BaseGin) getDefaultComments(objName, objFunc string, num int) (routerPath string, methods []string) {
 	methods = []string{"ANY"}
 	if num == 2 { // parm 2 , post default
@@ -581,7 +581,7 @@ func (b *BaseGin) getDefaultComments(objName, objFunc string, num int) (routerPa
 	return
 }
 
-//从ast树解析出参数信息
+// 从ast树解析出参数信息
 func analysisParm(f *ast.FieldList, imports map[string]string, objPkg string, n int) (parm *utils.ParmInfo) {
 	if f != nil {
 		if f.NumFields() > 1 {
@@ -671,7 +671,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 	return true
 }
 
-//获取 genRouterInfo
+// 获取 genRouterInfo
 func getInfo() map[string][]utils.GenRouterInfo {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
@@ -1535,7 +1535,7 @@ func (b *BaseGin) getCallObj3Temp(tvl, obj reflect.Value, methodName string) (fu
 	}, nil
 }
 
-//参数绑定逻辑
+// 参数绑定逻辑
 func (b *BaseGin) unmarshal(c *gin.Context, v interface{}) error {
 	err := c.ShouldBind(v)
 	if err != nil || strings.EqualFold(c.Request.Method, "get") { // get 模式 补刀json
@@ -1544,7 +1544,7 @@ func (b *BaseGin) unmarshal(c *gin.Context, v interface{}) error {
 	return err
 }
 
-//处理error 报错的方法，500错误，然后err信息
+// 处理error 报错的方法，500错误，然后err信息
 func (b *BaseGin) handErrorString(c *gin.Context, req reflect.Value, err error) {
 	var fields []string
 	if _, ok := err.(validator.ValidationErrors); ok {
@@ -1580,7 +1580,7 @@ func (b *BaseGin) handErrorString(c *gin.Context, req reflect.Value, err error) 
 	c.JSON(http.StatusBadRequest, msg)
 }
 
-//调用具体controller方法前执行的放啊
+// 调用具体controller方法前执行的放啊
 func (b *BaseGin) beforCall(c *gin.Context, tvl, obj reflect.Value, req interface{}, methodName string) (*GinBeforeAfterInfo, bool) {
 	info := &GinBeforeAfterInfo{
 		C:        c,
@@ -1599,7 +1599,7 @@ func (b *BaseGin) beforCall(c *gin.Context, tvl, obj reflect.Value, req interfac
 	return info, is
 }
 
-//掉用controller方法后执行的逻辑
+// 掉用controller方法后执行的逻辑
 func (b *BaseGin) afterCall(info *GinBeforeAfterInfo, obj reflect.Value) bool {
 	is := true
 	if bfobj, ok := obj.Interface().(GinBeforeAfter); ok { // 本类型
