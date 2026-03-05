@@ -1,29 +1,25 @@
 package routers
 
 import (
-	"reflect"
-
 	"github.com/yichouchou/ginPlus/annotation"
-	"github.com/yichouchou/ginPlus/examples/controller"
 	"github.com/yichouchou/ginPlus/utils"
+	"reflect"
 )
 
-func init333() {
-	annotation.SetVersion(1675324967)
+func init() {
+	annotation.SetVersion(1772677437)
 
-	NQKRVEOAEI5577006791947779410 := new(string)
+	FMWHJDCGEE3372058799042066494 := new(string)
 
-	NQKRVEOAEI8674665223082153551 := new(int)
+	FMWHJDCGEE6616879910558991571 := new(int)
 
-	PEIDSEUDLU6129484611666145821 := new(controller.DemoRest)
+	FMWHJDCGEE3558074866267376968 := new(string)
 
-	PEIDSEUDLU3916589616287113937 := new(string)
+	FMWHJDCGEE2148399144987937656 := new(int)
 
-	PEIDSEUDLU6334824724549167320 := new(int)
+	FMWHJDCGEE1218531123504490226 := new(bool)
 
-	PEIDSEUDLU4037200794235010051 := new(bool)
-
-	PEIDSEUDLU605394647632969758 := new(bool)
+	FMWHJDCGEE2180221784322843576 := new(bool)
 
 	annotation.AddGenOne("UserRest.LogOutUser", utils.GenComment{
 		RouterPath: "/LogOutUser",
@@ -33,30 +29,23 @@ func init333() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(*NQKRVEOAEI5577006791947779410),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE3372058799042066494),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(*NQKRVEOAEI8674665223082153551),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE6616879910558991571),
 				IsMust:   false,
 				ParmKind: reflect.Int,
-			},
-
-			{
-				ParmName: "rest",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU6129484611666145821),
-				IsMust:   false,
-				ParmKind: reflect.Struct,
 			},
 		},
 		Result: []*utils.Parm{
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU4037200794235010051),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE1218531123504490226),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},
@@ -70,14 +59,14 @@ func init333() {
 
 			{
 				ParmName: "name",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU3916589616287113937),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE3558074866267376968),
 				IsMust:   false,
 				ParmKind: reflect.String,
 			},
 
 			{
 				ParmName: "age",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU6334824724549167320),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE2148399144987937656),
 				IsMust:   false,
 				ParmKind: reflect.Int,
 			},
@@ -86,7 +75,7 @@ func init333() {
 
 			{
 				ParmName: "success",
-				ParmType: reflect.TypeOf(*PEIDSEUDLU605394647632969758),
+				ParmType: reflect.TypeOf(*FMWHJDCGEE2180221784322843576),
 				IsMust:   false,
 				ParmKind: reflect.Slice,
 			},

@@ -20,9 +20,10 @@ func (receiver *UserRest) RegistUser(name string, age int) (success bool) {
 }
 
 // @GET /LogOutUser
-func (receiver *UserRest) LogOutUser(name string, age int, rest DemoRest) (success bool) {
-	fmt.Println(name, age, "-----user")
-	fmt.Println(rest.Tel, "-----Tel")
-	fmt.Println(rest.Time, "-----Time")
+func (receiver *UserRest) LogOutUser(name string, age int) (success bool) {
+	fmt.Println(name, "-----name")
+	fmt.Println(age, "-----age")
+	//fmt.Println(rest.Tel, "-----Tel")
+	//fmt.Println(rest.Time, "-----Time")
 	return false
 }

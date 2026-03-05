@@ -424,13 +424,13 @@ func genOutPut(outDir, modFile string) {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
 	//todo 确定生成的routers 文件路径获取需要优化，如果main不在 go.mog一级
+	fmt.Println(outDir, "--outDir---")
+	fmt.Println(modFile, "--modFile---")
 	b := genCode(outDir, modFile) // gen .go file
 
 	_genInfo.Tm = time.Now().Unix()
 	_data, _ := serializing.Encode(&_genInfo) // gob serialize 序列化
-	// 使用 modFile 作为基础路径，确保路由文件生成在正确的位置
-	_routerDir := modFile + "/routers/"
-	_path := path.Join(_routerDir, "gen_router.data")
+	_path := path.Join(tools.GetCurrentDirectory(), utils.GetRouter)
 	if !b {
 		tools.BuildDir(_path)
 	}
