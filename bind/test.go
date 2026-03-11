@@ -6,3 +6,10 @@ type ReqTest struct {
 	Password    string `json:"Password"`
 	Age         string `json:"Age"`
 }
+
+type ReqGet struct {
+	Accesstoken string `form:"accesstoken"`
+	UserName    string `form:"userName"`
+	Password    string `form:"password"`
+	Age         string `form:"age"`
+}

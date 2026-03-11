@@ -35,12 +35,12 @@ var FirstHeaderAnno = CustomRequestHeaderUser{
 	},
 }
 
-//定义很多的请求头常量
+// 定义很多的请求头常量
 const ApplicationJson = "application/json"
 const GZIP = "gzip"
 const UTF8 = "utf-8"
 
-//请求头可以由用户自定义修改，在utils内定义多个标准的请求头类型，用户可以直接使用标准的请求头类型配合标准的请求头注解。也可以使用非标准的请求头类型和非标准的请求头注解个性化拓展
+// 请求头可以由用户自定义修改，在utils内定义多个标准的请求头类型，用户可以直接使用标准的请求头类型配合标准的请求头注解。也可以使用非标准的请求头类型和非标准的请求头注解个性化拓展
 var StandardRequestHeader = RequestHeader{
 	ContentType:    ApplicationJson,
 	AcceptEncoding: GZIP,
@@ -78,22 +78,22 @@ type ReqHeaderInfoWithTag struct {
 	Produces map[string]string
 }
 
-// todo 提供一个init方法，在启动之后，加载所有内置的、自定义的 rest 头注解
-
-var UserReqHeadersAnno = ReqHeaderInfoWithTag{
-	Tag: "@resp-custom-user",
-	Headers: map[string]string{
-		"Content-Type": "application/json",
-	},
-	Type: "common-header",
-}
+//// todo 提供一个init方法，在启动之后，加载所有内置的、自定义的 rest 头注解
+//
+//var UserReqHeadersAnno = ReqHeaderInfoWithTag{
+//	Tag: "@resp-custom-user",
+//	Headers: map[string]string{
+//		"Content-Type": "application/json",
+//	},
+//	Type: "common-header",
+//}
 
 type RespHeaderInfoWithTag struct {
 	Tag     string
 	Headers map[string]string
 }
 
-//自定义请求头，启动的时候可以往这里添加，然后注册rest的时候提前绑定
+// 自定义请求头，启动的时候可以往这里添加，然后注册rest的时候提前绑定
 var CustomRequestHeader = RequestHeader{}
 
 var CustomResponseHeader = ResponseHeader{}
@@ -109,7 +109,7 @@ type RespHeaderInfo struct {
 }
 
 // todo 下边是只支持rest obj的方式
-//把 名称作为请求头的key,把tag信息作为value，其中的 , 作为分隔符；可以在dev的时候直接解析到router文件中，方便生成rest接口文档，然后生产环境直接加载
+// 把 名称作为请求头的key,把tag信息作为value，其中的 , 作为分隔符；可以在dev的时候直接解析到router文件中，方便生成rest接口文档，然后生产环境直接加载
 type RestObj struct {
 	ReqContentType    ReqHeaderInfo `head:"application/json;charset=UTF-8,text/html;charset=UTF-8,multipart/form-data;charset=UTF-8"`
 	ReqUserAgent      ReqHeaderInfo `head:"PostmanRuntime/7.26.8"`
