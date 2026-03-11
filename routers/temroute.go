@@ -15,98 +15,98 @@
 	)
 	
 	func init() {
-		annotation.SetVersion(1773220539)
+		annotation.SetVersion(1773231227)
 		
 		
 			
-				parm3968124 := new(string)
+				parm6860590 := new(string)
 			
-				parm1693233 := new(string)
+				parm4374764 := new(string)
 			
-				parm4441728 := new(int)
+				parm8156836 := new(int)
 			
-				parm4373843 := new(bind.ReqTest)
-			
-				
-			
-			
-				parm2702294 := new(bind.ReqTest)
+				parm5919727 := new(bind.ReqTest)
 			
 				
 			
 			
-				parm6886727 := new(string)
+				parm6697646 := new(bind.ReqTest)
 			
-				parm2311946 := new(string)
-			
-				parm6154448 := new(int)
-			
-				parm7242845 := new(int)
+				
 			
 			
-				parm9311821 := new([]bind.ReqTest)
+				parm803589 := new(string)
+			
+				parm4577502 := new(string)
+			
+				parm2346044 := new(int)
+			
+				parm3975074 := new(int)
+			
+			
+				parm1002271 := new([]bind.ReqTest)
 			
 			
 				
 			
 			
-				parm6763598 := new([]*bind.ReqTest)
+				parm2247818 := new([]*bind.ReqTest)
 			
 			
-				parm8721907 := new(bind.ReqTest)
+				parm6380668 := new(bind.ReqTest)
 			
 			
-				parm7841609 := new(string)
+				parm2598702 := new(string)
 			
-				parm8106771 := new(int)
+				parm7781867 := new(int)
 			
 			
-				parm107356 := new(string)
+				parm5022392 := new(string)
 			
-				parm2498931 := new(int)
+				parm5101788 := new(int)
 			
 
 		
 			
-				parm8342123 := new(string)
+				parm3298168 := new(string)
 			
-				parm2763675 := new(error)
-			
-			
-				parm3264729 := new(bind.ReqTest)
-			
-				parm9074263 := new(error)
+				parm4499461 := new(error)
 			
 			
-				parm7519786 := new(int)
+				parm3022635 := new(bind.ReqTest)
 			
-				parm1531490 := new(error)
-			
-			
-				parm2341015 := new(int)
-			
-				parm5978059 := new(error)
+				parm967254 := new(error)
 			
 			
-				parm7486031 := new(int)
+				parm7255155 := new(int)
 			
-				parm8050417 := new(error)
-			
-			
-				parm117852 := new(int)
-			
-				parm1106088 := new(error)
+				parm6588146 := new(error)
 			
 			
-				parm1269234 := new(int)
+				parm131986 := new(int)
 			
-				parm7761403 := new(error)
-			
-			
-				parm537778 := new(bool)
+				parm3063569 := new(error)
 			
 			
-				parm8482301 := new(bool)
+				parm6405499 := new(int)
+			
+				parm8936093 := new(error)
+			
+			
+				parm127227 := new(int)
+			
+				parm9226618 := new(error)
+			
+			
+				parm6221826 := new(int)
+			
+				parm3438766 := new(error)
+			
+			
+				parm5428601 := new(bool)
+			
+			
+				parm4023752 := new(bool)
 			
 
 		annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
@@ -148,7 +148,7 @@
 								
 								{
 									ParmName: "name",
-									ParmType: reflect.TypeOf(*parm3968124),
+									ParmType: reflect.TypeOf(*parm6860590),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -156,7 +156,7 @@
 								
 								{
 									ParmName: "password",
-									ParmType: reflect.TypeOf(*parm1693233),
+									ParmType: reflect.TypeOf(*parm4374764),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -164,7 +164,7 @@
 								
 								{
 									ParmName: "age",
-									ParmType: reflect.TypeOf(*parm4441728),
+									ParmType: reflect.TypeOf(*parm8156836),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -172,7 +172,7 @@
 								
 								{
 									ParmName: "hiValue",
-									ParmType: reflect.TypeOf(*parm4373843),
+									ParmType: reflect.TypeOf(*parm5919727),
 									IsMust:   false,
 									ParmKind: reflect.Struct,
 								},	
@@ -193,7 +193,7 @@
 
 								{
 									ParmName: "commentHi1",
-									ParmType: reflect.TypeOf(*parm8342123),
+									ParmType: reflect.TypeOf(*parm3298168),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -202,7 +202,7 @@
 
 								{
 									ParmName: "errHi1",
-									ParmType: reflect.TypeOf(*parm2763675),
+									ParmType: reflect.TypeOf(*parm4499461),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -250,7 +250,7 @@ annotation.AddGenOne("main.Hello.Hi2", utils.GenRouterInfo{
 								
 								{
 									ParmName: "hiValue",
-									ParmType: reflect.TypeOf(*parm2702294),
+									ParmType: reflect.TypeOf(*parm6697646),
 									IsMust:   false,
 									ParmKind: reflect.Struct,
 								},	
@@ -271,7 +271,7 @@ annotation.AddGenOne("main.Hello.Hi2", utils.GenRouterInfo{
 
 								{
 									ParmName: "commentHi2",
-									ParmType: reflect.TypeOf(*parm3264729),
+									ParmType: reflect.TypeOf(*parm3022635),
 									IsMust:   false,
 									ParmKind: reflect.Struct,
 								},	
@@ -280,7 +280,7 @@ annotation.AddGenOne("main.Hello.Hi2", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi2",
-									ParmType: reflect.TypeOf(*parm9074263),
+									ParmType: reflect.TypeOf(*parm967254),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -328,7 +328,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 								
 								{
 									ParmName: "name",
-									ParmType: reflect.TypeOf(*parm6886727),
+									ParmType: reflect.TypeOf(*parm803589),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -336,7 +336,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 								
 								{
 									ParmName: "password",
-									ParmType: reflect.TypeOf(*parm2311946),
+									ParmType: reflect.TypeOf(*parm4577502),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -344,7 +344,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 								
 								{
 									ParmName: "age",
-									ParmType: reflect.TypeOf(*parm6154448),
+									ParmType: reflect.TypeOf(*parm2346044),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -352,7 +352,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 								
 								{
 									ParmName: "year",
-									ParmType: reflect.TypeOf(*parm7242845),
+									ParmType: reflect.TypeOf(*parm3975074),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -365,7 +365,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 
 								{
 									ParmName: "commentHi3",
-									ParmType: reflect.TypeOf(*parm7519786),
+									ParmType: reflect.TypeOf(*parm7255155),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -374,7 +374,7 @@ annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi3",
-									ParmType: reflect.TypeOf(*parm1531490),
+									ParmType: reflect.TypeOf(*parm6588146),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -422,7 +422,7 @@ annotation.AddGenOne("main.Hello.Hi4", utils.GenRouterInfo{
 								
 								{
 									ParmName: "List",
-									ParmType: reflect.TypeOf(*parm9311821),
+									ParmType: reflect.TypeOf(*parm1002271),
 									IsMust:   false,
 									ParmKind: reflect.Slice,
 								},	
@@ -435,7 +435,7 @@ annotation.AddGenOne("main.Hello.Hi4", utils.GenRouterInfo{
 
 								{
 									ParmName: "index",
-									ParmType: reflect.TypeOf(*parm2341015),
+									ParmType: reflect.TypeOf(*parm131986),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -444,7 +444,7 @@ annotation.AddGenOne("main.Hello.Hi4", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi4",
-									ParmType: reflect.TypeOf(*parm5978059),
+									ParmType: reflect.TypeOf(*parm3063569),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -505,7 +505,7 @@ annotation.AddGenOne("main.Hello.Hi5", utils.GenRouterInfo{
 
 								{
 									ParmName: "index",
-									ParmType: reflect.TypeOf(*parm7486031),
+									ParmType: reflect.TypeOf(*parm6405499),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -514,7 +514,7 @@ annotation.AddGenOne("main.Hello.Hi5", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi5",
-									ParmType: reflect.TypeOf(*parm8050417),
+									ParmType: reflect.TypeOf(*parm8936093),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -562,7 +562,7 @@ annotation.AddGenOne("main.Hello.Hi6", utils.GenRouterInfo{
 								
 								{
 									ParmName: "List",
-									ParmType: reflect.TypeOf(*parm6763598),
+									ParmType: reflect.TypeOf(*parm2247818),
 									IsMust:   false,
 									ParmKind: reflect.Slice,
 								},	
@@ -575,7 +575,7 @@ annotation.AddGenOne("main.Hello.Hi6", utils.GenRouterInfo{
 
 								{
 									ParmName: "index",
-									ParmType: reflect.TypeOf(*parm117852),
+									ParmType: reflect.TypeOf(*parm127227),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -584,7 +584,7 @@ annotation.AddGenOne("main.Hello.Hi6", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi4",
-									ParmType: reflect.TypeOf(*parm1106088),
+									ParmType: reflect.TypeOf(*parm9226618),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -632,7 +632,7 @@ annotation.AddGenOne("main.Hello.Hi7", utils.GenRouterInfo{
 								
 								{
 									ParmName: "reqList",
-									ParmType: reflect.TypeOf(*parm8721907),
+									ParmType: reflect.TypeOf(*parm6380668),
 									IsMust:   false,
 									ParmKind: reflect.Struct,
 								},	
@@ -645,7 +645,7 @@ annotation.AddGenOne("main.Hello.Hi7", utils.GenRouterInfo{
 
 								{
 									ParmName: "index",
-									ParmType: reflect.TypeOf(*parm1269234),
+									ParmType: reflect.TypeOf(*parm6221826),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -654,7 +654,7 @@ annotation.AddGenOne("main.Hello.Hi7", utils.GenRouterInfo{
 
 								{
 									ParmName: "errHi5",
-									ParmType: reflect.TypeOf(*parm7761403),
+									ParmType: reflect.TypeOf(*parm3438766),
 									IsMust:   false,
 									ParmKind: reflect.Interface,
 								},	
@@ -712,7 +712,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser"
 								
 								{
 									ParmName: "name",
-									ParmType: reflect.TypeOf(*parm7841609),
+									ParmType: reflect.TypeOf(*parm2598702),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -720,7 +720,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser"
 								
 								{
 									ParmName: "age",
-									ParmType: reflect.TypeOf(*parm8106771),
+									ParmType: reflect.TypeOf(*parm7781867),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -733,7 +733,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.LogOutUser"
 
 								{
 									ParmName: "success",
-									ParmType: reflect.TypeOf(*parm537778),
+									ParmType: reflect.TypeOf(*parm5428601),
 									IsMust:   false,
 									ParmKind: reflect.Bool,
 								},	
@@ -791,7 +791,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.RegistUser"
 								
 								{
 									ParmName: "name",
-									ParmType: reflect.TypeOf(*parm107356),
+									ParmType: reflect.TypeOf(*parm5022392),
 									IsMust:   false,
 									ParmKind: reflect.String,
 								},	
@@ -799,7 +799,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.RegistUser"
 								
 								{
 									ParmName: "age",
-									ParmType: reflect.TypeOf(*parm2498931),
+									ParmType: reflect.TypeOf(*parm5101788),
 									IsMust:   false,
 									ParmKind: reflect.Int,
 								},	
@@ -812,7 +812,7 @@ annotation.AddGenOne("github.com/yichouchou/ginPlus/bind.UserRest222.RegistUser"
 
 								{
 									ParmName: "success",
-									ParmType: reflect.TypeOf(*parm8482301),
+									ParmType: reflect.TypeOf(*parm4023752),
 									IsMust:   false,
 									ParmKind: reflect.Bool,
 								},	

@@ -1037,14 +1037,14 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 				//所有请求头的内容都优先处理了 todo 取出请求头里面的内容
 				for index, parm := range v.GenComment.Parms {
 					//var values []reflect.Value
-					if parm.IsHeaderOrBody == utils.Header {
+					if parm.IsHeaderOrBody == utils.Header || parm.IsHeaderOrBody == utils.Default {
 						switch parm.ParmKind {
 						case reflect.String:
 							value := reflect.New(parm.ParmType)
 							str := c.Query(parm.ParmName)
-							var s = value.Elem().Interface().(string)
-							s = str
-							parm.Value = reflect.ValueOf(s)
+							_ = value.Elem().Interface().(string)
+							_ = str
+							parm.Value = value.Elem()
 						case reflect.Int:
 							parm.Value.SetInt(c.GetInt64(parm.ParmName))
 						case reflect.Int64:
@@ -1137,9 +1137,9 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
 										formString := c.PostForm(parm.ParmName)
 										fmt.Println(formString)
-										var s = value.Elem().Interface().(string)
-										s = formString
-										parm.Value = reflect.ValueOf(s)
+										_ = value.Elem().Interface().(string)
+										_ = formString
+										parm.Value = value.Elem()
 									}
 									if parm.ParmKind == reflect.Int {
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
@@ -1345,19 +1345,25 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							getInt := c.Query(v.GenComment.Parms[index].ParmName)
-							var s = value.Elem().Interface().(int)
+							_ = value.Elem().Interface().(int)
 							atoi, err := strconv.Atoi(getInt)
 							if err != nil {
 								fmt.Println(err)
 							}
-							s = atoi
-							parm.Value = reflect.ValueOf(s)
+							_ = atoi
+							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
-							str := c.Query(v.GenComment.Parms[index].ParmName)
-							var s = value.Elem().Interface().(string)
-							s = str
-							parm.Value = reflect.ValueOf(s)
+							value.Elem().SetString(c.Query(v.GenComment.Parms[index].ParmName))
+							parm.Value = value.Elem()
+						} else if parm.ParmKind == reflect.Struct {
+							value := reflect.New(v.GenComment.Parms[index].ParmType)
+							c.ShouldBindQuery(value.Interface())
+							parm.Value = value.Elem()
+						} else if parm.ParmKind == reflect.Ptr {
+							value := reflect.New(v.GenComment.Parms[index].ParmType.Elem())
+							c.ShouldBindQuery(value.Interface())
+							parm.Value = value
 						}
 					}
 					var values []reflect.Value
