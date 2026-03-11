@@ -296,6 +296,9 @@ func RandString(len int) string {
 func GetInfoFromRestObj(ty reflect.Type, objInfo *ast.GenDecl) GenRestObjInfo {
 	var info = GenRestObjInfo{}
 
+	if objInfo.Doc == nil || objInfo.Doc.List == nil {
+		return info
+	}
 	comments := objInfo.Doc.List
 	for _, comment := range comments {
 		space := strings.TrimSpace(strings.TrimPrefix(comment.Text, "//"))
