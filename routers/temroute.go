@@ -1,99 +1,92 @@
 package routers
 
 import (
+	"github.com/yichouchou/ginPlus/annotation"
+	"github.com/yichouchou/ginPlus/utils"
 	"reflect"
 
-	"github.com/yichouchou/ginPlus/annotation"
+	utils "github.com/yichouchou/ginPlus/utils"
+
+	fmt "fmt"
 
 	bind "github.com/yichouchou/ginPlus/bind"
-
-	utils "github.com/yichouchou/ginPlus/utils"
 )
 
 func init() {
-	annotation.SetVersion(1643878139)
+	annotation.SetVersion(1773208422)
 
-	parm8498081 := new(string)
+	parm8637247 := new(string)
 
-	parm9727887 := new(string)
+	parm3330902 := new(string)
 
-	parm7131847 := new(int)
+	parm8566705 := new(int)
 
-	parm9984059 := new(bind.ReqTest)
+	parm1919552 := new(bind.ReqTest)
 
-	parm954425 := new(bind.ReqTest)
+	parm2592152 := new(bind.ReqTest)
 
-	parm6203300 := new(string)
+	parm2496965 := new(string)
 
-	parm6410694 := new(string)
+	parm3943993 := new(string)
 
-	parm7278511 := new(int)
+	parm1477661 := new(int)
 
-	parm128162 := new(int)
+	parm6307446 := new(int)
 
-	parm6933274 := new([]bind.ReqTest)
+	parm5675470 := new([]bind.ReqTest)
 
-	parm6340495 := new([]*bind.ReqTest)
+	parm8797882 := new([]*bind.ReqTest)
 
-	parm2186258 := new(bind.ReqTest)
+	parm3660262 := new(bind.ReqTest)
 
-	parm6138287 := new(string)
+	parm4760904 := new(string)
 
-	parm3632888 := new(int)
+	parm5584411 := new(int)
 
-	parm6193015 := new(string)
+	parm2898513 := new(string)
 
-	parm4895541 := new(int)
+	parm4180025 := new(int)
 
-	parm1902081 := new(string)
+	parm690207 := new(string)
 
-	parm4941318 := new(error)
+	parm2643503 := new(error)
 
-	parm6122540 := new(bind.ReqTest)
+	parm411449 := new(bind.ReqTest)
 
-	parm8240456 := new(error)
+	parm6240293 := new(error)
 
-	parm7455089 := new(int)
+	parm3370934 := new(int)
 
-	parm3024728 := new(error)
+	parm1904981 := new(error)
 
-	parm7811211 := new(int)
+	parm2434926 := new(int)
 
-	parm9431445 := new(error)
+	parm9081944 := new(error)
 
-	parm8323237 := new(int)
+	parm3621767 := new(int)
 
-	parm9339106 := new(error)
+	parm713713 := new(error)
 
-	parm4965466 := new(int)
+	parm3672799 := new(int)
 
-	parm5511528 := new(error)
+	parm5583844 := new(error)
 
-	parm9458047 := new(int)
+	parm3316892 := new(int)
 
-	parm7979947 := new(error)
+	parm4392087 := new(error)
 
-	parm8292790 := new(bool)
+	parm9576979 := new(bool)
 
-	parm780408 := new(bool)
+	parm2296521 := new(bool)
 
 	annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi1",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block1",
@@ -104,42 +97,36 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm8498081),
+					ParmType: reflect.TypeOf(*parm8637247),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "password",
-					ParmType: reflect.TypeOf(*parm9727887),
+					ParmType: reflect.TypeOf(*parm3330902),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm7131847),
+					ParmType: reflect.TypeOf(*parm8566705),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "hiValue",
-					ParmType: reflect.TypeOf(*parm9984059),
+					ParmType: reflect.TypeOf(*parm1919552),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -156,14 +143,14 @@ func init() {
 
 				{
 					ParmName: "commentHi1",
-					ParmType: reflect.TypeOf(*parm1902081),
+					ParmType: reflect.TypeOf(*parm690207),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "errHi1",
-					ParmType: reflect.TypeOf(*parm4941318),
+					ParmType: reflect.TypeOf(*parm2643503),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -172,21 +159,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi2", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi2",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block2",
@@ -197,21 +175,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "hiValue",
-					ParmType: reflect.TypeOf(*parm954425),
+					ParmType: reflect.TypeOf(*parm2592152),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -228,14 +200,14 @@ func init() {
 
 				{
 					ParmName: "commentHi2",
-					ParmType: reflect.TypeOf(*parm6122540),
+					ParmType: reflect.TypeOf(*parm411449),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
 
 				{
 					ParmName: "errHi2",
-					ParmType: reflect.TypeOf(*parm8240456),
+					ParmType: reflect.TypeOf(*parm6240293),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -244,21 +216,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi3", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi3",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block3",
@@ -269,42 +232,36 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm6203300),
+					ParmType: reflect.TypeOf(*parm2496965),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "password",
-					ParmType: reflect.TypeOf(*parm6410694),
+					ParmType: reflect.TypeOf(*parm3943993),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm7278511),
+					ParmType: reflect.TypeOf(*parm1477661),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "year",
-					ParmType: reflect.TypeOf(*parm128162),
+					ParmType: reflect.TypeOf(*parm6307446),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -314,14 +271,14 @@ func init() {
 
 				{
 					ParmName: "commentHi3",
-					ParmType: reflect.TypeOf(*parm7455089),
+					ParmType: reflect.TypeOf(*parm3370934),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi3",
-					ParmType: reflect.TypeOf(*parm3024728),
+					ParmType: reflect.TypeOf(*parm1904981),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -330,21 +287,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi4", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi4",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block4",
@@ -355,21 +303,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "List",
-					ParmType: reflect.TypeOf(*parm6933274),
+					ParmType: reflect.TypeOf(*parm5675470),
 					IsMust:   false,
 					ParmKind: reflect.Slice,
 				},
@@ -379,14 +321,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm7811211),
+					ParmType: reflect.TypeOf(*parm2434926),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi4",
-					ParmType: reflect.TypeOf(*parm9431445),
+					ParmType: reflect.TypeOf(*parm9081944),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -395,21 +337,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi5", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi5",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block5",
@@ -420,15 +353,9 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
@@ -444,14 +371,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm8323237),
+					ParmType: reflect.TypeOf(*parm3621767),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi5",
-					ParmType: reflect.TypeOf(*parm9339106),
+					ParmType: reflect.TypeOf(*parm713713),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -460,21 +387,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi6", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi6",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block6",
@@ -485,21 +403,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "List",
-					ParmType: reflect.TypeOf(*parm6340495),
+					ParmType: reflect.TypeOf(*parm8797882),
 					IsMust:   false,
 					ParmKind: reflect.Slice,
 				},
@@ -509,14 +421,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm4965466),
+					ParmType: reflect.TypeOf(*parm3672799),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi4",
-					ParmType: reflect.TypeOf(*parm5511528),
+					ParmType: reflect.TypeOf(*parm5583844),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -525,21 +437,12 @@ func init() {
 	})
 	annotation.AddGenOne("main.Hello.Hi7", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi7",
-		RouterPath:  "/hello",
+		RouterPath:  "",
 		Note:        "",
-		Methods:     []string{"POST"},
-		Headers: map[string]string{
-
-			"Content-Type": "application/json",
-		},
-		Consumes: map[string]string{
-
-			"RefererReferer": "www.baidu.com",
-		},
-		Produces: map[string]string{
-
-			"Accept-Language": "cn",
-		},
+		Methods:     []string{""},
+		Headers:     map[string]string{},
+		Consumes:    map[string]string{},
+		Produces:    map[string]string{},
 		GenComment: &utils.GenComment{
 
 			RouterPath: "/block7",
@@ -550,21 +453,15 @@ func init() {
 
 			Headers: map[string]string{},
 
-			Consumes: map[string]string{
+			Consumes: map[string]string{},
 
-				"RefererReferer": "www.baidu.com",
-			},
-
-			Produces: map[string]string{
-
-				"Accept-Language": "cn",
-			},
+			Produces: map[string]string{},
 
 			Parms: []*utils.Parm{
 
 				{
 					ParmName: "reqList",
-					ParmType: reflect.TypeOf(*parm2186258),
+					ParmType: reflect.TypeOf(*parm3660262),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -574,14 +471,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm9458047),
+					ParmType: reflect.TypeOf(*parm3316892),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi5",
-					ParmType: reflect.TypeOf(*parm7979947),
+					ParmType: reflect.TypeOf(*parm4392087),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -629,14 +526,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm6138287),
+					ParmType: reflect.TypeOf(*parm4760904),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm3632888),
+					ParmType: reflect.TypeOf(*parm5584411),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -646,7 +543,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm8292790),
+					ParmType: reflect.TypeOf(*parm9576979),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
@@ -694,14 +591,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm6193015),
+					ParmType: reflect.TypeOf(*parm2898513),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm4895541),
+					ParmType: reflect.TypeOf(*parm4180025),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -711,7 +608,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm780408),
+					ParmType: reflect.TypeOf(*parm2296521),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
