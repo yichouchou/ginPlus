@@ -28,7 +28,7 @@ type Hello struct {
 // [parm1 string, parm2 string, parm3 int]
 // @GET /block1
 // @resp-custom-user
-func (s *Hello) Hi1(parm1 string, parm2 string, parm3 int, hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi1 string, errHi1 error) {
+func (s *Hello) Hi1(parm1 string, parm2 string, parm3 int, hiValue bind.ReqGet, hi *bind.ReqGet) (commentHi1 string, errHi1 error) {
 	fmt.Println(parm1 + parm2)
 	fmt.Println(parm3)
 	fmt.Println(hi)
@@ -67,7 +67,7 @@ func (s *Hello) Hi4(reqList []bind.ReqTest) (index int, errHi4 error) {
 
 // [reqList *bind.ReqTest]
 // @GET /block5
-func (s *Hello) Hi5(reqList *bind.ReqTest) (index int, errHi5 error) {
+func (s *Hello) Hi5(reqList *bind.ReqGet) (index int, errHi5 error) {
 	fmt.Println(reqList)
 	fmt.Println("这是get请求接受结构体指针")
 	fmt.Println("---这是get请求接受结构体指针已经调通")
@@ -87,7 +87,7 @@ func (s *Hello) Hi6(reqList []*bind.ReqTest) (index int, errHi4 error) {
 
 // [reqList bind.ReqTest]
 // @GET /block7
-func (s *Hello) Hi7(reqList bind.ReqTest) (index int, errHi5 error) {
+func (s *Hello) Hi7(reqList bind.ReqGet) (index int, errHi5 error) {
 	fmt.Println(reqList)
 	fmt.Println("这是get请求接受结构体指针")
 	fmt.Println("---这是get请求接受结构体指针已经调通")
