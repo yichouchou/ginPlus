@@ -1,0 +1,1199 @@
+=========================2026-03-12 15:22:08 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 3 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x4000197180, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x4000032ec0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x4000032eb0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x4000032eb0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40001654f8?}, {0x7521c5, 0x4}, {0x4000598e40, 0x6, 0x6?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x400059cc80?}, {0x4000598e40?, 0x74d5e0?, 0x75b522?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40005da000}, 0x40002b63c0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000595770?}, {0x874550?, 0x40005da000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001ac2d0, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:23:04 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 41 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x4000236280, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x400011d670, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400011d660})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400011d660?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002fd4f8?}, {0x7521c5, 0x4}, {0x40003fa000, 0x6, 0x6?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x400027a180?}, {0x40003fa000?, 0x74d5e0?, 0x40005d2000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40003a2000}, 0x400022a3c0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000254090?}, {0x874550?, 0x40003a2000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000256000, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:23:23 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 52 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x4000282300, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x400025a1e0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400025a1d0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400025a1d0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002fd4f8?}, {0x7521c5, 0x4}, {0x40002ee0c0, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x40002be200?}, {0x40002ee0c0?, 0x74d5e0?, 0x40005d2000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40002e40e0}, 0x40001c0140)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400028e450?}, {0x874550?, 0x40002e40e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000294120, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:23:55 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 7 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x40005860c0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x4000033140, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x4000033130})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x4000033130?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002fd4f8?}, {0x7521c5, 0x4}, {0x4000599080, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x400059cec0?}, {0x4000599080?, 0x74d5e0?, 0x40005d2000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x4000124400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40005da1c0}, 0x40002b6640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000595e00?}, {0x874550?, 0x40005da1c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001ac5a0, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:24:29 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 25 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x400033e5c0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x40002e8010, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002e8000})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002e8000?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002f94f8?}, {0x7521c5, 0x4}, {0x400013e000, 0x6, 0x14e7590?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x40002be400?}, {0x400013e000?, 0x74d5e0?, 0x40016ea000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40016fc000}, 0x40016f0000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000124300?}, {0x874550?, 0x40016fc000?}, 0x40016f0000?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000256240, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:25:11 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 45 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x4000236240, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x400011d660, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400011d650})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400011d650?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002f94f8?}, {0x7521c5, 0x4}, {0x4000598000, 0x6, 0x8?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x400027a1c0?}, {0x4000598000?, 0x74d5e0?, 0x40016ea000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x40003f4000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x40003a2000}, 0x400022a3c0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000254090?}, {0x874550?, 0x40003a2000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000256000, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:25:33 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 11 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40000c88e0, {0x400033e9c0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40000c88e0, {0x40002e8290, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002e8280})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002e8280?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000c2a80?, 0x4000588198?, 0x40002f94f8?}, {0x7521c5, 0x4}, {0x400013e300, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000c2a80?, 0x4000588198?, 0x4000199340?}, {0x400013e300?, 0x74d5e0?, 0x40016ea000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2658
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x400038c9c0, 0x40002ec000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x400038c9c0, {0x874550, 0x400001e1c0}, 0x40000d2140)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40000fc420?}, {0x874550?, 0x400001e1c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40002cc360, {0x875990, 0x4000595680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:26:33 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 9 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x40000fc680, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x40000f2cb0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40000f2ca0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40000f2ca0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196fc0?, 0x40001e74f8?}, {0x7521c5, 0x4}, {0x40000e8300, 0x6, 0x75bf32?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196fc0?, 0x40000f4440?}, {0x40000e8300?, 0x74d5e0?, 0x75b522?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000035400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2668
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000035400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000035400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000035400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x40000ae0e0}, 0x4000241cc0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40000d5cb0?}, {0x874550?, 0x40000ae0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400022c6c0, {0x875990, 0x40000d5bc0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:27:20 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 50 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x400001c2c0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x400019f7b0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400019f7a0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400019f7a0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196fc0?, 0x40001e54f8?}, {0x7521c5, 0x4}, {0x40002660c0, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196fc0?, 0x4000226240?}, {0x40002660c0?, 0x74d5e0?, 0x4000274000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40001a6100)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2668
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40001a6100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40001a6100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40001a6100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x400025a0e0}, 0x40002a2640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400006e3f0?}, {0x874550?, 0x400025a0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40002ce000, {0x875990, 0x40000d5bc0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:27:41 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 51 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x4000314b00, {0x400003c6f0, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x4000314b00, {0x4000032ec0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x400016aac0?, 0x400016ac80?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x400012c400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2680
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x400012c400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x400012c400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40003cc9c0, 0x400012c400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40003cc9c0, {0x874570, 0x40001fc000}, 0x40001c8140)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400014b770?}, {0x874570?, 0x40001fc000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001b42d0, {0x8759b0, 0x400014b680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:28:03 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 5 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x4000314b00, {0x4000144600, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x4000314b00, {0x4000263f70, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x40001a1480?, 0x40001a1540?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000035100)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2680
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000035100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000035100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40003cc9c0, 0x4000035100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40003cc9c0, {0x874570, 0x40000140e0}, 0x40002bf180)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40000f25d0?}, {0x874570?, 0x40000140e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400031a5a0, {0x8759b0, 0x400014b680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:28:15 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 25 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x4000314b00, {0x400034c120, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x4000314b00, {0x4000125790, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x40002da180?, 0x40002da240?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x400031e000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2680
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x400031e000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x400031e000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40003cc9c0, 0x400031e000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40003cc9c0, {0x874570, 0x40002fe0e0}, 0x4000232640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400029c450?}, {0x874570?, 0x40002fe0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40002b2120, {0x8759b0, 0x400014b680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:28:38 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 50 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x4000036720, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x4000116e80, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x40001d6ac0?, 0x40001d6c80?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1387 +0x2680
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x4000276000}, 0x40002a2640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000115770?}, {0x874570?, 0x4000276000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000250090, {0x8759b0, 0x4000115680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:30:00 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 30 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400023d4c0, {0x400003dc50, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400023d4c0, {0x40001fa410, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x4000152240?, 0x4000152400?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1391 +0x2744
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40000f84e0, 0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40000f84e0, {0x874570, 0x40000fc0e0}, 0x4000169cc0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000111bf0?}, {0x874570?, 0x40000fc0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000154630, {0x8759b0, 0x4000111b00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:38:25 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 66 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400031d4c0, {0x40003cbef0, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400031d4c0, {0x40002da410, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x400017a1c0?, 0x400017a380?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1391 +0x2744
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x40000160e0}, 0x4000241cc0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000167bf0?}, {0x874570?, 0x40000160e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400022c630, {0x8759b0, 0x4000167b00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:39:21 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 52 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400031d4c0, {0x400003c210, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400031d4c0, {0x40002da6c0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x400017a540?, 0x400017a600?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1391 +0x2744
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40001a5200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x40000162a0}, 0x40002aa640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000224390?}, {0x874570?, 0x40000162a0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40002f2000, {0x8759b0, 0x4000167b00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:40:22 ========================= 
+reflect.Value.Addr of unaddressable value
+goroutine 3 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400031d4c0, {0x40003a2120, 0x29}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400031d4c0, {0x40003920b0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x86b560})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x86b560?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.Addr({0x638fc0?, 0x40003a00c0?, 0x40003a0180?})
+	/usr/local/go/src/reflect/value.go:268 +0x64
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40003e2000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1391 +0x2744
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40003e2000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40003e2000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40003e2000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x40003ba000}, 0x400039e000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000388090?}, {0x874570?, 0x40003ba000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400038c000, {0x8759b0, 0x4000167b00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:41:30 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 5 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40002bd4c0, {0x400027c680, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40002bd4c0, {0x400026ccb0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400026cca0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400026cca0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x4000378a80?, 0x40000c4fc0?, 0x40002974d8?}, {0x7521c5, 0x4}, {0x4000178300, 0x6, 0x75b9f2?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x4000378a80?, 0x40000c4fc0?, 0x400026e440?}, {0x4000178300?, 0x74d5e0?, 0x7588ea?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40000d3400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1392 +0x27b8
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40000d3400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40000d3400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40000f84e0, 0x40000d3400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40000f84e0, {0x874570, 0x400001c0e0}, 0x4000169cc0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400014dcb0?}, {0x874570?, 0x400001c0e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001546c0, {0x8759b0, 0x400014dbc0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:42:04 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 35 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40002bd4c0, {0x4000190280, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40002bd4c0, {0x40001fa0d0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40001fa0c0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40001fa0c0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x4000378a80?, 0x40000c4fc0?, 0x40002934d8?}, {0x7521c5, 0x4}, {0x40015de000, 0x6, 0x2b63c?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x4000378a80?, 0x40000c4fc0?, 0x40009ac180?}, {0x40015de000?, 0x74d5e0?, 0x201bb50?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40015d8000)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1392 +0x27b8
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40015d8000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40015d8000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40000f84e0, 0x40015d8000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40000f84e0, {0x874570, 0x40015d2000}, 0x40002d6280)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400019e090?}, {0x874570?, 0x40015d2000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001dc000, {0x8759b0, 0x400014dbc0})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:42:28 ========================= 
+reflect: Call using **bind.ReqTest as type bind.ReqTest
+goroutine 50 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400007a480, {0x4000217200, 0x37}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400007a480, {0x40002db0f0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002db0e0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002db0e0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000a4b00?, 0x40001d6190?, 0x40001234a8?}, {0x7521c5, 0x4}, {0x40001c2f00, 0x6, 0x40001d4e00?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000a4b00?, 0x40001d6190?, 0x40001d4d40?}, {0x40001c2f00?, 0x40001d4d40?, 0x40002e4000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1395 +0x2784
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x40002b60e0}, 0x40000aa3c0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000113b00?}, {0x874570?, 0x40002b60e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000300000, {0x8759b0, 0x4000113680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:42:48 ========================= 
+reflect: Call using **bind.ReqTest as type bind.ReqTest
+goroutine 21 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400007a480, {0x400057e000, 0x37}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400007a480, {0x40002db270, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002db260})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002db260?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40000a4b00?, 0x40001d6190?, 0x40001274a8?}, {0x7521c5, 0x4}, {0x40001c3080, 0x6, 0x75b9f2?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40000a4b00?, 0x40001d6190?, 0x40001d4f80?}, {0x40001c3080?, 0x40001d4f80?, 0x40002fc000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1395 +0x2784
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000034400)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874570, 0x40002b61c0}, 0x40000aa500)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000113e60?}, {0x874570?, 0x40002b61c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x4000398000, {0x8759b0, 0x4000113680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:44:12 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 35 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400027b4e0, {0x40002aae00, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400027b4e0, {0x400021aea0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x400021ae90})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x400021ae90?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x400011cb00?, 0x4000234198?, 0x40003534e8?}, {0x7521c5, 0x4}, {0x400025ae40, 0x6, 0x5a23d8?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x400011cb00?, 0x4000234198?, 0x4000260c80?}, {0x400025ae40?, 0x74d5e0?, 0x27b94?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40002de300)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1373 +0x26a4
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40002de300)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40002de300)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40000d44e0, 0x40002de300)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40000d44e0, {0x874550, 0x400033a000}, 0x40001fe640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x4000257770?}, {0x874550?, 0x400033a000?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40002f2090, {0x875990, 0x4000257680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:44:43 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 9 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x400027b4e0, {0x400018cdc0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x400027b4e0, {0x4000239740, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x4000239730})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x4000239730?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x400011cb00?, 0x4000234198?, 0x400034f4e8?}, {0x7521c5, 0x4}, {0x40000c7440, 0x6, 0x5a23d8?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x400011cb00?, 0x4000234198?, 0x40000cb8c0?}, {0x40000c7440?, 0x74d5e0?, 0x1de168?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1373 +0x26a4
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40000d44e0, 0x4000035200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40000d44e0, {0x874550, 0x40003660e0}, 0x40001b5b80)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40000f45d0?}, {0x874550?, 0x40003660e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001a0630, {0x875990, 0x4000257680})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:45:50 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 7 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x40000ee600, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x40002d2420, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002d2410})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002d2410?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196f88?, 0x40001754f8?}, {0x7521c5, 0x4}, {0x40000dc0c0, 0x6, 0x75bf32?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196f88?, 0x40000e0400?}, {0x40000dc0c0?, 0x74d5e0?, 0x75b522?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1376 +0x2670
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x40000a80e0}, 0x4000241cc0)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40000cdbf0?}, {0x874550?, 0x40000a80e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400022c630, {0x875990, 0x40000cdb00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:46:59 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 27 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x40001c2340, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x40001e61e0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40001e61d0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40001e61d0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196f88?, 0x40001714f8?}, {0x7521c5, 0x4}, {0x40002240c0, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196f88?, 0x40001e8200?}, {0x40002240c0?, 0x74d5e0?, 0x40000cf000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1376 +0x2670
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x40002020e0}, 0x40002a2640)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40001d4450?}, {0x874550?, 0x40002020e0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x40001da120, {0x875990, 0x40000cdb00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:47:09 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 9 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x40000ee8c0, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x40002d25b0, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40002d25a0})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40002d25a0?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196f88?, 0x40001714f8?}, {0x7521c5, 0x4}, {0x40000dc240, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196f88?, 0x40000e05c0?}, {0x40000dc240?, 0x74d5e0?, 0x40000cf000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1376 +0x2670
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x40001a7200)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x40000a81c0}, 0x40003a0000)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x400039e060?}, {0x874550?, 0x40000a81c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400022c990, {0x875990, 0x40000cdb00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================
+=========================2026-03-12 15:47:36 ========================= 
+reflect: Call using *bind.ReqTest as type bind.ReqTest
+goroutine 11 [running]:
+runtime/debug.Stack()
+	/usr/local/go/src/runtime/debug/stack.go:26 +0x64
+github.com/xxjwxc/public/mylog.(*errDeal).SaveError(0x40003154c0, {0x40001c2580, 0x36}, {0x751f3a, 0x3})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/common.go:38 +0x204
+github.com/xxjwxc/public/mylog.(*stdLog).Error(0x40003154c0, {0x40001e6360, 0x1, 0x1})
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/std.go:38 +0xfc
+github.com/xxjwxc/public/mylog.Error(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/xxjwxc/public/mylog/mylog.go:45
+github.com/yichouchou/ginPlus/annotation.New.func1({0x656040, 0x40001e6350})
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:117 +0x80
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1.1()
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:994 +0x40
+panic({0x656040?, 0x40001e6350?})
+	/usr/local/go/src/runtime/panic.go:787 +0x124
+reflect.Value.call({0x40003c6a80?, 0x4000196f88?, 0x40001734f8?}, {0x7521c5, 0x4}, {0x4000224180, 0x6, 0x0?})
+	/usr/local/go/src/reflect/value.go:437 +0x1520
+reflect.Value.Call({0x40003c6a80?, 0x4000196f88?, 0x40001e8400?}, {0x4000224180?, 0x74d5e0?, 0x4000274000?})
+	/usr/local/go/src/reflect/value.go:365 +0x94
+github.com/yichouchou/ginPlus/annotation.(*BaseGin).registerHandlerObjTemp.(*BaseGin).handlerFuncObjTemp.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/annotation/ProcessAnnot.go:1376 +0x2670
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/recovery.go:99 +0x78
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.LoggerWithConfig.func1(0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/logger.go:241 +0xb0
+github.com/gin-gonic/gin.(*Context).Next(...)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/context.go:168
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0x40001d04e0, 0x4000034100)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:555 +0x514
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0x40001d04e0, {0x874550, 0x40002021c0}, 0x40002a2780)
+	/root/usr/go-project/gin_plus/vendor/github.com/gin-gonic/gin/gin.go:511 +0x16c
+net/http.serverHandler.ServeHTTP({0x40001d4630?}, {0x874550?, 0x40002021c0?}, 0x1?)
+	/usr/local/go/src/net/http/server.go:3301 +0xbc
+net/http.(*conn).serve(0x400022cab0, {0x875990, 0x40000cdb00})
+	/usr/local/go/src/net/http/server.go:2102 +0x52c
+created by net/http.(*Server).Serve in goroutine 1
+	/usr/local/go/src/net/http/server.go:3454 +0x3d8
+
+=========================end=========================

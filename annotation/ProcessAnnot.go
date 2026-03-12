@@ -1345,11 +1345,14 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							getInt := c.Query(v.GenComment.Parms[index].ParmName)
-							atoi, err := strconv.Atoi(getInt)
-							if err != nil {
-								fmt.Println(err)
+							if getInt != "" {
+								atoi, err := strconv.Atoi(getInt)
+								if err != nil {
+									// ignore
+								} else {
+									value.Elem().SetInt(int64(atoi))
+								}
 							}
-							value.Elem().SetInt(int64(atoi))
 							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
@@ -1358,7 +1361,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Struct {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							c.ShouldBindQuery(value.Interface())
-							parm.Value = value.Elem()
+							parm.Value = value  // Keep as pointer for function call
 						} else if parm.ParmKind == reflect.Ptr {
 							value := reflect.New(v.GenComment.Parms[index].ParmType.Elem())
 							c.ShouldBindQuery(value.Interface())
@@ -1368,7 +1371,19 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					var values []reflect.Value
 					values = append(values, obj)
 					for _, parm := range v.GenComment.Parms {
-						values = append(values, parm.Value)
+						// For Struct and Ptr types, pass addressable value
+						if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Ptr {
+							if parm.Value.CanAddr() {
+								values = append(values, parm.Value.Addr())
+							} else {
+								// Create new addressable copy
+								newVal := reflect.New(parm.Value.Type())
+								newVal.Elem().Set(parm.Value)
+								values = append(values, newVal)
+							}
+						} else {
+							values = append(values, parm.Value)
+						}
 					}
 					results := tvl.Call(values)
 
