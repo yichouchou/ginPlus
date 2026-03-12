@@ -5,79 +5,79 @@ import (
 	"github.com/yichouchou/ginPlus/utils"
 	"reflect"
 
+	utils "github.com/yichouchou/ginPlus/utils"
+
 	fmt "fmt"
 
 	bind "github.com/yichouchou/ginPlus/bind"
-
-	utils "github.com/yichouchou/ginPlus/utils"
 )
 
 func init() {
-	annotation.SetVersion(1773301654)
+	annotation.SetVersion(1773302568)
 
-	parm4911612 := new(string)
+	parm6305217 := new(string)
 
-	parm500177 := new(string)
+	parm4350538 := new(string)
 
-	parm6603643 := new(int)
+	parm1700250 := new(int)
 
-	parm3788392 := new(bind.ReqTest)
+	parm3203241 := new(bind.ReqTest)
 
-	parm4842980 := new(bind.ReqTest)
+	parm5867206 := new(bind.ReqTest)
 
-	parm2110133 := new(string)
+	parm6378250 := new(string)
 
-	parm6742842 := new(string)
+	parm1503164 := new(string)
 
-	parm5791677 := new(int)
+	parm5599016 := new(int)
 
-	parm3411053 := new(int)
+	parm356283 := new(int)
 
-	parm6236563 := new([]bind.ReqTest)
+	parm4407142 := new([]bind.ReqTest)
 
-	parm7876385 := new([]*bind.ReqTest)
+	parm2576088 := new([]*bind.ReqTest)
 
-	parm8695614 := new(bind.ReqTest)
+	parm8209964 := new(bind.ReqTest)
 
-	parm4584738 := new(string)
+	parm9418606 := new(string)
 
-	parm8552895 := new(int)
+	parm7586885 := new(int)
 
-	parm1351294 := new(string)
+	parm8032116 := new(string)
 
-	parm8729395 := new(int)
+	parm4095 := new(int)
 
-	parm7181196 := new(string)
+	parm7257679 := new(string)
 
-	parm3689764 := new(error)
+	parm9301505 := new(error)
 
-	parm5785209 := new(bind.ReqTest)
+	parm7545893 := new(bind.ReqTest)
 
-	parm1268652 := new(error)
+	parm198783 := new(error)
 
-	parm6706049 := new(int)
+	parm3398091 := new(int)
 
-	parm1206680 := new(error)
+	parm6159525 := new(error)
 
-	parm315151 := new(int)
+	parm7996502 := new(int)
 
-	parm5620549 := new(error)
+	parm9078138 := new(error)
 
-	parm5399271 := new(int)
+	parm5020514 := new(int)
 
-	parm9452572 := new(error)
+	parm5704226 := new(error)
 
-	parm1209667 := new(int)
+	parm5945002 := new(int)
 
-	parm4567171 := new(error)
+	parm6458243 := new(error)
 
-	parm8687042 := new(int)
+	parm9516716 := new(int)
 
-	parm375660 := new(error)
+	parm5315946 := new(error)
 
-	parm1493700 := new(bool)
+	parm5341173 := new(bool)
 
-	parm1156520 := new(bool)
+	parm6934071 := new(bool)
 
 	annotation.AddGenOne("main.Hello.Hi1", utils.GenRouterInfo{
 		HandFunName: "main.Hello.Hi1",
@@ -105,28 +105,28 @@ func init() {
 
 				{
 					ParmName: "parm1",
-					ParmType: reflect.TypeOf(*parm4911612),
+					ParmType: reflect.TypeOf(*parm6305217),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "parm2",
-					ParmType: reflect.TypeOf(*parm500177),
+					ParmType: reflect.TypeOf(*parm4350538),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "parm3",
-					ParmType: reflect.TypeOf(*parm6603643),
+					ParmType: reflect.TypeOf(*parm1700250),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "hiValue",
-					ParmType: reflect.TypeOf(*parm3788392),
+					ParmType: reflect.TypeOf(*parm3203241),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -143,14 +143,14 @@ func init() {
 
 				{
 					ParmName: "commentHi1",
-					ParmType: reflect.TypeOf(*parm7181196),
+					ParmType: reflect.TypeOf(*parm7257679),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "errHi1",
-					ParmType: reflect.TypeOf(*parm3689764),
+					ParmType: reflect.TypeOf(*parm9301505),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -183,7 +183,7 @@ func init() {
 
 				{
 					ParmName: "hiValue",
-					ParmType: reflect.TypeOf(*parm4842980),
+					ParmType: reflect.TypeOf(*parm5867206),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -200,14 +200,14 @@ func init() {
 
 				{
 					ParmName: "commentHi2",
-					ParmType: reflect.TypeOf(*parm5785209),
+					ParmType: reflect.TypeOf(*parm7545893),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
 
 				{
 					ParmName: "errHi2",
-					ParmType: reflect.TypeOf(*parm1268652),
+					ParmType: reflect.TypeOf(*parm198783),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -240,28 +240,28 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm2110133),
+					ParmType: reflect.TypeOf(*parm6378250),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "password",
-					ParmType: reflect.TypeOf(*parm6742842),
+					ParmType: reflect.TypeOf(*parm1503164),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm5791677),
+					ParmType: reflect.TypeOf(*parm5599016),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "year",
-					ParmType: reflect.TypeOf(*parm3411053),
+					ParmType: reflect.TypeOf(*parm356283),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -271,14 +271,14 @@ func init() {
 
 				{
 					ParmName: "commentHi3",
-					ParmType: reflect.TypeOf(*parm6706049),
+					ParmType: reflect.TypeOf(*parm3398091),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi3",
-					ParmType: reflect.TypeOf(*parm1206680),
+					ParmType: reflect.TypeOf(*parm6159525),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -311,7 +311,7 @@ func init() {
 
 				{
 					ParmName: "List",
-					ParmType: reflect.TypeOf(*parm6236563),
+					ParmType: reflect.TypeOf(*parm4407142),
 					IsMust:   false,
 					ParmKind: reflect.Slice,
 				},
@@ -321,14 +321,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm315151),
+					ParmType: reflect.TypeOf(*parm7996502),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi4",
-					ParmType: reflect.TypeOf(*parm5620549),
+					ParmType: reflect.TypeOf(*parm9078138),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -371,14 +371,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm5399271),
+					ParmType: reflect.TypeOf(*parm5020514),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi5",
-					ParmType: reflect.TypeOf(*parm9452572),
+					ParmType: reflect.TypeOf(*parm5704226),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -411,7 +411,7 @@ func init() {
 
 				{
 					ParmName: "List",
-					ParmType: reflect.TypeOf(*parm7876385),
+					ParmType: reflect.TypeOf(*parm2576088),
 					IsMust:   false,
 					ParmKind: reflect.Slice,
 				},
@@ -421,14 +421,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm1209667),
+					ParmType: reflect.TypeOf(*parm5945002),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi4",
-					ParmType: reflect.TypeOf(*parm4567171),
+					ParmType: reflect.TypeOf(*parm6458243),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -461,7 +461,7 @@ func init() {
 
 				{
 					ParmName: "reqList",
-					ParmType: reflect.TypeOf(*parm8695614),
+					ParmType: reflect.TypeOf(*parm8209964),
 					IsMust:   false,
 					ParmKind: reflect.Struct,
 				},
@@ -471,14 +471,14 @@ func init() {
 
 				{
 					ParmName: "index",
-					ParmType: reflect.TypeOf(*parm8687042),
+					ParmType: reflect.TypeOf(*parm9516716),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
 
 				{
 					ParmName: "errHi5",
-					ParmType: reflect.TypeOf(*parm375660),
+					ParmType: reflect.TypeOf(*parm5315946),
 					IsMust:   false,
 					ParmKind: reflect.Interface,
 				},
@@ -526,14 +526,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm4584738),
+					ParmType: reflect.TypeOf(*parm9418606),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm8552895),
+					ParmType: reflect.TypeOf(*parm7586885),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -543,7 +543,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm1493700),
+					ParmType: reflect.TypeOf(*parm5341173),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},
@@ -591,14 +591,14 @@ func init() {
 
 				{
 					ParmName: "name",
-					ParmType: reflect.TypeOf(*parm1351294),
+					ParmType: reflect.TypeOf(*parm8032116),
 					IsMust:   false,
 					ParmKind: reflect.String,
 				},
 
 				{
 					ParmName: "age",
-					ParmType: reflect.TypeOf(*parm8729395),
+					ParmType: reflect.TypeOf(*parm4095),
 					IsMust:   false,
 					ParmKind: reflect.Int,
 				},
@@ -608,7 +608,7 @@ func init() {
 
 				{
 					ParmName: "success",
-					ParmType: reflect.TypeOf(*parm1156520),
+					ParmType: reflect.TypeOf(*parm6934071),
 					IsMust:   false,
 					ParmKind: reflect.Bool,
 				},

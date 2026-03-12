@@ -1230,7 +1230,26 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 				var values []reflect.Value
 				values = append(values, obj)
 				for _, parm := range v.GenComment.Parms {
-					values = append(values, parm.Value)
+					// Fix: handle Struct and Ptr types properly
+					if parm.ParmKind == reflect.Ptr {
+						if parm.Value.Kind() == reflect.Ptr {
+							values = append(values, parm.Value)
+						} else if parm.Value.CanAddr() {
+							values = append(values, parm.Value.Addr())
+						} else {
+							v := reflect.New(parm.Value.Type())
+							v.Elem().Set(parm.Value)
+							values = append(values, v)
+						}
+					} else if parm.ParmKind == reflect.Struct {
+						if parm.Value.Kind() == reflect.Ptr {
+							values = append(values, parm.Value.Elem())
+						} else {
+							values = append(values, parm.Value)
+						}
+					} else {
+						values = append(values, parm.Value)
+					}
 				}
 				results := tvl.Call(values)
 				//todo 校验：如果没有返回值类型（用户ctx 处理了响应），则直接返回-- 用户可能在方法内更改响应头，我们应当允许这样的情况，且以用户更改的优先
@@ -1371,15 +1390,21 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					var values []reflect.Value
 					values = append(values, obj)
 					for _, parm := range v.GenComment.Parms {
-						// For Struct and Ptr types, pass addressable value
-						if parm.ParmKind == reflect.Struct || parm.ParmKind == reflect.Ptr {
-							if parm.Value.CanAddr() {
-								values = append(values, parm.Value.Addr())
+						// For Struct: if param is pointer in function, pass address; if value, pass value
+						if parm.ParmKind == reflect.Struct {
+							if parm.Value.Kind() == reflect.Ptr {
+								// Param is *Struct, pass the pointer
+								values = append(values, parm.Value)
 							} else {
-								// Create new addressable copy
-								newVal := reflect.New(parm.Value.Type())
-								newVal.Elem().Set(parm.Value)
-								values = append(values, newVal)
+								// Param is Struct (value), pass the value (Elem)
+								values = append(values, parm.Value.Elem())
+							}
+						} else if parm.ParmKind == reflect.Ptr {
+							// For Ptr type, pass as-is if already pointer
+							if parm.Value.Kind() == reflect.Ptr {
+								values = append(values, parm.Value)
+							} else {
+								values = append(values, parm.Value.Addr())
 							}
 						} else {
 							values = append(values, parm.Value)
