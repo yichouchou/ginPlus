@@ -47,6 +47,7 @@ func (s *Hello) Hi2(hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi2 bind.Req
 // @GET /block3
 // @resp-custom-user
 func (s *Hello) Hi3(name, password string, age, year int) (commentHi3 int, errHi3 error) {
+	fmt.Println(name, password, age, year)
 	fmt.Println("---get请求，无参数注解，多基本数据类型已经调通")
 	return 10, nil
 }
