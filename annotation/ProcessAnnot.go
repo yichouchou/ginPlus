@@ -1380,7 +1380,8 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Struct {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							c.ShouldBindQuery(value.Interface())
-							parm.Value = value  // Keep as pointer for function call
+							// Store dereferenced value (not pointer) for struct type
+							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.Ptr {
 							value := reflect.New(v.GenComment.Parms[index].ParmType.Elem())
 							c.ShouldBindQuery(value.Interface())
@@ -1390,23 +1391,15 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					var values []reflect.Value
 					values = append(values, obj)
 					for _, parm := range v.GenComment.Parms {
-						// For Struct: if param is pointer in function, pass address; if value, pass value
-						if parm.ParmKind == reflect.Struct {
-							if parm.Value.Kind() == reflect.Ptr {
-								// Param is *Struct, pass the pointer
-								values = append(values, parm.Value)
-							} else {
-								// Param is Struct (value), pass the value (Elem)
-								values = append(values, parm.Value.Elem())
-							}
-						} else if parm.ParmKind == reflect.Ptr {
-							// For Ptr type, pass as-is if already pointer
-							if parm.Value.Kind() == reflect.Ptr {
-								values = append(values, parm.Value)
-							} else {
-								values = append(values, parm.Value.Addr())
-							}
+						// Simpler logic: just pass values based on ParmKind
+						if parm.ParmKind == reflect.Ptr {
+							// Pointer type - pass as pointer
+							values = append(values, parm.Value)
+						} else if parm.ParmKind == reflect.Struct {
+							// Struct value type - pass as value (already stored as value now)
+							values = append(values, parm.Value)
 						} else {
+							// Other types
 							values = append(values, parm.Value)
 						}
 					}
