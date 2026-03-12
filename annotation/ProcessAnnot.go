@@ -1345,12 +1345,11 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						} else if parm.ParmKind == reflect.Int {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)
 							getInt := c.Query(v.GenComment.Parms[index].ParmName)
-							_ = value.Elem().Interface().(int)
 							atoi, err := strconv.Atoi(getInt)
 							if err != nil {
 								fmt.Println(err)
 							}
-							_ = atoi
+							value.Elem().SetInt(int64(atoi))
 							parm.Value = value.Elem()
 						} else if parm.ParmKind == reflect.String {
 							value := reflect.New(v.GenComment.Parms[index].ParmType)

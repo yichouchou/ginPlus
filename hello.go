@@ -25,7 +25,7 @@ type Hello struct {
 	RespAcceptEncoding utils.RespHeaderInfo `head:"gzip, deflate, br"`
 }
 
-// [name string, password string, age int]
+// [parm1 string, parm2 string, parm3 int]
 // @GET /block1
 // @resp-custom-user
 func (s *Hello) Hi1(parm1 string, parm2 string, parm3 int, hiValue bind.ReqTest, hi *bind.ReqTest) (commentHi1 string, errHi1 error) {
