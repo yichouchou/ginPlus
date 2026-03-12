@@ -135,7 +135,7 @@ func SetVersion(tm int64) {
 	_genInfo.Tm = tm
 }
 
-//处理自动路由和参数绑定的入口
+// 处理自动路由和参数绑定的入口
 func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool {
 	//获取当前运行时条件
 	modPkg, modFile, isFind := myast.GetModuleInfo(2)
@@ -210,7 +210,7 @@ func (b *BaseGin) tryGenRegister(router gin.IRoutes, cList ...interface{}) bool 
 	return true
 }
 
-//传入gin.IRoutes 获取basePath
+// 传入gin.IRoutes 获取basePath
 func (b *BaseGin) BasePath(router gin.IRoutes) string {
 	switch r := router.(type) {
 	case *gin.RouterGroup:
@@ -366,7 +366,7 @@ func (b *BaseGin) parserComments(f *ast.FuncDecl, objName, objFunc string, impor
 	return genRouterInfo, req, resp
 }
 
-//从结构体解析出内容，最终服务于doc文档 todo 以后填充
+// 从结构体解析出内容，最终服务于doc文档 todo 以后填充
 func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, modPkg, modFile string) (r, p *mydoc.StructInfo) {
 	ant := myast.NewStructAnalys(modPkg, modFile)
 	if req != nil {
@@ -390,7 +390,7 @@ func (b *BaseGin) parserStruct(req, resp *utils.ParmInfo, astPkg *ast.Package, m
 	return
 }
 
-//todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出router
+// todo 了解它的具体意义 目前来看是添加 路由和controller方法然后输出router
 func checkOnceAdd(handFunName string, gc utils.GenRouterInfo) {
 	consolePrint.Do(func() {
 		serviceMapMu.Lock()
@@ -467,7 +467,7 @@ func genOutPut(outDir, modFile string) {
 	f.Write(_data)
 }
 
-//  生成路由信息文件
+// 生成路由信息文件
 func genCode(outDir, modFile string) bool {
 	_genInfo.Tm = time.Now().Unix()
 	if len(outDir) == 0 {
@@ -561,7 +561,7 @@ func genCode(outDir, modFile string) bool {
 	return true
 }
 
-//获取包名称
+// 获取包名称
 func getPkgName(dir string) string {
 	dir = strings.Replace(dir, "\\", "/", -1)
 	dir = strings.TrimRight(dir, "/")
@@ -582,12 +582,12 @@ func getPkgName(dir string) string {
 	return pkgName
 }
 
-//  format string
+// format string
 func GetStringList(list []string) string {
 	return `"` + strings.Join(list, `","`) + `"`
 }
 
-//格式化参数的方法  目测是服务于注释
+// 格式化参数的方法  目测是服务于注释
 func (b *BaseGin) getDefaultComments(objName, objFunc string, num int) (routerPath string, methods []string) {
 	methods = []string{"ANY"}
 	if num == 2 { // parm 2 , post default
@@ -603,7 +603,7 @@ func (b *BaseGin) getDefaultComments(objName, objFunc string, num int) (routerPa
 	return
 }
 
-//从ast树解析出参数信息
+// 从ast树解析出参数信息
 func analysisParm(f *ast.FieldList, imports map[string]string, objPkg string, n int) (parm *utils.ParmInfo) {
 	if f != nil {
 		if f.NumFields() > 1 {
@@ -695,7 +695,7 @@ func (b *BaseGin) register(router gin.IRoutes, cList ...interface{}) bool {
 	return true
 }
 
-//获取 genRouterInfo
+// 获取 genRouterInfo
 func getInfo() map[string][]utils.GenRouterInfo {
 	serviceMapMu.Lock()
 	defer serviceMapMu.Unlock()
@@ -1042,9 +1042,9 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 						case reflect.String:
 							value := reflect.New(parm.ParmType)
 							str := c.Query(parm.ParmName)
-							_ = value.Elem().Interface().(string)
-							_ = str
-							parm.Value = value.Elem()
+							var s = value.Elem().Interface().(string)
+							s = str
+							parm.Value = reflect.ValueOf(s)
 						case reflect.Int:
 							parm.Value.SetInt(c.GetInt64(parm.ParmName))
 						case reflect.Int64:
@@ -1137,9 +1137,9 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
 										formString := c.PostForm(parm.ParmName)
 										fmt.Println(formString)
-										_ = value.Elem().Interface().(string)
-										_ = formString
-										parm.Value = value.Elem()
+										var s = value.Elem().Interface().(string)
+										s = formString
+										parm.Value = reflect.ValueOf(s)
 									}
 									if parm.ParmKind == reflect.Int {
 										value := reflect.New(v.GenComment.Parms[index].ParmType)
@@ -1610,7 +1610,7 @@ func (b *BaseGin) getCallObj3Temp(tvl, obj reflect.Value, methodName string) (fu
 	}, nil
 }
 
-//参数绑定逻辑
+// 参数绑定逻辑
 func (b *BaseGin) unmarshal(c *gin.Context, v interface{}) error {
 	err := c.ShouldBind(v)
 	if err != nil || strings.EqualFold(c.Request.Method, "get") { // get 模式 补刀json
@@ -1619,7 +1619,7 @@ func (b *BaseGin) unmarshal(c *gin.Context, v interface{}) error {
 	return err
 }
 
-//处理error 报错的方法，500错误，然后err信息
+// 处理error 报错的方法，500错误，然后err信息
 func (b *BaseGin) handErrorString(c *gin.Context, req reflect.Value, err error) {
 	var fields []string
 	if _, ok := err.(validator.ValidationErrors); ok {
@@ -1655,7 +1655,7 @@ func (b *BaseGin) handErrorString(c *gin.Context, req reflect.Value, err error) 
 	c.JSON(http.StatusBadRequest, msg)
 }
 
-//调用具体controller方法前执行的放啊
+// 调用具体controller方法前执行的放啊
 func (b *BaseGin) beforCall(c *gin.Context, tvl, obj reflect.Value, req interface{}, methodName string) (*GinBeforeAfterInfo, bool) {
 	info := &GinBeforeAfterInfo{
 		C:        c,
@@ -1674,7 +1674,7 @@ func (b *BaseGin) beforCall(c *gin.Context, tvl, obj reflect.Value, req interfac
 	return info, is
 }
 
-//掉用controller方法后执行的逻辑
+// 掉用controller方法后执行的逻辑
 func (b *BaseGin) afterCall(info *GinBeforeAfterInfo, obj reflect.Value) bool {
 	is := true
 	if bfobj, ok := obj.Interface().(GinBeforeAfter); ok { // 本类型
