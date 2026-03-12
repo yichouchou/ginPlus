@@ -1367,6 +1367,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 							if getInt != "" {
 								atoi, err := strconv.Atoi(getInt)
 								if err != nil {
+									fmt.Println(err)
 									// ignore
 								} else {
 									value.Elem().SetInt(int64(atoi))
@@ -1391,17 +1392,7 @@ func (b *BaseGin) handlerFuncObjTemp(tvl, obj reflect.Value, methodName string, 
 					var values []reflect.Value
 					values = append(values, obj)
 					for _, parm := range v.GenComment.Parms {
-						// Simpler logic: just pass values based on ParmKind
-						if parm.ParmKind == reflect.Ptr {
-							// Pointer type - pass as pointer
-							values = append(values, parm.Value)
-						} else if parm.ParmKind == reflect.Struct {
-							// Struct value type - pass as value (already stored as value now)
-							values = append(values, parm.Value)
-						} else {
-							// Other types
-							values = append(values, parm.Value)
-						}
+						values = append(values, parm.Value)
 					}
 					results := tvl.Call(values)
 
